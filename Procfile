@@ -1,1 +1,1 @@
-web: gunicorn _keenthemes.wsgi --log-file--
+web: gunicorn _keentheme.wsgi --log-file -
