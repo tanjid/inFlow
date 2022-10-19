@@ -1,0 +1,612 @@
+<!--begin::sidebar menu-->
+<div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+	<!--begin::Menu wrapper-->
+	<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true"
+		data-kt-scroll-activate="true" data-kt-scroll-height="auto"
+		data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+		data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px">
+		<!--begin::Menu-->
+		<div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true"
+			data-kt-menu-expand="false">
+
+			<!--begin::Search-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/search/' in request.path %}show{% endif %}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/general/gen004.svg' 'svg-icon svg-icon-2' %}</span>
+
+					
+					<span class="menu-title">Search</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link{% if request.path == '/search/quick_search/' %} active{% endif %}" href="{% url 'quick_search' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Quick Search</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+
+
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link{% if request.path == '/search/search_for/con/' %} active{% endif %}" href="{% url 'search_for_confirm' 'con' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Search for Confirm Order</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link{% if request.path == '/search/search_for/rtn/' %} active{% endif %}" href="{% url 'search_for_confirm' 'rtn' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Search for Return Order</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+
+
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion{% if request.path == '/' %} show{% endif %}" id="dashboard-menu">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/general/gen025.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Dashboards</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link{% if request.path == '/' %} active{% endif %}" href="{% url 'index' %}" id="default-menu-link">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Default</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/orders/' in request.path %}show{% endif %}" id="order-menu">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<!-- <span class="menu-icon">{% getSvgIcon 'duotune/communication/com005.svg' 'svg-icon svg-icon-2' %}</span> -->
+					<span class="menu-icon">{% getSvgIcon 'duotune/general/gen022.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Orders</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/orders/order_home/' %}active{% endif %}" href="{% url 'order_home' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Order Home</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/orders/new_order/' %}active{% endif %}" href="{% url 'new_order' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">New Order</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/orders/' %}active{% endif %}" id="order-list" href="{% url 'order_home' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Order List</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="{% url 'test_message' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">test_message</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=pages/user-profile/documents">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Documents</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=pages/user-profile/followers">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Followers</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=pages/user-profile/activity">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Activity</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			{% if current_user.order_perm %}
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/employees/' in request.path %}show{% endif %}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/communication/com005.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Employes</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '' %}active{% endif %}" href="{% url 'employess_home' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Employess Home</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<a class="menu-link {% if request.path == '/employees/' %}active{% endif %}" href="{% url 'employee_edit' request.user.id %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Employess Edit</span>
+						</a>
+					</div>
+					<!--end:Menu item-->
+
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<a class="menu-link {% if '/employees/employee_permission_edit' in request.path %}active{% endif %}" href="{% url 'employee_permission_edit' request.user.id %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Employess Permission Edit</span>
+						</a>
+					</div>
+					<!--end:Menu item-->
+					
+
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			{% endif %}
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/finance/fin001.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Purchase</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion menu-active-bg">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="{% url 'purchase' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Purchase Home</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="{% url 'new_purchase' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">New Purchase</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="{% url 'purchase_list' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Purchase List</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/graphs/gra010.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Reports</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion menu-active-bg">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="{% url 'login' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Login</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=pages/faq/extended">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">FAQ Extended</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin: Inventory Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/inventory/' in request.path %}show{% endif %}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/art/art007.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Inventory</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion menu-active-bg">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/inventory/current_stock_list/' %}active{% endif %}" href="{% url 'current_stock_list' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Current Stock</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/inventory/adjust_stock/' %}active{% endif %}" href="{% url 'adjust_stock' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Adjust Stock Request</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/inventory/adjust_list/' %}active{% endif %}" href="{% url 'adjust_list' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Adjust Stock List</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/reseller/' in request.path %}show{% endif %}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/communication/com004.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Reseller</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/reseller/' %}active{% endif %}" href="{% url 'res_home' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Resseller Home</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/reseller/res_new_order/' %}active{% endif %}" href="{% url 'res_new_order' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">New Reseller Order</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/reseller/res_orders/' %}active{% endif %}" href="{% url 'res_orders' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Reseller Order List</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/mkt/' in request.path %}show{% endif %}">
+				<!--begin:Menu link-->
+				<span class="menu-link">
+					<span class="menu-icon">{% getSvgIcon 'duotune/abstract/abs042.svg' 'svg-icon svg-icon-2' %}</span>
+					<span class="menu-title">Marketplace</span>
+					<span class="menu-arrow"></span>
+				</span>
+				<!--end:Menu link-->
+				<!--begin:Menu sub-->
+				<div class="menu-sub menu-sub-accordion">
+					<!--begin:Menu item-->
+					<div class="menu-item">
+
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/mkt/home/' %}active{% endif %}" href="{% url 'mkt_home' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Mkt Home</span>
+						</a>
+						<!--end:Menu link-->
+						
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/mkt/new_order/' %}active{% endif %}" href="{% url 'mkt_new_order' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">New Mkt Order</span>
+						</a>
+						<!--end:Menu link-->
+						
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/mkt/search/' %}active{% endif %}" href="{% url 'mkt_search' 'con' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Mkt Con Search</span>
+						</a>
+						<!--begin:Menu link-->
+						
+						<!--begin:Menu link-->
+						<a class="menu-link {% if request.path == '/mkt/search/' %}active{% endif %}" href="{% url 'mkt_search' 'rtn' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Mkt Rtn Search</span>
+						</a>
+						<!--begin:Menu link-->
+
+						<a class="menu-link {% if request.path == '/mkt/morders/' %}active{% endif %}" href="{% url 'mkt_orders' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Mkt Orders</span>
+						</a>
+						<!--end:Menu link-->
+
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=apps/projects/project">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">View Project</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=apps/projects/targets">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Targets</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<!--end:Menu item-->
+					<!--begin:Menu item-->
+					<div class="menu-item">
+						<!--begin:Menu link-->
+						<a class="menu-link" href="?page=apps/projects/settings">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">Settings</span>
+						</a>
+						<!--end:Menu link-->
+					</div>
+					<!--end:Menu item-->
+				</div>
+				<!--end:Menu sub-->
+			</div>
+
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+			<!--begin:Menu item-->
+			<!--end:Menu item-->
+		</div>
+		<!--end::Menu-->
+	</div>
+	<!--end::Menu wrapper-->
+</div>
+<!--end::sidebar menu-->

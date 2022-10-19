@@ -1,0 +1,117 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Mkt Search" %}{% endblock %}
+{% load orders_extra %}
+{% block content %}
+
+{{request.path}}
+
+{{obje}}
+<form action="" method="post">
+    {% csrf_token %}
+<div class="card">
+<div class="d-flex align-items-center position-relative my-1 col-lg-3">
+    <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+    <span class="svg-icon svg-icon-1 position-absolute ms-6">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor"></rect>
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor"></path>
+        </svg>
+    </span>
+    <!--end::Svg Icon-->
+    <input type="text" data-kt-customer-table-filter="search" class="form-control form-control ps-15" placeholder="Search Invoice" autocomplete="off" name="mkt-invoice">
+    <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+</div>
+</form>
+
+
+{% if object_list %}
+<div class="card mb-5 mb-xl-8">
+    <!--begin::Header-->
+    <div class="card-header border-0 pt-5">
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body py-3">
+        <!--begin::Table container-->
+        <div class="table-responsive">
+            <!--begin::Table-->
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
+                <!--begin::Table head-->
+                <thead>
+                    <tr class="fw-bold text-muted">
+                        <th class="w-25px">
+                            #
+                        </th>
+                        <th class="min-w-120px">Invoice</th>
+                        <th class="min-w-120px">Shop Name</th>
+                        <th class="min-w-120px">Created at</th>
+                        <th class="min-w-120px">Sku</th>
+                        <th class="min-w-120px">Qty</th>
+                        <th class="min-w-120px">Status</th>
+                        <th class="min-w-100px">Total Tk</th>
+                        <th class="min-w-100px">Action</th>
+                    </tr>
+                </thead>
+                <!--end::Table head-->
+                <!--begin::Table body-->
+                <tbody>
+
+                    {% for obj in object_list %}
+                    <tr>
+                        <td>
+                            <a href="#" class="text-dark fw-bold text-hover-primary fs-6">{{forloop.counter}}</a>
+                        </td>
+                        <td>
+                            <a href="#" class="text-dark fw-bold text-hover-primary fs-6">{{obj.invoice}}</a>
+                        </td>
+                        <td>
+                            <a href="#"
+                                class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{obj.shop_name}}</a>
+                        </td>
+                        <td>
+                            <a href="#"
+                                class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{obj.created_at}}</a>
+                        </td>
+                        <td>
+                            {% for item in obj.mktorderdetails_set.all %}
+                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{item.sku}}</a>
+                            {% endfor %}
+                        </td>
+                        <td class="text-dark fw-bold text-hover-primary fs-6">
+                            {% for item in obj.mktorderdetails_set.all %}
+                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{item.qty }}</a>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in obj.mktorderdetails_set.all %}
+                            <span class="badge badge-light-success badge-lg">{{item.status  }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="#"
+                                class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{obj.sub_total}}</a>
+                        </td>
+                        <td>
+                            {% if obje == 'con' %}
+                            <a href="{% url 'mkt_confirm' 'con' obj.id %}">Confirm</a>
+                            {% elif obje == 'rtn' %}
+                            <a href="{% url 'mkt_confirm' 'rtn' obj.id %}">Return</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+        </div>
+        <!--end::Table container-->
+    </div>
+    <!--begin::Body-->
+</div>
+{% endif %}
+{% endblock %}

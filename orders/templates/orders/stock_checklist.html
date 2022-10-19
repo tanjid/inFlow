@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="shortcut icon" href="{% static 'assets/media/logos/favicon.ico' %}" />
+	<!--begin::Fonts-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+	<!--end::Fonts-->
+	<!--begin::Page Vendor Stylesheets(used by this page)-->
+	<link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet"
+		type="text/css" />
+	<link href="{% static 'assets/plugins/custom/vis-timeline/vis-timeline.bundle.css' %}" rel="stylesheet"
+		type="text/css" />
+	<!--end::Page Vendor Stylesheets-->
+	<!--begin::Global Stylesheets Bundle(used by all pages)-->
+	<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'assets/css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+	<!--end::Global Stylesheets Bundle-->
+
+	<script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
+	<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+	<script defer src="{% static 'assets/js/script.js' %}"></script>
+<style>
+{% load static %}
+{% load orders_extra %}
+
+.kokook {
+  page-break-before: always;
+}
+@media print {
+  @page {
+    padding: 10px;
+  }
+
+  .kokook {
+    page-break-before: always;
+  }
+
+  .noprint {
+    display: none;
+  }
+} ;
+
+</style>
+</head>
+<body>
+
+<main class="">
+
+
+	<div class="container-fluid py-4">
+		<div class="row">
+			<div class="col-lg-10">
+				<div class="">
+					<div class="">
+						<div class="row">
+							<div class="col-6 d-flex align-items-center">
+								<div class="row">
+									<div class="col-md-12">
+										<h6 class="mb-0">Stock-Check-List - {{company}}
+										</h6>
+										<h5 class="mb-0">SA Paribahan</h5>
+									</div>
+								</div>
+							</div>
+							<div class="col-6 text-end noprint">
+								<a class="btn btn-outline-primary btn-sm mb-0" href="">GoBack</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div style="">
+							<p style="margin-left: 1%">Date :2022-10-04 05:49:48</p>
+						</div>
+						<div class="table-responsive" style="margin-top: -1%">
+							<table class="" style="align-items: center!important;margin-bottom: 0!important;width: 100%;
+									                                    color: #67748e;
+									                                    vertical-align: top;
+									                                    border-color: #e9ecef;" border="1">
+								<thead>
+									<tr>
+										<th style="text-align:center; width: 250px;">image</th>
+										<th style="text-align:center;">SKU</th>
+										<th style="text-align:center;">Quantity</th>
+										<th style="text-align:center;">Order Number</th>
+									</tr>
+								</thead>
+								<tbody>
+
+                                {% for key, value in order_list.items %}
+									<tr>
+                                        <td style="text-align: center"><img src="{{key.product_image.url}}" alt="p_image"
+                                    width="8%"></td>
+										<td style="text-align: center">{{key}}</td>
+										<td style="text-align: center">
+
+
+                                        {{ value|calculate_qty }}
+										</td>
+										<td style="text-align: center">
+                                        {% for item in value %}
+                                            {{item}},
+                                        {% endfor %}
+                                       
+
+
+										</td>
+									</tr>
+
+                                {% endfor %}
+									<tr>
+										<td colspan="3" style="text-align:center;font-weight: 600; ">Total Qty : 13</td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div></main>
+</body>
+</html>

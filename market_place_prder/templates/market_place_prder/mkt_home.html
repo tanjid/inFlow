@@ -1,0 +1,10 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Mkt Home" %}{% endblock %}
+{% load orders_extra %}
+{% block content %}
+
+{{request.path}}
+{% endblock %}

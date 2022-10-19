@@ -1,0 +1,159 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}
+{% translate "Quick Search" %}
+{% endblock %}
+{% load widget_tweaks %}
+
+{% load orders_extra %}
+{% block content %}
+{{objective}}
+<div class="card mb-10 ">
+    <div class="card-body">
+        <form role="form" method="post" action="">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-xl-3 col-lg-3 col-md-3">
+                    <div class="mb-4">
+                        {% comment %} <input type="text" id="mobile" class="form-control ui-autocomplete-input"
+                            placeholder="MOBILE SEARCH" name="mobile" autocomplete="off">
+                        {% endcomment %}
+                        {% render_field form.mobile_number|append_attr:"class:form-control bg-transparent" type="text" placeholder="Mobile Number" %}
+                    </div>
+                </div>
+                <div class="col-xl-1 col-lg-1 col-md-1">OR</div>
+                <div class="col-xl-3 col-lg-3 col-md-3">
+                    <div class="mb-4">
+                        {% render_field form.invoive_number|append_attr:"class:form-control bg-transparent" type="text" placeholder="Invoice Number" %}
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-2 col-md-2">
+                    <button class="btn bg-gradient-dark" type="submit"><span class="fa fa-search"></span></button>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2">
+                    <a href="=" class="btn bg-gradient-dark"><span class="fa-solid fa-arrows-rotate"></span></a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% if orders %}
+
+<div class="card mb-5 mb-xl-8 p-5">
+<table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3" id="kt_datatable_example">
+    <!--begin::Table head-->
+    <thead>
+        <tr class="fw-bold text-muted">
+            <th class="w-25px">
+                <div class="form-check form-check-sm form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="{{order.id}}" data-kt-check="true"
+                        data-kt-check-target=".widget-13-check">
+                </div>
+            </th>
+            <th class="">#</th>
+            <th class="min-w-80px">Date</th>
+            <th class="min-w-80px">Order Id</th>
+            <th class="min-w-140px">Phone</th>
+            <th class="min-w-120px">Name</th>
+            <th class="min-w-120px">Address</th>
+            <th class="min-w-120px">Sku</th>
+            <th class="min-w-120px">Qty</th>
+            <th class="min-w-120px">Status</th>
+            <th class="min-w-120px">Total</th>
+            <th class="min-w-100px text-end">Actions</th>
+        </tr>
+    </thead>
+    <!--end::Table head-->
+    <!--begin::Table body-->
+    <tbody>
+
+        {% for order in orders %}
+
+        <tr>
+            <td>
+                <div class="form-check form-check-sm form-check-custom form-check-solid">
+
+                    <input class="form-check-input widget-13-check" type="checkbox" value="{{order.id}}"
+                        name="selected-order">
+                </div>
+            </td>
+            <td>
+                <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{ forloop.counter }}</a>
+            </td>
+            <td>
+                <a href="#"
+                    class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{ order.created_at.date|date:"d-m-Y" }}</a>
+            </td>
+            <td>
+                <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{order.invoice_number}}</a>
+            </td>
+            <td>
+                <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{order.mobille_number}}</a>
+            </td>
+            <td>
+                <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{order.name}}</a>
+            </td>
+            <td>
+                <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{order.address}}</a>
+
+            </td>
+            <td class="text-dark fw-bold text-hover-primary fs-6">
+                {% for sku in order.orderdetails_set.all %}
+                <p class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{sku.sku}}</p>
+                {% endfor %}
+
+            </td>
+            <td>
+                {% for sku in order.orderdetails_set.all %}
+                <p class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{sku.qty}}</p>
+                {% endfor %}
+            </td>
+            <td>
+                {% for sku in order.orderdetails_set.all %}
+                <span class="badge badge-light-success">{{sku.status}}</span><br>
+                {% endfor %}
+            </td>
+            <td>
+                <p class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{order.total_price}}
+                </p>
+            </td>
+
+            <td class="">
+
+                {% if objective == 'con' %}
+                <a href="{% url 'confirm_order' order.id  %}">Confirm</a>
+                {% elif objective == 'rtn' %}
+                <a href="{% url 'return_order' order.id  %}" target="_blank">Return</a>
+                {% else %}
+                <a href="#" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click"
+                data-kt-menu-placement="bottom-end">Actions
+                
+                <span class="svg-icon svg-icon-5 m-0">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                        d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                        fill="currentColor"></path>
+                    </svg>
+                </span>
+            </a>
+            {% get_actions order %}
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
+
+{% if no_orders %}
+
+<div class="card border-primary border border-dashed text-center p-10">
+    <h2>No Orders Found with {{no_orders}}</h2>
+</div>
+
+{% endif %}
+{% endblock content %}

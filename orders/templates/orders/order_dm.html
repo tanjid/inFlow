@@ -1,0 +1,50 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}
+{% translate "Order Home" %}
+{% endblock %}
+{% load orders_extra %}
+{% block content %}
+
+{{status_name}}
+<div class="row">
+	{% for dm in dm_list %}
+	<a class="col-md-3 text-center pt-5" href="{% url 'order_dt_list'  dm.id status_name %}">
+		<!--begin::Card widget 11-->
+		<div class="card card-flush bg-light-{% if status_name == "Initial" %}primary{% elif status_name == "Printed" %}info{% elif status_name == "Shipping" %}warning{% elif status_name == "Complete" %}success{% elif status_name == "Cancel" %}dark{% elif status_name == "Return" %}danger{% endif %} h-xl-100 border border-{% if status_name == "Initial" %}primary{% elif status_name == "Printed" %}info{% elif status_name == "Shipping" %}warning{% elif status_name == "Complete" %}success{% elif status_name == "Cancel" %}dark{% elif status_name == "Return" %}danger{% endif %} border-dashed">
+			<!--begin::Header-->
+			<div class="flex-nowrap pt-12">
+				<!--begin::Title-->
+				<h3 class="card-title align-items-start flex-column">
+					<span class="card-label fs-bold fs-1 text-gray-800">{{dm}}</span>
+				</h3>
+				<!--end::Title-->
+				<!--begin::Toolbar-->
+
+				<!--end::Toolbar-->
+			</div>
+			<!--end::Header-->
+			<!--begin::Body-->
+			<div class="card-body text-center pt-5">
+				<!--begin::Image-->
+				<div class="symbol symbol-80px">
+					<div class="symbol-label fs-2 fw-semibold text-{% if status_name == "Initial" %}primary{% elif status_name == "Printed" %}info{% elif status_name == "Shipping" %}warning{% elif status_name == "Complete" %}success{% elif status_name == "Cancel" %}dark{% elif status_name == "Return" %}danger{% endif %}">{{dm.name|slice:"0:2"}}</div>
+				</div>
+				<!--end::Image-->
+				<!--begin::Section-->
+				<div class="text-center">
+					<span class="d-block fw-bold fs-1 text-gray-800">
+						<br></span>
+					<span class="mt-1 fw-semibold fs-3 text-{% if status_name == "Initial" %}primary{% elif status_name == "Printed" %}info{% elif status_name == "Shipping" %}warning{% elif status_name == "Complete" %}success{% elif status_name == "Cancel" %}dark{% elif status_name == "Return" %}danger{% endif %}">{% order_dm_count status_name dm.id request.user %}</span>
+				</div>
+				<!--end::Section-->
+			</div>
+			<!--end::Body-->
+		</div>
+		<!--end::Card widget 11-->
+	</a>
+	{% endfor %}
+</div>
+{% endblock %}

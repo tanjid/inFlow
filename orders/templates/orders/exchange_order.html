@@ -1,0 +1,107 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Return Order" %}{% endblock %}
+
+{% block content %}
+<h1>Return Order</h1>
+<div class="col-md-12">
+    <div class="card ">
+        <div class="card-body">
+
+            <div class="col-xl-12 col-lg-12 col-md-12">
+
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <label>Invoice</label>
+                        <div class="mb-4">
+                            <input type="text" class="form-control" readonly="" value="{{order.invoice_number}}">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <label>Order Date</label>
+                        <div class="mb-4">
+                            <input type="text" class="form-control" readonly="" value="{{order.created_at}}">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <label>Phone</label>
+                        <div class="mb-4">
+                            <input type="text" class="form-control" readonly="" value="{{order.mobille_number}}">
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <label>Name</label>
+                        <div class="mb-4">
+                            <input type="text" class="form-control" readonly="" value="{{order.name}}">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="table-responsive">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th colspan="8" style="text-align: center;color:#FFF;"
+                                    class="bg bg-gradient-faded-success">
+                                    <span style="font-weight: 600;text-transform: uppercase">Order Details</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="text-align: center;">SKU</th>
+                                <th style="text-align: center;">Image</th>
+                                <th style="text-align: center;">Qty</th>
+                                <th style="text-align: center;">Price</th>
+                                <th style="text-align: center;">Item Total</th>
+                                <th style="text-align: center;">Exchange Order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for items in order.orderdetails_set.all %}
+
+                            <tr>
+                                <td style="text-align: center;">{{items.sku}}
+                                </td>
+                                <td style="text-align: center;">
+                                    <img src="{{items.sku.product_image.url}}" alt="" width="50">
+                                </td>
+                                <td style="text-align: center;">{{items.qty}}</td>
+                                <td style="text-align: center;">{{items.product_prices}}</td>
+                                <td style="text-align: center;">{{items.item_totals}}</td>
+
+                                {% if items.status == "Complete" %}
+                                <td style="text-align: center;">
+                                    <a href="{% url 'exchange_item' items.id %}" class="btn bg-gradient-danger"><span
+                                            class="fa fa-trash"></span></a>
+
+                                </td>
+
+                                {% else %}
+                                <th>item not in Complete</th>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <form role="form" method="post"
+                    action="http://phplaravel-806384-2763408.cloudwaysapps.com/return-all-orders-from-return-search">
+                    <input type="hidden" name="_token" value="Qjgj3DE2nKqeQjFQl11yuo1pgljdSgKRrV8iUYyk"> <input
+                        type="hidden" name="id" value="4823">
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <label for="">Return Note</label>
+                        <textarea class="form-control" name="return_note" cols="10" rows="10">note not found</textarea>
+                    </div>
+                    <br>
+                    <div class="col-xl-3 col-lg-3 col-md-3">
+                        <button class="btn bg-gradient-dark"><span class="fa fa-undo"></span> Return
+                            All</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

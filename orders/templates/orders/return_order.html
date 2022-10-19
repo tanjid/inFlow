@@ -1,0 +1,166 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Return Order" %}{% endblock %}
+
+{% block content %}
+<h1>Return Order</h1>
+<div class="col-md-12">
+    <div class="card ">
+        <div class="card-body">
+            <form action="" method="post" name="all_form">
+
+                {% csrf_token %}
+
+                <div class="col-xl-12 col-lg-12 col-md-12">
+
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <label>Invoice</label>
+                            <div class="mb-4">
+                                <input type="text" class="form-control" readonly="" value="{{order.invoice_number}}">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <label>Order Date</label>
+                            <div class="mb-4">
+                                <input type="text" class="form-control" readonly="" value="{{order.created_at}}">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <label>Phone</label>
+                            <div class="mb-4">
+                                <input type="text" class="form-control" readonly="" value="{{order.mobille_number}}">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <label>Name</label>
+                            <div class="mb-4">
+                                <input type="text" class="form-control" readonly="" value="{{order.name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th colspan="8" style="text-align: center;color:#FFF;"
+                                        class="bg bg-gradient-faded-success">
+                                        <span style="font-weight: 600;text-transform: uppercase">Order Details</span>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center;">SKU</th>
+                                    <th style="text-align: center;">Image</th>
+                                    <th style="text-align: center;">Qty</th>
+                                    <th style="text-align: center;">Price</th>
+                                    <th style="text-align: center;">Item Total</th>
+                                    <th style="text-align: center;">Return Order</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for items in order.orderdetails_set.all %}
+
+                                <tr>
+                                    <td style="text-align: center;">{{items.sku}}
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <img src="{{items.sku.product_image.url}}" alt="" width="50">
+                                    </td>
+                                    <td style="text-align: center;">{{items.qty}}</td>
+                                    <td style="text-align: center;">{{items.product_prices}}</td>
+                                    <td style="text-align: center;">{{items.item_totals}}</td>
+
+                                    {% if items.status == "Shipping" %}
+                                    <td style="text-align: center;">
+                                        <a href="{% url 'return_single' items.id %}"
+                                            class="btn bg-gradient-danger"><span class="fa fa-trash"></span></a>
+
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#kt_modal_{{forloop.counter}}">
+                                            Change Qty
+                                        </button>
+
+
+                                        <div class="modal fade" tabindex="-1" id="kt_modal_{{forloop.counter}}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title">Enter Quantity</h3>
+
+                                                        <!--begin::Close-->
+                                                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                            <span class="svg-icon svg-icon-1"></span>
+                                                        </div>
+                                                        <!--end::Close-->
+                                                    </div>
+                                                    <form action="" method="post">
+                                                        {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <div class="modal-body">
+                                                                <input type="hidden" name="order_details_id"
+                                                                    value="{{items.id}}">
+                                                                <input type="hidden" name="order_id"
+                                                                    value="{{order.id}}">
+                                                                <input type="number" name="qty{{order.id}}"
+                                                                    value="{{items.qty}}" max="{{items.qty}}" min="1"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-light"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <input type="submit" name="form1" class="btn btn-primary">
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    {% else %}
+                                    <th>item not in shiping</th>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <div class="row">
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <input type="hidden" name="order_id" value="{{order.id}}">
+                            <label for="">Return Note</label>
+                            <textarea class="form-control" name="rtn_note" rows="4"
+                                cols="50">{% if order.return_note %}{{order.return_note}}{% endif %}</textarea>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 pt-10">
+                            <button class="btn btn-secondary" type="submit" name="form2"><span
+                                class="fa fa-undo"></span>Add Return Note</button>
+
+                        </div>
+                    </div>
+                        <br>
+                        <div class="col-xl-3 col-lg-3 col-md-3">
+                            <button type="submit" class="btn btn-primary" name="form_a">Add Note and Return All</button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

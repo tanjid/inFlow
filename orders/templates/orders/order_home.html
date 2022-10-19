@@ -1,0 +1,226 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Order Home" %}{% endblock %}
+{% load orders_extra %}
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+        </li>
+        {% endfor %}
+</ul>
+{% endif %}
+
+<div class="row">
+    <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Initial' %}">
+        <!--begin::Card widget 11-->
+        <div class="card card-flush bg-light-primary h-xl-100 border border-primary border-dashed ">
+            <!--begin::Header-->
+            <div class="flex-nowrap pt-12">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fs-bold fs-1 text-gray-800">Initial</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body text-center pt-5">
+                <!--begin::Image-->
+                <div class="symbol symbol-80px">
+                    <div class="symbol-label fs-2 fw-semibold text-primary">In</div>
+                </div>
+                <!--end::Image-->
+                <!--begin::Section-->
+                <div class="text-center">
+                    <span class="d-block fw-bold fs-1 text-gray-800"> <br></span>
+                    <span class="mt-1 fw-semibold fs-3 text-primary">{{'Initial'|st_order_count}}</span>
+                </div>
+                <!--end::Section-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card widget 11-->
+    </a>
+
+    <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Printed' %}">
+        <!--begin::Card widget 11-->
+        <div class="card card-flush bg-light-info h-xl-100 border border-info border-dashed">
+            <!--begin::Header-->
+            <div class="flex-nowrap pt-12">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fs-bold fs-1 text-gray-800">Printed</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body text-center pt-5">
+                <!--begin::Image-->
+                <div class="symbol symbol-80px">
+                    <div class="symbol-label fs-2 fw-semibold text-info">Pr</div>
+                </div>
+                <!--end::Image-->
+                <!--begin::Section-->
+                <div class="text-center">
+                    <span class="d-block fw-bold fs-1 text-gray-800"> <br></span>
+                    <span class="mt-1 fw-semibold fs-3 text-info">{{'Printed'|st_order_count}}</span>
+                </div>
+                <!--end::Section-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card widget 11-->
+    </a>
+    <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Shipping' %}">
+        <!--begin::Card widget 11-->
+        <div class="card card-flush h-xl-100 bg-light-warning border border-warning border-dashed">
+            <!--begin::Header-->
+            <div class="flex-nowrap pt-12">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fs-bold fs-1 text-gray-800">Shipping</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body text-center pt-5">
+                <!--begin::Image-->
+                <div class="symbol symbol-80px">
+                    <div class="symbol-label fs-2 fw-semibold text-warning">Sh</div>
+                </div>
+                <!--end::Image-->
+                <!--begin::Section-->
+                <div class="text-center">
+                    <span class="d-block fw-bold fs-1 text-gray-800"> <br></span>
+                    <span class="mt-1 fw-semibold fs-3 text-warning">{{'Shipping'|st_order_count}}</span>
+                </div>
+                <!--end::Section-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card widget 11-->
+    </a>
+
+    <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Complete' %}">
+        <!--begin::Card widget 11-->
+        <div class="card card-flush h-xl-100 bg-light-success border border-success border-dashed">
+            <!--begin::Header-->
+            <div class="flex-nowrap pt-12">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fs-bold fs-1 text-gray-800">Complete</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body text-center pt-5">
+                <!--begin::Image-->
+                <div class="symbol symbol-80px">
+                    <div class="symbol-label fs-2 fw-semibold text-success">Co</div>
+                </div>
+                <!--end::Image-->
+                <!--begin::Section-->
+                <div class="text-center">
+                    <span class="d-block fw-bold fs-1 text-gray-800"> <br></span>
+                    <span class="mt-1 fw-semibold fs-3 text-success">{{'Complete'|st_order_count}}</span>
+                </div>
+                <!--end::Section-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card widget 11-->
+    </a>
+
+    <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Cancel' %}">
+        <!--begin::Card widget 11-->
+        <div class="card card-flush h-xl-100 bg-light-dark border border-dark border-dashed">
+            <!--begin::Header-->
+            <div class="flex-nowrap pt-12">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fs-bold fs-1 text-gray-800">Cancel</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body text-center pt-5">
+                <!--begin::Image-->
+                <div class="symbol symbol-80px">
+                    <div class="symbol-label fs-2 fw-semibold text-dark">Ca</div>
+                </div>
+                <!--end::Image-->
+                <!--begin::Section-->
+                <div class="text-center">
+                    <span class="d-block fw-bold fs-1 text-gray-800"> <br></span>
+                    <span class="mt-1 fw-semibold fs-3 text-dark">{{'Cancel'|st_order_count}}</span>
+                </div>
+                <!--end::Section-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card widget 11-->
+    </a>
+    <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Return' %}">
+        <!--begin::Card widget 11-->
+        <div class="card card-flush h-xl-100 bg-light-danger border border-danger border-dashed">
+            <!--begin::Header-->
+            <div class="flex-nowrap pt-12">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fs-bold fs-1 text-gray-800">Return</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body text-center pt-5">
+                <!--begin::Image-->
+                <div class="symbol symbol-80px">
+                    <div class="symbol-label fs-2 fw-semibold text-danger">Re</div>
+                </div>
+                <!--end::Image-->
+                <!--begin::Section-->
+                <div class="text-center">
+                    <span class="d-block fw-bold fs-1 text-gray-800"> <br></span>
+                    <span class="mt-1 fw-semibold fs-3 text-danger">{{'Return'|st_order_count}}</span>
+                </div>
+                <!--end::Section-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Card widget 11-->
+    </a>
+
+</div>
+
+
+
+{% endblock content %}

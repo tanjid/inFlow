@@ -1,0 +1,43 @@
+{% extends layout %}
+
+{% load i18n %}
+{% load orders_extra %}
+{% load widget_tweaks %}
+{% block title %}
+{% translate "Adjust Stock Request" %}
+{% endblock title %}
+
+{% block content %}
+<form action="" method="post">
+	{% csrf_token %}
+	<div class="row d-flex justify-content-center">
+		<div class=" card p-5 col-lg-6">
+			<h1 class="mb-10">Adjust Stock</h1>
+
+
+			<div class="mb-10">
+				<div class="col-sm">
+					<label class="form-label">Select Product</label>
+					{% render_field form.sku|append_attr:"class:form-control mt-3" type="text" data-control="select2" %}
+				</div>
+				<span id="sn1" style="width: 100%; margin-top: 0.5rem; font-size: 0.925rem; color: #50cd89;"></span>
+				<div class="col-sm">
+					<label class="form-label mt-3">Select Qty</label>
+					{% render_field form.qty|append_attr:"class:form-control" min="1" %}
+				</div>
+				<div class="col-sm">
+					<label class="form-label mt-3">Select Reson</label>
+					{% render_field form.cause|append_attr:"class:form-control" %}
+				</div>
+				<div class="col-sm">
+					<label class="form-label mt-3">Note</label>
+					{% render_field form.note|append_attr:"class:form-control" %}
+				</div>
+
+				<button type="submit" class="btn btn-primary mt-10">Sumbit</button>
+			</div>
+		</div>
+	</div>
+
+</form>
+{% endblock content %}

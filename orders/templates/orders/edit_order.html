@@ -1,0 +1,174 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}
+	{% translate "New Order" %}
+{% endblock %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h1 class="mb-5">Order Edit   [{{order_invoice}}]</h1>
+<form action="" method="post">
+	{% csrf_token %}
+	<div class="row">
+		<div class="col-sm">
+			{% render_field form.number|append_attr:"class:form-control" type="text" placeholder="Mobile Number" %}
+
+			{{ form.errors.number }}
+		</div>
+		<div class="col-sm">
+			{% render_field form.name|append_attr:"class:form-control" type="text" placeholder="Name" %}
+		</div>
+		<div class="col-sm">
+			{% comment %} {% render_field form.delivery_method|append_attr:"class:form-control" type="text" %} {% endcomment %}
+
+			<select name="delivery_method" class="form-control" id="id_delivery_method">
+				<option value="1" disabled>Select Delivery Method</option>
+				<option value="{{delivery_method}}" selected>{{delivery_method}}</option>
+				{% for name in de_m %}
+					<option value="{{name.name}}">{{name.name}}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<br/>
+	<div class="from-group">
+		<div class="row">
+			<div class="col-6">
+				{% render_field form.address|append_attr:"class:form-control order-note" type="text" placeholder="address" rows="3" %}
+			</div>
+			<div class="col-6">
+				{% render_field form.order_note|append_attr:"class:form-control order-note" type="text" placeholder="Note" rows="3" %}
+			</div>
+
+		</div>
+
+		<br/>
+		<a class="btn btn-primary add_another" id="addBtn">Add Row</a>
+		<br/><br/>
+		<div class="row">
+
+			<div class="col-md-8">
+			
+				<table class="table calculate-table" id="itemTable">
+					<thead>
+						<tr>
+							<th scope="col" id="product-name-entry">Product Name</th>
+							<th scope="col">Qty</th>
+							<th scope="col">Price</th>
+							<th scope="col">Item Total</th>
+						</tr>
+					</thead>
+					<tbody id="tbody">
+						{% for items in order_details %}
+						<tr id="R{{ forloop.counter }}">
+							<td>
+								<select name="sku_list" class="form-control" id="sl{{ forloop.counter }}">
+									<option value="1" disabled>Select SKU</option>
+									<option value="{{items.sku}}" selected>{{items.sku}}</option>
+								</select>
+							</td>
+							<td><input type="number" class="form-control" name="sku_qty" id="sq{{ forloop.counter }}" value="{{items.qty}}"/></td>
+							<td>
+								<input type="number" id="pp{{ forloop.counter }}" class="form-control" name="product-price" autocomplete="off" value="{{items.product_prices}}" readonly>
+							</td>
+							<td>
+								<input type="number" id="it{{ forloop.counter }}" class="form-control" name="item-total" autocomplete="off" value="{{items.item_totals}}" readonly>
+							</td>
+							{% if forloop.counter > 1 %}
+							<td class="text-center">
+								<button class="btn btn-danger remove" 
+									type="button">x</button>
+							</td>
+							
+							{% endif %}
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-md-4">
+				<div class="table-responsive p-0">
+					<table class="table align-items-center mb-0 bg-gradient-secondary">
+
+
+						<thead>
+							<tr>
+								<th>
+									<strong>Calculation</strong>
+								</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td>Subtotal:
+								</td>
+								<td>{% render_field form.sub_total|append_attr:"class:form-control" type="number" %}</td>
+							</tr>
+
+							<tr>
+								<td>Advance Payment:
+								</td>
+								<td>{% render_field form.advance|append_attr:"class:form-control" type="number" %}</td>
+							</tr>
+
+							<tr>
+								<td>Discount Payment:
+								</td>
+								<td>{% render_field form.discount|append_attr:"class:form-control" type="number" %}</td>
+							</tr>
+
+							<tr>
+								<td>Delivery Charge
+								</td>
+								<td>{% render_field form.delivery_charge|append_attr:"class:form-control" type="number" %}</td>
+							</tr>
+
+							<tr>
+								<td>Grand Total:
+								</td>
+								<td>{% render_field form.grand_total|append_attr:"class:form-control" type="number" %}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		{% comment %} <button type="submit" class="btn btn-primary">Update Order</button> {% endcomment %}
+
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_3">
+			Save Order
+		</button>
+		
+		<div class="modal fade" tabindex="-1" id="kt_modal_3">
+			<div class="modal-dialog">
+				<div class="modal-content position-absolute">
+		
+					<div class="modal-body">
+						<h3>Are You Sure?</h3>
+					</div>
+		
+					<div class="modal-footer">
+						<button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="submit-btn" name="myButton">Yes. Update Order</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% if form.non_field_errors %}
+			<div class="non-field-errors">
+				{% for err in form.non_field_errors %}
+					<p class="form-error">{{ err }}</p>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</form>
+
+{{second_model}}
+{% endblock %}

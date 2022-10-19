@@ -1,0 +1,96 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}
+	{% translate "New Order" %}
+{% endblock %}
+{% load widget_tweaks %}
+
+{% block content %}
+	<h1>New Purchase</h1>
+	<form action="" method="post">
+		{% csrf_token %}
+    <div class="row pb-10 pt-10">
+        <div class="col-md-4 card">
+            {% render_field form.purchase_note|append_attr:"class:form-control" placeholder="Purchase Note" %}
+        </div>
+    </div>
+	<div class="row">
+
+		<br/><br/>
+		<div class="card col-md-7 m-1">
+			<a class="btn btn-primary add_another mt-3" id="addBtn" style="width: 120px !important;">Add Row</a>
+			<table class="table calculate-table" id="itemTable">
+				<thead>
+					<tr>
+						<th scope="col" id="product-name-entry">Product Name</th>
+						<th scope="col">Qty</th>
+						<th scope="col">Price</th>
+						<th scope="col">Item Total</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+					<tr id="R1">
+						<td>
+							<select name="sku_list" class="form-control" id="sl1" data-control="select2">
+								<option value="1" disabled selected>Select SKU</option>
+							</select>
+							<span id="sn1" style="width: 100%;
+																								margin-top: 0.5rem;
+																								font-size: 0.925rem;
+																								color: #50cd89;"></span>
+						</td>
+						<td><input type="number" class="form-control" name="sku_qty" id="sq1" value="1" min = "1" /></td>
+						<td>
+							<input type="number" id="pp1" class="form-control" name="product-price" autocomplete="off" value="0" readonly>
+						</td>
+						<td>
+							<input type="number" id="it1" class="form-control" name="item-total" autocomplete="off" value="0" readonly>
+						</td>
+					</tr>
+
+					<tr>
+
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<div class=" card col-md-4 m-1">
+			<div class="table-responsive p-0">
+				<table class="table align-items-center mb-0 bg-gradient-secondary">
+
+
+					<thead>
+						<tr>
+							<th>
+								<strong>Calculation</strong>
+							</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>Total:</td>
+							<td>
+								<input type="number" id="id_sub_total" class="form-control" name="item-sub_total" autocomplete="off" value="0" readonly>
+							</td>
+						</tr>
+						<tr>
+							<td>Total:</td>
+							<td>
+								<input type="number" id="id_grand_total" class="form-control" name="grand_total" autocomplete="off" value="0">
+							</td>
+						</tr>
+
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+{% endblock %}

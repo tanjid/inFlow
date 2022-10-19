@@ -1,0 +1,298 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="shortcut icon" href="{% static 'assets/media/logos/favicon.ico' %}" />
+  <!--begin::Fonts-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+  <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39+Extended+Text" rel="stylesheet">
+  <!--end::Fonts-->
+  <!--begin::Page Vendor Stylesheets(used by this page)-->
+  <link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'assets/plugins/custom/vis-timeline/vis-timeline.bundle.css' %}" rel="stylesheet"
+    type="text/css" />
+  <!--end::Page Vendor Stylesheets-->
+  <!--begin::Global Stylesheets Bundle(used by all pages)-->
+  <link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'assets/css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+  <!--end::Global Stylesheets Bundle-->
+
+  <script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
+  <script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+  <script defer src="{% static 'assets/js/script.js' %}"></script>
+  <style>
+    @page {
+      width: 23.8in;
+      height: 11.69in;
+      /* margin: 0; */
+      margin-left: -5%;
+      margin-top: -2%;
+    }
+
+    .print-area {
+      font-family: 'Inter', sans-serif;
+
+    }
+
+    .pagebreak {
+      page-break-before: always;
+    }
+
+    @media print {
+      @page {
+        padding: 10px;
+      }
+
+      .pagebreak {
+        page-break-before: always;
+      }
+
+      .noprint {
+        display: none;
+      }
+    }
+
+    table th {
+      text-align: center;
+    }
+
+    .table {
+      margin: auto;
+      width: 95% !important;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+  </style>
+</head>
+
+<body onload="window.print()">
+  <div class="print-area" style="background-color: white">
+    <div class="m-invoice__wrapper pagebreak">
+      <div class="m-invoice__head " style="background-image: url(assets/app/media/img/logos/bg-6.jpg)">
+        {% for order in order_list %}
+        <div class="raw pagebreak">
+          <div class="m-invoice__container m-invoice__container--centered">
+            <div class="m-invoice__logo" style="display: block; margin-left: 2%; margin-top: 30px;">
+              <img src="{{ company.assigned_company.logo.url }}" width="20%" />
+
+            </div>
+            <div class="row" style="
+            ">
+              <div style="
+                margin-bottom: 5px;
+                padding: 5px;
+                font-size: 0;
+              ">
+
+
+                <div style="
+                  display: inline-block;
+                  width: 40%;
+                  vertical-align: top;
+                  font-size: medium;
+                ">
+                  <span href="#" style="text-align: left !important;">
+                    <p class="invoice__subtitle" style="
+                      color: black;
+                      font-weight: 400;
+                      font-size: 14px;
+                      text-decoration: none;
+                      margin:0;
+                      margin-left: 17px;
+                    ">
+                      <span class="fa fa-phone fa-1x">Customer Care : {{company.assigned_company.mobile}}</span>
+                    </p>
+                    <p class="invoice__subtitle"
+                      style="color: black; font-weight: 400; font-size: 14px;  margin:0; margin-left: 17px;">
+                      <span class="fa fa-home fa-1x"></span>{{company.assigned_company.address}}
+                    </p>
+                  </span>
+
+
+                </div>
+                <div style="
+                  display: inline-block;
+                  width: 10%;
+                  vertical-align: top;
+                  font-size: medium;
+                ">
+
+                </div>
+                <div style="
+                  display: inline-block;
+                  width: 50%;
+                  vertical-align: top;
+                  font-size: medium;
+                ">
+                  <span style="text-align: left; font-size: 13px">
+                    <div style="font-family: 'Libre Barcode 39 Extended Text', cursive; font-size: 50px;">
+                      {{order.invoice_number}}</div>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="
+              padding: 5px !important;
+            ">
+              <div style="
+                margin-bottom: 5px;
+                margin-left: 5px;
+                padding: 5px;
+                border-top: 1px solid #000000;
+                border-bottom: 1px solid #000000;
+                font-size: 0;
+              ">
+                <div style="
+                  display: inline-block;
+                  width: 50%;
+                  vertical-align: top;
+                  font-size: medium;
+                ">
+                  <span style="font-weight: bold">Name</span>
+                  <span>{{order.name}}</span> <br>
+                  <span style="font-weight: bold">Mobile Number</span>
+                  <span>{{order.mobille_number}}</span> <br>
+                  <span style="font-weight: bold">Address</span>
+                  <span>{{order.note}}</span>
+
+
+                </div>
+                <div style="
+                  display: inline-block;
+                  width: 20%;
+                  vertical-align: top;
+                  font-size: medium;
+                ">
+
+                </div>
+                <div style="
+                  display: inline-block;
+                  width: 30%;
+                  vertical-align: top;
+                  font-size: medium;
+                ">
+                  <span style="font-weight: bold">INVOICE NO:</span>
+                  <span>{{order.invoice_number}}</span>
+                  <br />
+                  <span style="font-weight: bold">Date: </span>
+                  <span>{{order.created_at.date }}</span>
+                  <br />
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="row justify-content-center">
+                <table class="table justify-content-center" style="width:90%">
+                  <thead>
+                    <tr style="color: #A4ABB9">
+                      <th style="text-align: center; font-size: 14px">#</th>
+                      <th style="text-align: center; font-size: 14px">Image</th>
+                      <th style="text-align: center; font-size: 14px">SKU</th>
+                      <th style="text-align: center; font-size: 14px">
+                        Warranty
+                      </th>
+                      <th style="text-align: center; font-size: 14px width=" 35%"">Warrenty Policy</th>
+
+                      <th style="text-align: center; font-size: 14px">Quantity</th>
+                      <th style="text-align: center; font-size: 14px">Price</th>
+                      <th style="text-align: center; font-size: 14px">Total Price</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                  <tbody>
+
+                    {% for item in order.orderdetails_set.all %}
+                    <tr>
+                      <td style="text-align: center; font-size: 14px">{{ forloop.counter}}</td>
+                      <td style="text-align: center; font-size: 14px">
+                        <img src="{{ item.sku.product_image.url }}" alt="" width="30" />
+                      </td>
+                      <td style="text-align: center; font-size: 14px">
+                        <span>{{item.sku}}</span>
+                      </td>
+                      <td style="text-align: center; font-size: 14px">{{item.sku.warranty}}</td>
+
+                      <td style="text-align: center; font-size: 14px">{{item.sku.warranty_policy}}</td>
+                      <td style="text-align: center; font-size: 14px">{{item.qty}}</td>
+                      <td style="text-align: center; font-size: 14px">{{item.product_prices}}</td>
+                      <td style="text-align: center; font-size: 14px">{{item.item_totals}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+
+                  <tfoot>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr>
+                      <td colspan="7" style="text-align: right; font-size: 14px">
+                        Delivery Charge:
+                      </td>
+                      <td style="text-align: center; font-size: 14px">{{ order.delivery_charge }} TK</td>
+                    </tr>
+                    {% if order.advance != 0 %}
+                    <tr>
+                      <td colspan="7" style="text-align: right; font-size: 14px">
+                        Advance Payment:
+                      </td>
+                      <td style="text-align: center; font-size: 14px">{{ order.advance }} TK</td>
+                    </tr>
+                    {% endif %}
+                    {% if order.discount != 0 %}
+                    <tr>
+                      <td colspan="7" style="text-align: right; font-size: 14px">
+                        Discount:
+                      </td>
+                      <td style="text-align: center; font-size: 14px">{{ order.discount }} TK</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                      <td colspan="7" style="text-align: right; font-size: 14px">
+                        Total:
+                      </td>
+
+                      <td class="m--font-danger" style="text-align: center; font-size: 14px">
+                        150 TAKA
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+                <div style="margin-left:17px;">
+
+                  <div class="col-6">
+                    <span style="font-size: 13px">
+                      <div style="font-family: 'Libre Barcode 39 Extended Text', cursive; font-size: 50px;">
+                        {{order.invoice_number}}</div>
+                    </span>
+                    <br />
+                    <span style="font-weight: 600">{{ order.delivery_method|make_list|slice:'0:3'|join:'' }}</span>
+                  </div>
+
+                  <div style="text-align: center ; 'page-break-after: always'">
+                    <span style="font-size: 14px">Thank you for your purchase from
+                      {{ company.assigned_company.name }}</span>
+                  </div>
+                </div>
+                {% comment %} <div class="pagebreak"></div> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% comment %} <script>
+        w = window.open();
+        w.document.write($('.print-area').html());
+        w.print();
+        w.close();
+      </script> {% endcomment %}
+      {% comment %} {% endblock %} {% endcomment %}
+    </div>
+</body>
+
+</html>

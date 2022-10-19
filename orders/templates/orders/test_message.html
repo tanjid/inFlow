@@ -1,0 +1,25 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Order Home" %}{% endblock %}
+{% load orders_extra %}
+{% block content %}
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <h1>Test</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

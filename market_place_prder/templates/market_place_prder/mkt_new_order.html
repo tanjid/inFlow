@@ -1,0 +1,117 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}{% translate "Mkt New Order" %}{% endblock %}
+{% load orders_extra %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm">
+
+            {% if shop_name %}
+            <select name="mkt_shop" class="form-control mt-3" id="id_mkt_shop">
+				<option value="1" disabled>Select Shop</option>
+                <option value="{{shop_name}}" selected>{{shop_name}}</option>
+				{% for name in mkt_shops %}
+					<option value="{{name.name}}">{{name.name}}</option>
+				{% endfor %}
+			</select>
+            {% else %}
+            <select name="mkt_shop" class="form-control mt-3" id="id_mkt_shop">
+				<option value="1" disabled selected>Select Shop</option>
+				{% for name in mkt_shops %}
+					<option value="{{name.name}}">{{name.name}}</option>
+				{% endfor %}
+			</select>
+            {% endif %}
+
+        </div>
+        <div class="col-sm">
+            {% render_field form.invoice|append_attr:"class:form-control mt-3" type="text" placeholder="Invoice" %}
+            {{ form.errors.invoice }}
+        </div>
+        <div class="col-sm"></div>
+    </div>
+    <br>
+    <a class="btn btn-primary add_another mt-3" id="addBtn">Add Row</a>
+    <br /><br />
+    <div class="row">
+
+        <div class="card col-md-7 m-1">
+            <table class="table calculate-table" id="itemTable">
+                <thead>
+                    <tr>
+                        <th scope="col" id="product-name-entry">Product Name</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Item Total</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <tr id="R1">
+                        <td>
+                            <select name="sku_list" class="form-control" id="sl1" data-control="select2">
+                                <option value="1" disabled selected>Select SKU</option>
+                            </select>
+                            <span id="sn1" style="width: 100%;
+                            margin-top: 0.5rem;
+                            font-size: 0.925rem;
+                            color: #50cd89;"></span>
+                        </td>
+                        <td><input type="number" class="form-control" name="sku_qty" id="sq1" value="1" /></td>
+                        <td>
+                            <input type="number" id="pp1" class="form-control" name="product-price" autocomplete="off"
+                                value="0" readonly>
+                        </td>
+                        <td>
+                            <input type="number" id="it1" class="form-control" name="item-total" autocomplete="off"
+                                value="0" readonly>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class=" card col-md-4 m-1">
+            <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0 bg-gradient-secondary">
+
+
+                    <thead>
+                        <tr>
+                            <th>
+                                <strong>Calculation</strong>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Total:
+                            </td>
+                            {% comment %} <td>
+                                {% render_field form.sub_total|append_attr:"class:form-control" type="number" readonly="readonly" %}
+                                {% endcomment %}
+                            <td>
+                                <input type="number" id="id_sub_total" class="form-control" name="item-sub_total"
+                                    autocomplete="off" value="0" readonly>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
