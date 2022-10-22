@@ -30,6 +30,7 @@ urlpatterns = [
 
     # Dashboard urls
     path('search/', include('dashboards.urls')),
+    path('', include('dashboards.urls')),
 
     # Auth urls
     path('', include('auth.urls')),

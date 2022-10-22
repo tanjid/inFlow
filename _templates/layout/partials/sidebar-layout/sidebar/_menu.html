@@ -10,7 +10,7 @@
 			data-kt-menu-expand="false">
 
 			<!--begin::Search-->
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/search/' in request.path %}show{% endif %}">
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/search_for/' in request.path or '/quick_search/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{% getSvgIcon 'duotune/general/gen004.svg' 'svg-icon svg-icon-2' %}</span>
@@ -25,7 +25,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link{% if request.path == '/search/quick_search/' %} active{% endif %}" href="{% url 'quick_search' %}">
+						<a class="menu-link{% if request.path == '/quick_search/' %} active{% endif %}" href="{% url 'quick_search' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -39,7 +39,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link{% if request.path == '/search/search_for/con/' %} active{% endif %}" href="{% url 'search_for_confirm' 'con' %}">
+						<a class="menu-link{% if request.path == '/search_for/con/' %} active{% endif %}" href="{% url 'search_for_confirm' 'con' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -52,7 +52,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link{% if request.path == '/search/search_for/rtn/' %} active{% endif %}" href="{% url 'search_for_confirm' 'rtn' %}">
+						<a class="menu-link{% if request.path == 'search_for/rtn/' %} active{% endif %}" href="{% url 'search_for_confirm' 'rtn' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -287,8 +287,8 @@
 			<!--begin:Menu item-->
 
 			<!--end:Menu item-->
-			<!--begin:Menu item-->
-			<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+			<!--begin:Menu Purchase item-->
+			<div data-kt-menu-trigger="click" class="menu-item menu-accordion{% if '/purchase/' in request.path %} show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
 					<span class="menu-icon">{% getSvgIcon 'duotune/finance/fin001.svg' 'svg-icon svg-icon-2' %}</span>
@@ -299,21 +299,11 @@
 				<!--begin:Menu sub-->
 				<div class="menu-sub menu-sub-accordion menu-active-bg">
 					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="{% url 'purchase' %}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Purchase Home</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
 					<!--end:Menu item-->
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link" href="{% url 'new_purchase' %}">
+						<a class="menu-link {% if request.path == '/purchase/new_purchase' %}active{% endif %}" href="{% url 'new_purchase' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -323,7 +313,7 @@
 					</div>
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link" href="{% url 'purchase_list' %}">
+						<a class="menu-link {% if request.path == '/purchase/purchase_list' %}active{% endif %}" href="{% url 'purchase_list' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -425,7 +415,7 @@
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
-			<!--begin:Menu item-->
+			<!--begin: Reseller Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/reseller/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -482,7 +472,7 @@
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
 			<!--end:Menu item-->
-			<!--begin:Menu item-->
+			<!--begin: Marketplace Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/mkt/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -497,12 +487,6 @@
 					<div class="menu-item">
 
 						<!--begin:Menu link-->
-						<a class="menu-link {% if request.path == '/mkt/home/' %}active{% endif %}" href="{% url 'mkt_home' %}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Mkt Home</span>
-						</a>
 						<!--end:Menu link-->
 						
 						<!--begin:Menu link-->
@@ -515,7 +499,7 @@
 						<!--end:Menu link-->
 						
 						<!--begin:Menu link-->
-						<a class="menu-link {% if request.path == '/mkt/search/' %}active{% endif %}" href="{% url 'mkt_search' 'con' %}">
+						<a class="menu-link {% if request.path == 'mkt/search/con' %}active{% endif %}" href="{% url 'mkt_search' 'con' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -524,7 +508,7 @@
 						<!--begin:Menu link-->
 						
 						<!--begin:Menu link-->
-						<a class="menu-link {% if request.path == '/mkt/search/' %}active{% endif %}" href="{% url 'mkt_search' 'rtn' %}">
+						<a class="menu-link {% if request.path == '/mkt/search/rtn' %}active{% endif %}" href="{% url 'mkt_search' 'rtn' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -540,50 +524,6 @@
 						</a>
 						<!--end:Menu link-->
 
-					</div>
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="?page=apps/projects/project">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">View Project</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="?page=apps/projects/targets">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Targets</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="?page=apps/projects/settings">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Settings</span>
-						</a>
-						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
 				</div>

@@ -83,14 +83,12 @@ var KTDatatablesExample = function () {
             buttons: [
                 {
                     extend: 'copyHtml5',
-                    title: documentTitle,
                     columns: [ 1, 2, 3, 4,5,6,7,8,9 ]
                 },
                 {
                     extend: 'excelHtml5',
-                    title: documentTitle,
                     exportOptions: {
-                        columns: [ 1, 2, 3, 4,5,6,8,9 ]
+                        columns: [ 1, 2, 3, 4,5,6,8]
                     }
                 },
                 {
@@ -101,6 +99,8 @@ var KTDatatablesExample = function () {
                     extend: 'pdfHtml5',
                     title: documentTitle
                 }
+
+                
             ]
         }).container().appendTo($('#kt_datatable_example_buttons'));
 

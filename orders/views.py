@@ -86,11 +86,12 @@ class EditOrder(FormMixin, TemplateView):
         # KTTheme.addJavascriptFile('js/custom/test.js')
 
     def post(self, request, *args, **kwargs):
+        order_id = self.kwargs['order_id']
         form = self.get_form()
         if form.is_valid():
             del_method = request.POST.get("delivery_method")
             # Deleteing old items
-            order_id = self.kwargs['order_id']
+            
             order = NewOrder.objects.get(id=order_id)
             order_details = order.orderdetails_set.all()
 
@@ -138,10 +139,11 @@ class EditOrder(FormMixin, TemplateView):
                 selected_sku.stock_qty = int(selected_sku.stock_qty - int(qtys[i]))
                 selected_sku.save()
 
-
-            return HttpResponse("form valid")
+            messages.add_message(request, messages.SUCCESS, f'Order Edited to Successfully')
+            return redirect("edit_order", order_id=order_id)
         else:
-            return HttpResponse("not valid")
+            messages.add_message(request, messages.ERROR, f'There was a problem please try again!')
+            return redirect("edit_order", order_id=order_id)
 
 class OrderDm(TemplateView):
     template_name = 'orders/order_dm.html'
@@ -175,7 +177,7 @@ class OrderListView(LoginRequiredMixin, TemplateView):
         context['new_order'] = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct()
         context['status_name'] = status_name
         KTTheme.addJavascriptFile('js/custom/order_list.js')
-        if status_name == "Shipping":
+        if status_name == "Printed":
         #     print(status_name)
             KTTheme.addVendor('m_datatables')
         return context

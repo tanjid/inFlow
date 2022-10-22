@@ -5,13 +5,7 @@
 {% block title %}{% translate "Order Home" %}{% endblock %}
 
 {% block content %}
-<h1>Hello</h1>
-{% if messages %}
-<h1>2</h1>
-<h1>Yes</h1>
-{% else %}
-<h1>no</h1>
-{% endif %}
+
 <form method="post">
     {% csrf_token %}
 

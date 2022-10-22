@@ -9,7 +9,15 @@
 
 {% load orders_extra %}
 {% block content %}
-{{objective}}
+
+
+{% if objective == 'con' %}
+<h1>Search for Confirm</h1>
+{% elif objective == 'rtn' %}
+<h1>Search for Return</h1>
+{% else %}
+<h1>Quick Search</h1>
+{% endif %}
 <div class="card mb-10 ">
     <div class="card-body">
         <form role="form" method="post" action="">
@@ -31,10 +39,7 @@
                 </div>
 
                 <div class="col-xl-2 col-lg-2 col-md-2">
-                    <button class="btn bg-gradient-dark" type="submit"><span class="fa fa-search"></span></button>
-                </div>
-                <div class="col-xl-2 col-lg-2 col-md-2">
-                    <a href="=" class="btn bg-gradient-dark"><span class="fa-solid fa-arrows-rotate"></span></a>
+                    <button class="btn btn-primary" type="submit"><span class="fa fa-search"></span> </button>
                 </div>
             </div>
         </form>
