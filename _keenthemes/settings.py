@@ -113,40 +113,40 @@ WSGI_APPLICATION = '_keenthemes.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'RetailBD_new', 
-        'USER': 'postgres', 
-        'PASSWORD': 'admin',
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
-    }
-}
-
-# if DEVELOPMENT_MODE is True:
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.sqlite3",
-#             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#         }
-#     }
-# elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
-#     if os.getenv("DATABASE_URL", None) is None:
-#         raise Exception("DATABASE_URL environment variable not defined")
-#     DATABASES = {
-#         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
-#     }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'railway', 
+#         'NAME': 'RetailBD_new', 
 #         'USER': 'postgres', 
-#         'PASSWORD': 'qxJTZa1fpYVVf4obkcXE',
-#         'HOST': 'containers-us-west-50.railway.app', 
-#         'PORT': '7961',
+#         'PASSWORD': 'admin',
+#         'HOST': '127.0.0.1', 
+#         'PORT': '5432',
 #     }
 # }
+
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+    }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'railway', 
+        'USER': 'postgres', 
+        'PASSWORD': 'qxJTZa1fpYVVf4obkcXE',
+        'HOST': 'containers-us-west-50.railway.app', 
+        'PORT': '7961',
+    }
+}
 
 
 
