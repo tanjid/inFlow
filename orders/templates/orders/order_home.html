@@ -17,6 +17,7 @@
 {% endif %}
 
 <div class="row">
+    {% if current_user.Initial %}
     <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Initial' %}">
         <!--begin::Card widget 11-->
         <div class="card card-flush bg-light-primary h-xl-100 border border-primary border-dashed ">
@@ -50,7 +51,9 @@
         </div>
         <!--end::Card widget 11-->
     </a>
+    {% endif %}
 
+    {% if current_user.Printed %}
     <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Printed' %}">
         <!--begin::Card widget 11-->
         <div class="card card-flush bg-light-info h-xl-100 border border-info border-dashed">
@@ -84,6 +87,8 @@
         </div>
         <!--end::Card widget 11-->
     </a>
+    {% endif %}
+    {% if current_user.Shipping %}
     <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Shipping' %}">
         <!--begin::Card widget 11-->
         <div class="card card-flush h-xl-100 bg-light-warning border border-warning border-dashed">
@@ -117,7 +122,9 @@
         </div>
         <!--end::Card widget 11-->
     </a>
+    {% endif %}
 
+    {% if current_user.Complete %}
     <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Complete' %}">
         <!--begin::Card widget 11-->
         <div class="card card-flush h-xl-100 bg-light-success border border-success border-dashed">
@@ -151,7 +158,10 @@
         </div>
         <!--end::Card widget 11-->
     </a>
+    {% endif %}
 
+
+    {% if current_user.Cancel %}
     <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Cancel' %}">
         <!--begin::Card widget 11-->
         <div class="card card-flush h-xl-100 bg-light-dark border border-dark border-dashed">
@@ -185,6 +195,9 @@
         </div>
         <!--end::Card widget 11-->
     </a>
+    {% endif %}
+
+    {% if current_user.Return %}
     <a class="col-md-3 text-center pt-5" href="{% url 'order_dm' 'Return' %}">
         <!--begin::Card widget 11-->
         <div class="card card-flush h-xl-100 bg-light-danger border border-danger border-dashed">
@@ -218,6 +231,7 @@
         </div>
         <!--end::Card widget 11-->
     </a>
+    {% endif %}
 
 </div>
 

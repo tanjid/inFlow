@@ -40,9 +40,13 @@
 	<!--begin::Menu item-->
 	<!--end::Menu item-->
 	<!--begin::Menu item-->
+
+	{% if current_employee %}
+	
 	<div class="menu-item px-5 my-1">
 		<a href="{% url 'employee_edit' current_employee.id %}" class="menu-link px-5">Account Settings</a>
 	</div>
+	{% endif %}
 	<!--end::Menu item-->
 	<!--begin::Menu item-->
 	<div class="menu-item px-5">

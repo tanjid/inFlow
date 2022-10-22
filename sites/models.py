@@ -1,3 +1,4 @@
+from email.policy import default
 from enum import unique
 from django.db import models
 
@@ -11,6 +12,6 @@ class Company(models.Model):
     logo = models.ImageField(upload_to='company/')
     fav_logo = models.ImageField(upload_to='company/')
     invoice_slug = models.CharField(max_length=300)
-    invoice_count = models.IntegerField(null=True, blank=True)
+    invoice_count = models.IntegerField(default=1)
     def __str__(self):
         return self.name

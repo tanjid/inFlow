@@ -10,7 +10,7 @@ class Employee(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=50)
     image = models.ImageField(upload_to='employes/')
-    assigned_company = models.OneToOneField(Company, on_delete = models.CASCADE, null=True, blank=True)
+    assigned_company = models.ForeignKey(Company, on_delete = models.CASCADE, null=True, blank=True)
     
     designation = models.CharField(max_length=50, null=True, blank=True)
     blood_group = models.CharField(max_length=50,null=True, blank=True)
@@ -44,5 +44,13 @@ class Employee(models.Model):
 class EmployeePermission(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, null=True, blank=True)
     order_perm = models.BooleanField(default=True)
-    new_order_perm = models.BooleanField(default=True)
+    Initial = models.BooleanField(default=False)
+    Shipping = models.BooleanField(default=False)
+    Complete = models.BooleanField(default=False)
+    Return = models.BooleanField(default=False)
+    Exchange = models.BooleanField(default=False)
+    Cancel = models.BooleanField(default=False)
+
+    def __str__(self):
+     return str(self.user)
 

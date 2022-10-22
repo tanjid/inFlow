@@ -8,7 +8,8 @@
 {% load widget_tweaks %}
 
 {% block content %}
-
+{% if current_user.order_perm %}
+{% if current_employee.assigned_company %}
 
 <h1>New Order</h1>
 <form action="" method="post" id="myForm" onsubmit="myButton.disabled = true;">
@@ -192,4 +193,10 @@
 		</div>
 		{% endif %}
 </form>
+{% else %}
+<h1>You dont have an assigned company to your account. Please contact admin to assign!</h1>
+{% endif %}
+{% else %}
+<h1>You dont have permission to this page</h1>
+{% endif %}
 {% endblock %}

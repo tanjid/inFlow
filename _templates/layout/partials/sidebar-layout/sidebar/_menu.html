@@ -287,6 +287,7 @@
 			<!--begin:Menu item-->
 
 			<!--end:Menu item-->
+			{% if request.user.is_superuser %}
 			<!--begin:Menu Purchase item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion{% if '/purchase/' in request.path %} show{% endif %}">
 				<!--begin:Menu link-->
@@ -325,8 +326,10 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
+			{% endif %}
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
+			{% if request.user.is_superuser %}
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -364,6 +367,7 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
+			{% endif %}
 			<!--end:Menu item-->
 			<!--begin: Inventory Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/inventory/' in request.path %}show{% endif %}">
@@ -415,6 +419,7 @@
 				<!--end:Menu sub-->
 			</div>
 			<!--end:Menu item-->
+			{% if request.user.is_superuser %}
 			<!--begin: Reseller Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/reseller/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
@@ -465,6 +470,7 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
+			{% endif %}
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
 			<!--end:Menu item-->
