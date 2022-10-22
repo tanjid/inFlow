@@ -137,16 +137,16 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     DATABASES = {
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
     }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway', 
-        'USER': 'postgres', 
-        'PASSWORD': 'qxJTZa1fpYVVf4obkcXE',
-        'HOST': 'containers-us-west-50.railway.app', 
-        'PORT': '7961',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'railway', 
+#         'USER': 'postgres', 
+#         'PASSWORD': 'qxJTZa1fpYVVf4obkcXE',
+#         'HOST': 'containers-us-west-50.railway.app', 
+#         'PORT': '7961',
+#     }
+# }
 
 
 
