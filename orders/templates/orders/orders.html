@@ -79,15 +79,15 @@ context.update({
 
     <!--begin::Body-->
     <div class="card-body py-3">
-        <form action="" method="post">
+        <form action="" method="post" target="_blank">
             {% csrf_token %}
 
             {% if status_name == "Printed" or status_name == "Initial" or status_name == "Shipping" %}
-            <input type="submit" name="invoice" value="Invoice" />
-            <input type="submit" name="stock" value="Stock Checklist" />
+           <button class="btn btn-danger btn-sm" type="submit" name="invoice" onclick="return confirm('Are you sure? It will send all the orders to printed')">Invoice Print</button>
+           <button class="btn btn-warning btn-sm text-black" type="submit" name="stock">Stock Print</button>
             {% endif %}
             {% if status_name == "Printed" %}
-            <input type="submit" name="bulk" value="Bulk Shiping" />
+            <input type="submit" name="bulk" value="Bulk Shiping" class="btn btn-info btn-sm" onclick="return confirm('Are you sure? It will send all the orders to shipping')"/>
 
             {% endif %}
             <!--begin::Table container-->
