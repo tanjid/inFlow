@@ -45,6 +45,7 @@ class EmployeePermission(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, null=True, blank=True)
     order_perm = models.BooleanField(default=True)
     Initial = models.BooleanField(default=False)
+    Printed = models.BooleanField(default=False)
     Shipping = models.BooleanField(default=False)
     Complete = models.BooleanField(default=False)
     Return = models.BooleanField(default=False)

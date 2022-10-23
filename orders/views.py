@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, ListView
 from _keenthemes.__init__ import KTLayout
 from .models import *
 from _keenthemes.libs.theme import KTTheme
@@ -160,9 +160,14 @@ class OrderDm(TemplateView):
         return context
         # KTTheme.addJavascriptFile('js/custom/test.js')
 
-class OrderListView(LoginRequiredMixin, TemplateView):
+
+class CompleteListView(LoginRequiredMixin, ListView):
     template_name = 'orders/orders.html'
     login_url = '/employees/login/'
+    paginate_by = 10
+    context_object_name = 'new_order'
+
+
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -170,17 +175,141 @@ class OrderListView(LoginRequiredMixin, TemplateView):
 
         # A function to init the global layout. It is defined in _keenthemes/__init__.py file
         context = KTLayout.init(context)
-        status_name = self.kwargs['st']
-        dm = self.kwargs['dm']
+
         # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = "Complete"
+        dm = self.kwargs['dm']       
+        
+        context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # if status_name == "Printed":
+        # #     print(status_name)
+        #     KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+
+    def get_queryset(self):
+        status_name = "Complete"
+        dm = self.kwargs['dm']
         company_name = Employee.objects.get(user=self.request.user).assigned_company
-        context['new_order'] = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct()
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct()
+        return new_order
+
+class ReturnListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders.html'
+    login_url = '/employees/login/'
+    paginate_by = 10
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = "Return"
+        dm = self.kwargs['dm']       
+        
+        context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # if status_name == "Printed":
+        # #     print(status_name)
+        #     KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+
+    def get_queryset(self):
+        status_name = "Return"
+        dm = self.kwargs['dm']
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct()
+        return new_order
+        
+class CancelListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders.html'
+    login_url = '/employees/login/'
+    paginate_by = 10
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = "Cancel"
+        dm = self.kwargs['dm']       
+        
+        context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # if status_name == "Printed":
+        # #     print(status_name)
+        #     KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+
+    def get_queryset(self):
+        status_name = "Cancel"
+        dm = self.kwargs['dm']
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct()
+        return new_order
+
+class OrderListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders.html'
+    login_url = '/employees/login/'
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = self.kwargs['st']
+        dm = self.kwargs['dm']       
+        
         context['status_name'] = status_name
         KTTheme.addJavascriptFile('js/custom/order_list.js')
         if status_name == "Printed":
         #     print(status_name)
             KTTheme.addVendor('m_datatables')
+
+
+
         return context
+
+
+    def get_queryset(self):
+        status_name = self.kwargs['st']
+        dm = self.kwargs['dm']
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct()
+        return new_order
+
+        
+
     def post(self, request, *args, **kwargs):
         company = Employee.objects.get(user = request.user)
 

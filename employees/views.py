@@ -8,7 +8,7 @@ from .forms import SignInForm
 from django.views.generic.edit import FormMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -90,6 +90,7 @@ class LoginView(SuccessMessageMixin, FormMixin, TemplateView):
        
         return context
 
+
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
@@ -97,10 +98,17 @@ class LoginView(SuccessMessageMixin, FormMixin, TemplateView):
             password = form.cleaned_data['password']
 
             user = authenticate(request, username=username, password=password)
-            messages.success(self.request, "This is my success message")
+            
         if user is not None:
             login(request, user)
+            messages.success(self.request, "logged in seccessfully")
             return redirect('index')
         else:
-            messages.success(self.request, "This is my wrong message")
+            messages.success(self.request, "there was an error please try again")
             return redirect('index')
+
+
+def logout_view(request):
+    messages.success(request, "You are logged out.")
+    logout(request)
+    return redirect('login')

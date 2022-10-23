@@ -28,7 +28,7 @@ class Product(models.Model):
     sell_price = models.IntegerField()
     alert_qty = models.IntegerField()
     stock_qty = models.IntegerField(null=True, blank=True, default=0)
-    product_image = models.ImageField(null=True, blank=True, default="default.jpg")
+    product_image = models.ImageField(null=True, blank=True, default="default.jpg", upload_to='products/')
 
     def __str__(self):
         return str(self.sku)

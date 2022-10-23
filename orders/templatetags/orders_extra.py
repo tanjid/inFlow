@@ -14,6 +14,7 @@ def get_proper_elided_page_range(p, number, on_each_side=1, on_ends=1):
                                            on_ends=on_ends)
 
 
+
 @register.filter(name='calculate_qty')
 def calculate_qty(value):
     quantity = 0
@@ -47,11 +48,11 @@ def order_dm_count( st, dm, user):
     
 @register.simple_tag
 def get_actions(orders):
-    print(f"or_id{orders.id}")
+    # print(f"or_id{orders.id}")
     status_list = []
     for order in orders.orderdetails_set.all():
         status_list.append(order.status)
-        print(f"order-status: {order.status}")
+        # print(f"order-status: {order.status}")
     main = '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true" style="">'
     confirm = f'<div class="menu-item px-3"><a href="/orders/confirm_order/{orders.id}" class="menu-link px-3"data-kt-users-table-filter="delete_row">Confirm</a></div>' 
     edit = f'<div class="menu-item px-3" id=""><a href="/orders/edit_order/{orders.id}"class="menu-link px-3" id="edit-button" >Edit</a></div>'

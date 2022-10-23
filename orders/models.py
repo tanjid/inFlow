@@ -32,6 +32,9 @@ class NewOrder(models.Model):
     company = models.ForeignKey(Company, on_delete=models.RESTRICT,null=True, blank=True,)
     # items = models.ManyToManyField(OrderDetails,blank=True,)
 
+    class Meta:
+        ordering = ('created_at',)
+
     def __str__(self):
         return str(self.invoice_number)
 

@@ -82,9 +82,10 @@ context.update({
         <form action="" method="post">
             {% csrf_token %}
 
-
+            {% if status_name == "Printed" or status_name == "Initial" or status_name == "Shipping" %}
             <input type="submit" name="invoice" value="Invoice" />
             <input type="submit" name="stock" value="Stock Checklist" />
+            {% endif %}
             {% if status_name == "Printed" %}
             <input type="submit" name="bulk" value="Bulk Shiping" />
 
@@ -206,6 +207,63 @@ context.update({
     <!--end::Table container-->
 </div>
 <!--begin::Body-->
+
+{% if status_name == "Complete" or status_name == "Return" or  status_name == "Cancel" %}
+{% load paginator_tags %}
+<ul class="pagination">
+	{% get_proper_elided_page_range paginator page_obj.number as page_range %}
+	<!-- here -->
+
+	{% if page_obj.has_previous %}
+
+	<li class="page-item previous">
+		<a href="?page={{ page_obj.previous_page_number }}" class="page-link">
+			<i class="previous"></i>
+		</a>
+	</li>
+	{% else %}
+	<li class="page-item previous disabled">
+		<a href="" class="page-link">
+			<i class="previous"></i>
+		</a>
+	</li>
+
+	{% endif %}
+	{% for i in page_range %}
+
+	{% if page_obj.number == i %}
+	<li class="active page-item">
+		<span class="page-link">{{ i }}</span>
+	</li>
+	{% else %}
+	{% if i == paginator.ELLIPSIS %}
+	<li class="page-item">
+		<span class="page-link">{{ paginator.ELLIPSIS }}</span>
+	</li>
+	{% else %}
+	<li class="page-item">
+		<a class="page-link" href="?page={{ i }}">{{ i }}</a>
+	</li>
+	{% endif %}
+	{% endif %}
+	{% endfor %}
+	{% if page_obj.has_next %}
+	<li class="page-item next">
+		<a href="?page={{ page_obj.next_page_number }}" class="page-link">
+			<i class="next"></i>
+		</a>
+	</li>
+	{% else %}
+	<li class="page-item next disabled">
+		<a href="" class="page-link">
+			<i class="next"></i>
+		</a>
+	</li>
+
+	{% endif %}
+</ul>
+
+{% endif %}
 
 
 {% endblock content %}
