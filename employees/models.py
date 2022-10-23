@@ -9,7 +9,7 @@ from sites.models import Company
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='employes/')
+    image = models.ImageField(upload_to='employes')
     assigned_company = models.ForeignKey(Company, on_delete = models.CASCADE, null=True, blank=True)
     
     designation = models.CharField(max_length=50, null=True, blank=True)
