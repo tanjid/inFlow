@@ -2,8 +2,6 @@ from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 from sites.models import Company
-
-
 # Create your models here.
 
 class Employee(models.Model):
@@ -26,7 +24,6 @@ class Employee(models.Model):
     current_advance = models.IntegerField(null=True, blank=True)
     causal_leave = models.IntegerField(null=True, blank=True)
 
-    # Permissions
     
 
     def __str__(self):
