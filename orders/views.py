@@ -627,12 +627,13 @@ def return_single(request, order_id):
     main_order_details = OrderDetails.objects.get(pk=order_id)
     # Increase Stock qty for cancel order
     slec_product = Product.objects.get(sku=main_order_details.sku)
-    slec_product.stock_qty += main_order_details.qty
-    slec_product.save()
+    slec_product.increse_stock(main_order_details.qty)
     # update order status
     main_order_details.status = "Return"
     main_order_details.save()
-    return redirect('test_message')
+    # return redirect('test_message')
+    messages.add_message(request, messages.SUCCESS, f'{main_order_details.sku} Returned Successfully!')
+    return redirect('return_order',  order_id=main_order_details.main_order.id)
 
 def confirm_single(request, order_id):
     main_order_details = OrderDetails.objects.get(pk=order_id)

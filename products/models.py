@@ -36,6 +36,9 @@ class Product(models.Model):
     def decrese_stock(self, qty):
         self.stock_qty -= qty
         self.save()
+    def increse_stock(self, qty):
+        self.stock_qty += qty
+        self.save()
 
 
 class AdjustStock(models.Model):
