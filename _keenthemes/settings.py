@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-blehs+vjho@s4qug%9ferf0-tucvbr9#_1k2!#ebs4u68@)ss+
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 # DEBUG = os.getenv("DEBUG", "False") == "True"
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
 # ALLOWED_HOSTS = ['*']
@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'employees',
     'sites',
     'widget_tweaks',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -180,6 +181,13 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, '_locale'),
 ]
 
+# AWS S3 SETTINGS
+AWS_ACCESS_KEY_ID='AKIAUMFL65KJPM4HZ4J6'
+AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME= 'inflowplust'
+AWS_URL='https://inflowplust.s3.amazonaws.com/'
+AWS_DEFAULT_ACL = None
+AWS_S3_REGION_NAME = 'ap-southeast-1'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -190,13 +198,14 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Media File Configuratuon
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_URL = AWS_URL + '/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 
 # Tell select2 which cache configuration to use:
