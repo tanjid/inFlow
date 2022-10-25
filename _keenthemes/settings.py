@@ -90,6 +90,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'employees.context_processors.get_user_perm',
+                'products.context_processors.get_nitification_count',
             ],
             'libraries': {
                 'theme': '_keenthemes.templatetags.theme',

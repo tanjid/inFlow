@@ -98,10 +98,12 @@ class EditOrder(FormMixin, TemplateView):
             for item in order_details:
 
                 # Increment Stock
-                # product = Product.objects.get(sku=item.sku)
-                # product.stock_qty += item.qty
-                # product.save()
+                product = Product.objects.get(sku=item.sku)
+                product.increse_stock(item.qty)
+
+
                 item.delete()
+
 
 
             order.mobille_number = form.cleaned_data['number']
@@ -136,8 +138,9 @@ class EditOrder(FormMixin, TemplateView):
                 # order.items.add(new_order_details)
 
                 # Deducting qty to stock
-                selected_sku.stock_qty = int(selected_sku.stock_qty - int(qtys[i]))
-                selected_sku.save()
+                # selected_sku.stock_qty = int(selected_sku.stock_qty - int(qtys[i]))
+                selected_sku.decrese_stock(int(qtys[i]))
+                # selected_sku.save()
 
             messages.add_message(request, messages.SUCCESS, f'Order Edited to Successfully')
             return redirect("edit_order", order_id=order_id)
@@ -524,6 +527,7 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
                 # new_order.items.add(new_order_details)
 
                 # Deducting qty to stock
+                selected_sku.decrese_stock(int(qtys[i]))
                 # selected_sku.stock_qty = int(selected_sku.stock_qty - int(qtys[i]))
                 # selected_sku.save()
 

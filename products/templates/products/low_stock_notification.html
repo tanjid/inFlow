@@ -1,0 +1,102 @@
+{% extends layout %}
+
+{% load i18n %}
+{% load orders_extra %}
+{% load widget_tweaks %}
+{% block title %}
+{% translate "Low Stock Notifications" %}
+{% endblock title %}
+
+{% block content %}
+<h1>Content</h1>
+
+{{object_list}}
+
+{% for p in object_list %}
+{{p.sku}}
+{% endfor %}
+
+<div class="row">
+
+   <div class="card table-responsive p-5 col-lg-5 m-2 mx-auto">
+      <button class="btn btn-danger me-5 mb-5">
+         Low Stock <span class="badge badge-circle badge-primary ms-2">{{low_stock}}</span>
+     </button>
+      
+      <table class="table text-center">
+         <thead>
+            <tr class="fw-bold fs-6 text-gray-800">
+               <th>#</th>
+               <th>SKU</th>
+               <th>Order</th>
+               <th>MarketPlace</th>
+            </tr>
+         </thead>
+         <tbody>
+
+            {% for p in object_list %}
+            <tr>
+               <td><a href="" class="btn">{{forloop.counter}}</a></td>
+               <td><a href="" class="btn">{{p.sku}}</a></td>
+               {% if not p.website  %}
+               <td><a href="{% url 'click_website' p.id %}" class="btn btn-primary"><i
+                        class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>
+               {% else %}
+               <td><a href="" class="btn btn-success"><i class="bi bi-toggle2-on fs-4 me-2"></i> Checked</a></td>
+               {% endif %}
+
+               {% if not p.mkt  %}
+               <td><a href="{% url 'click_mkt' p.id %}" class="btn btn-primary"><i
+                        class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>
+               {% else %}
+               <td><a href="" class="btn btn-success"><i class="bi bi-toggle2-on fs-4 me-2"></i> Checked</a></td>
+               {% endif %}
+               <td><a href=""></a></td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="card table-responsive p-5 col-lg-5 m-2 mx-auto">
+      <button class="btn btn-success me-5 mb-5">
+         Stock In<span class="badge badge-circle badge-primary ms-2">{{stock_in}}</span>
+     </button>
+      
+      <table class="table text-center">
+         <thead>
+            <tr class="fw-bold fs-6 text-gray-800">
+               <th>#</th>
+               <th>SKU</th>
+               <th>Order</th>
+               <th>MarketPlace</th>
+            </tr>
+         </thead>
+         <tbody>
+
+            {% for p in object_list_stock %}
+            <tr>
+               <td><a href="" class="btn">{{forloop.counter}}</a></td>
+               <td><a href="" class="btn">{{p.sku}}</a></td>
+               {% if not p.website  %}
+               <td><a href="{% url 'stock_click_website' p.id %}" class="btn btn-primary"><i
+                        class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>
+               {% else %}
+               <td><a href="" class="btn btn-success"><i class="bi bi-toggle2-on fs-4 me-2"></i> Checked</a></td>
+               {% endif %}
+
+               {% if not p.mkt  %}
+               <td><a href="{% url 'stock_click_mkt' p.id %}" class="btn btn-primary"><i
+                        class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>
+               {% else %}
+               <td><a href="" class="btn btn-success"><i class="bi bi-toggle2-on fs-4 me-2"></i> Checked</a></td>
+               {% endif %}
+               <td><a href=""></a></td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+
+</div>
+
+{% endblock content %}

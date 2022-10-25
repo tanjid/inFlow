@@ -9,6 +9,7 @@ from django.views.generic.edit import FormMixin
 from employees.models import Employee
 from django.contrib import messages
 from .forms import AdjustStockForm
+from django.db.models import Count, F, Value
 # Create your views here.
 class CurrentStockListView(ListView):
     model = Product
@@ -80,3 +81,61 @@ class AdjustStockView(FormMixin, TemplateView):
 
             messages.add_message(request, messages.SUCCESS, 'Qty Adjusted Successfully')
             return redirect('adjust_stock')
+
+class LowStockView(TemplateView):
+    template_name = 'products/low_stock_notification.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context = KTLayout.init(context)
+        context['object_list'] = LowStock.objects.filter(active=True)
+        context['object_list_stock'] = StockIn.objects.filter(active=True)
+        return context
+
+
+def click_website(request, low_stock_id):
+    low_object = LowStock.objects.get(pk=low_stock_id)
+    low_object.website = True
+    low_object.save()
+
+    if low_object.website and low_object.mkt:
+        low_object.active = False
+        low_object.save()
+
+    return redirect('low_stock')
+
+def click_mkt(request, low_stock_id):
+    low_object = LowStock.objects.get(pk=low_stock_id)
+    low_object.mkt = True
+    low_object.save()
+
+    if low_object.website and low_object.mkt:
+        low_object.active = False
+        low_object.save()
+
+    return redirect('low_stock')
+
+
+def stock_click_website(request, stock_id):
+    stock_object = StockIn.objects.get(pk=stock_id)
+    stock_object.website = True
+    stock_object.save()
+
+    if stock_object.website and stock_object.mkt:
+        stock_object.active = False
+        stock_object.save()
+
+    return redirect('low_stock')
+
+
+
+def stock_click_mkt(request, stock_id):
+    
+    low_object = StockIn.objects.get(pk=stock_id)
+    low_object.mkt = True
+    low_object.save()
+
+    if low_object.website and low_object.mkt:
+        low_object.active = False
+        low_object.save()
+
+    return redirect('low_stock')

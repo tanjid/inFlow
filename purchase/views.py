@@ -87,8 +87,9 @@ class NewPurchaseView(FormMixin, TemplateView):
 
                 new_purchase.items.add(new_purchsae_item)
                 # Adding qty to stock
-                selected_sku.stock_qty = int(selected_sku.stock_qty + int(myqty))
-                selected_sku.save()
+                # selected_sku.stock_qty = int(selected_sku.stock_qty + int(myqty))
+                selected_sku.increse_stock(int(myqty))
+
 
             messages.add_message(request, messages.SUCCESS, 'Purchase Successful')
             return redirect ("new_purchase")

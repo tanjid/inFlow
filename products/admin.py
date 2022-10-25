@@ -7,3 +7,4 @@ from .models import *
 admin.site.register(Product)
 admin.site.register(ProductBrand)
 admin.site.register(ProductCategory)
+admin.site.register(LowStock)

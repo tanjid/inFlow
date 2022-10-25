@@ -1,6 +1,7 @@
 
 
 # Create your models here.
+from email.policy import default
 from django.db import models
 from employees.models import Employee
 
@@ -19,7 +20,7 @@ class ProductBrand(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    sku = models.CharField(max_length=20, unique = True)
+    sku = models.CharField(max_length=20, unique = True,db_index=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.DO_NOTHING, null=True, blank=True)
     brand = models.ForeignKey(ProductBrand, on_delete=models.DO_NOTHING, null=True, blank=True)
     warranty = models.CharField(max_length=20)
@@ -36,9 +37,55 @@ class Product(models.Model):
     def decrese_stock(self, qty):
         self.stock_qty -= qty
         self.save()
+
+        # Check for stock notification
+
+        if self.stock_qty <= self.alert_qty:
+            try:
+                LowStock.objects.get(sku=self)
+
+                # if low_object.active:
+                #     pass
+                # else:
+                #     LowStock.objects.create(
+                #         sku = self
+                #     )                  
+
+
+            except:
+                print("creating a low noti")
+                LowStock.objects.create(
+                    sku = self
+                )
     def increse_stock(self, qty):
         self.stock_qty += qty
         self.save()
+
+        if self.stock_qty >= self.alert_qty:
+            try:
+                low_object = LowStock.objects.get(sku=self)
+                if low_object.active:
+                    low_object.active = False
+                    low_object.save()
+                else:
+                    low_object.delete()
+
+            except:
+                pass
+
+        if self.stock_qty > 10:
+            try:
+                stock_object = StockIn.objects.get(sku=self)
+
+                if not stock_object.active:
+                    stock_object.active = True
+                    stock_object.save()
+
+            except:
+                StockIn.objects.create(
+                    sku=self
+                )
+
 
 
 class AdjustStock(models.Model):
@@ -47,3 +94,24 @@ class AdjustStock(models.Model):
     cause = models.CharField(max_length=20)
     note = models.TextField(null=True, blank=True)
     by = models.ForeignKey(Employee, on_delete=models.RESTRICT, null=True, blank=True)
+
+
+class LowStock(models.Model):
+    sku = models.OneToOneField(Product, on_delete=models.RESTRICT, unique = True, db_index=True)
+    website = models.BooleanField(default=False) 
+    mkt = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
+
+
+    def __str__(self):
+        return str(self.sku)
+
+class StockIn(models.Model):
+    sku = models.OneToOneField(Product, on_delete=models.RESTRICT, unique = True, db_index=True)
+    website = models.BooleanField(default=False) 
+    mkt = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
+
+
+    def __str__(self):
+        return str(self.sku)

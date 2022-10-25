@@ -11,24 +11,30 @@
 	<!--begin::Notifications-->
 	<div class="app-navbar-item ms-1 ms-lg-3">
 		<!--begin::Menu- wrapper-->
-		{% comment %} <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px"
-			data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">{% getSvgIcon 'duotune/general/gen022.svg' 'svg-icon svg-icon-1' %}</div> {% endcomment %}
 
-		{% comment %} {% include 'partials/menus/_notifications-menu.html' %} {% endcomment %}
+			<div class="btn btn-icon btn-light pulse pulse-danger position-relative me-5" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+	
+				<i class="bi bi-bell fs-4 pulse pulse-danger"></i>
+				{% if low_stock > 0 %}
+				<span class="position-absolute top-0 start-100 translate-middle  badge badge-circle badge-danger top-0 start-50 animation-blink">{{low_stock}}</span>
+
+				{% endif %}
+				{% if stock_in > 0 %}
+				<span class="position-absolute top-0 start-0 translate-middle  badge badge-circle badge-success top-0 start-50 animation-blink">{{stock_in}}</span>
+				{% endif %}
+	
+				<span class="pulse-ring"></span>
+			</div>
+
+		{% include 'partials/menus/_notifications-menu.html' %}
 
 		<!--end::Menu wrapper-->
 	</div>
 	<!--end::Notifications-->
 	<!--begin::Chat-->
-	<div class="app-navbar-item ms-1 ms-lg-3">
-		<!--begin::Menu wrapper-->
-		{% comment %} <div class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative"
-			id="kt_drawer_chat_toggle">{% getSvgIcon 'duotune/communication/com012.svg' 'svg-icon svg-icon-1' %}
-			<span
-				class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"></span>
-		</div> {% endcomment %}
-		<!--end::Menu wrapper-->
-	</div>
+
+
+
 	<!--end::Chat-->
 	<!--begin::Quick links-->
 	<!--end::Quick links-->
