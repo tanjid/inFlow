@@ -1,4 +1,3 @@
-from multiprocessing.reduction import duplicate
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from _keenthemes.__init__ import KTLayout
@@ -951,13 +950,8 @@ class ROrderListView(LoginRequiredMixin, ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
 
-        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
         context = KTLayout.init(context)
 
-        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
-        # status_name = self.kwargs['st'] 
-        
-        # context['status_name'] = status_name
         KTTheme.addJavascriptFile('js/custom/order_list.js')
   
         KTTheme.addVendor('m_datatables')
