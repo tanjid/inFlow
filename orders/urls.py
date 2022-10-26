@@ -30,9 +30,5 @@ urlpatterns = [
     path('cancel_order/<int:order_id>', cancel_order, name='cancel_order'),
     path('exchange_item/<int:order_id>', ExchangeItems.as_view(), name='exchange_item'),
 
-    path('orders_list/', ROrderListView.as_view(), name='orders_list'),
-
-    
-
     # ...
 ]
