@@ -30,6 +30,7 @@ class NewOrder(models.Model):
     invoice_number = models.CharField(max_length=15, null=True, blank=True, unique=True)
     employee = models.ForeignKey(Employee, on_delete=models.RESTRICT,null=True, blank=True,)
     company = models.ForeignKey(Company, on_delete=models.RESTRICT,null=True, blank=True,)
+    is_active = models.BooleanField(default=False)
     # items = models.ManyToManyField(OrderDetails,blank=True,)
 
     class Meta:

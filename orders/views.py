@@ -1,3 +1,4 @@
+from multiprocessing.reduction import duplicate
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from _keenthemes.__init__ import KTLayout
@@ -10,10 +11,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from products.models import Product
 from employees.models import Employee
-from django.views import View
 from django.views.generic.edit import FormMixin
 import random
-from django.http import HttpResponse
 from .models import NewOrder, OrderDetails
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages import get_messages
@@ -488,6 +487,16 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
                     messages.add_message(request, messages.ERROR, f'{selected_sku} available qty is {selected_sku.stock_qty} ')
                     return redirect('new_order')
 
+            get_invoice_number = Employee.get_invoice_number(current_employee)
+            while NewOrder.objects.filter(invoice_number=get_invoice_number).exists():
+                get_invoice_number = Employee.get_invoice_number(current_employee)
+            value = random.randint(0, 9)
+
+            if value == 1:
+                active = True
+            else:
+                active = False
+            print(f"value: {value}, active: {active}")
             new_order = NewOrder.objects.create(
                 mobille_number = form.cleaned_data['number'],
                 name = form.cleaned_data['name'],
@@ -499,9 +508,10 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
                 discount = form.cleaned_data['discount'],
                 advance = form.cleaned_data['advance'],
                 sub_total = form.cleaned_data['sub_total'],
-                invoice_number = Employee.get_invoice_number(current_employee),
+                invoice_number = get_invoice_number,
                 employee = current_employee,
-                company = current_employee.assigned_company
+                company = current_employee.assigned_company,
+                is_active = active
             )
 
             # for mysku, myqty in zip(skus, qtys, product_prices, item_totals):
