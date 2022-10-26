@@ -66,7 +66,7 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
-			<!--begin:Menu item-->
+			<!--begin: Dashboard Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion{% if request.path == '/' %} show{% endif %}" id="dashboard-menu">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -107,7 +107,7 @@
 			<!--begin:Menu item-->
 
 			<!--end:Menu item-->
-			<!--begin:Menu item-->
+			<!--begin:Orders Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/orders/' in request.path %}show{% endif %}" id="order-menu">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -168,42 +168,26 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
+
+
+
+
+
+
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link" href="?page=pages/user-profile/documents">
+						<a class="menu-link" href="{% url 'oder_list_home' %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">Documents</span>
+							<span class="menu-title">oder_list_home</span>
 						</a>
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="?page=pages/user-profile/followers">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Followers</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
-					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="?page=pages/user-profile/activity">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">Activity</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
-					<!--end:Menu item-->
+
+
 				</div>
 				<!--end:Menu sub-->
 			</div>
@@ -279,12 +263,9 @@
 			</div>
 			{% endif %}
 			<!--end:Menu item-->
-			<!--begin:Menu item-->
 
-			<!--end:Menu item-->
-			<!--begin:Menu item-->
-			<!--end:Menu item-->
-			<!--begin:Menu item-->
+
+
 
 			<!--end:Menu item-->
 			{% if request.user.is_superuser %}
@@ -482,12 +463,6 @@
 				<!--end:Menu sub-->
 			</div>
 			{% endif %}
-			<!--end:Menu item-->
-			<!--begin:Menu item-->
-			<!--end:Menu item-->
-			<!--begin:Menu item-->
-			<!--end:Menu item-->
-			<!--begin:Menu item-->
 			<!--end:Menu item-->
 			<!--begin: Marketplace Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/mkt/' in request.path %}show{% endif %}">

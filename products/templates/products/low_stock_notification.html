@@ -8,13 +8,8 @@
 {% endblock title %}
 
 {% block content %}
-<h1>Content</h1>
 
-{{object_list}}
 
-{% for p in object_list %}
-{{p.sku}}
-{% endfor %}
 
 <div class="row">
 
@@ -28,6 +23,7 @@
             <tr class="fw-bold fs-6 text-gray-800">
                <th>#</th>
                <th>SKU</th>
+               <th>Current Stock</th>
                <th>Order</th>
                <th>MarketPlace</th>
             </tr>
@@ -37,7 +33,8 @@
             {% for p in object_list %}
             <tr>
                <td><a href="" class="btn">{{forloop.counter}}</a></td>
-               <td><a href="" class="btn">{{p.sku}}</a></td>
+               <td><div class="mt-4">{{p.sku}}</div></td>
+               <td><div class="mt-4">{{p.sku.stock_qty}}</div></td>
                {% if not p.website  %}
                <td><a href="{% url 'click_website' p.id %}" class="btn btn-primary"><i
                         class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>
@@ -67,6 +64,7 @@
             <tr class="fw-bold fs-6 text-gray-800">
                <th>#</th>
                <th>SKU</th>
+               <th>Current Stock</th>
                <th>Order</th>
                <th>MarketPlace</th>
             </tr>
@@ -76,7 +74,8 @@
             {% for p in object_list_stock %}
             <tr>
                <td><a href="" class="btn">{{forloop.counter}}</a></td>
-               <td><a href="" class="btn">{{p.sku}}</a></td>
+               <td><div class="mt-4">{{p.sku}}</div></td>
+               <td><div class="mt-4">{{p.sku.stock_qty}}</div></td>
                {% if not p.website  %}
                <td><a href="{% url 'stock_click_website' p.id %}" class="btn btn-primary"><i
                         class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>

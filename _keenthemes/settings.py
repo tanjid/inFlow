@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'purchase',
     'employees',
     'sites',
+    'orderlist',
     'widget_tweaks',
     'storages',
 ]
@@ -172,7 +173,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-US'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dacca'
 
 USE_I18N = True
 

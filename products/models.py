@@ -30,6 +30,7 @@ class Product(models.Model):
     alert_qty = models.IntegerField()
     stock_qty = models.IntegerField(null=True, blank=True, default=0)
     product_image = models.ImageField(null=True, blank=True, default="default.jpg", upload_to='products/')
+    current_stock_status = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.sku)
@@ -43,49 +44,55 @@ class Product(models.Model):
         if self.stock_qty <= self.alert_qty:
             try:
                 LowStock.objects.get(sku=self)
-
-                # if low_object.active:
-                #     pass
-                # else:
-                #     LowStock.objects.create(
-                #         sku = self
-                #     )                  
-
-
             except:
-                print("creating a low noti")
                 LowStock.objects.create(
                     sku = self
                 )
-    def increse_stock(self, qty):
-        self.stock_qty += qty
-        self.save()
 
-        if self.stock_qty >= self.alert_qty:
-            try:
-                low_object = LowStock.objects.get(sku=self)
-                if low_object.active:
-                    low_object.active = False
-                    low_object.save()
-                else:
-                    low_object.delete()
-
-            except:
-                pass
-
-        if self.stock_qty > 10:
             try:
                 stock_object = StockIn.objects.get(sku=self)
-
-                if not stock_object.active:
-                    stock_object.active = True
-                    stock_object.save()
-
+                stock_object.status = False
+                stock_object.save()
             except:
                 StockIn.objects.create(
                     sku=self
                 )
 
+            if self.current_stock_status:
+                stock_object = LowStock.objects.get(sku=self)
+                stock_object.website = False
+                stock_object.mkt = False
+                stock_object.active = True
+                stock_object.save()
+
+
+    def increse_stock(self, qty):
+        self.stock_qty += qty
+        self.save()
+
+        if self.stock_qty > self.alert_qty:
+            try:
+                low_object = LowStock.objects.get(sku=self)
+                low_object.mkt = False
+                low_object.website = False
+                low_object.active = False
+                low_object.save()
+
+            except:
+                pass
+
+        try:
+            stock_object = StockIn.objects.get(sku=self)
+        except:
+                StockIn.objects.create(
+                    sku=self
+                )
+        
+        if self.stock_qty > 10 and self.current_stock_status == False:
+            stock_object.mkt = False
+            stock_object.website = False
+            stock_object.active = True
+            stock_object.save()
 
 
 class AdjustStock(models.Model):

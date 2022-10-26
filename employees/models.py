@@ -2,6 +2,7 @@ from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 from sites.models import Company
+import random
 # Create your models here.
 
 class Employee(models.Model):
@@ -33,7 +34,16 @@ class Employee(models.Model):
         invoive_slug = self.assigned_company.invoice_slug
         invoive_id = self.assigned_company.invoice_count
         self.assigned_company.invoice_count += 1
-        inovice = f"{invoive_slug}-{invoive_id}"
+        random_num1 =  random.randint(9, 99)
+        random_num2 =  random.randint(9, 99)
+        inovice_int = f'{random_num1}{invoive_id}{random_num2}'
+        numbers = [ str(x) for x in inovice_int ]
+        print(numbers)
+        random.shuffle(numbers)
+        print(numbers)
+        shu_invoice = "".join(numbers)
+        print(shu_invoice)
+        inovice = f"{invoive_slug}-{shu_invoice}"
         self.assigned_company.save()
         return inovice
 

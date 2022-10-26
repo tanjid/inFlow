@@ -706,14 +706,10 @@ class ReturnOrder(TemplateView):
             order_details_id = request.POST.get('order_details_id')
             order_id = request.POST.get('order_id')
             main_order_details = OrderDetails.objects.get(pk=order_details_id)
-            print(main_order_details)
-            
             get_name_qty = f"qty{order_id}"
-            print(get_name_qty)
             input_qty = request.POST.get(get_name_qty)
-            print(f"input qty: {input_qty}")
-            print(main_order_details)
-            print(f"{int(input_qty)} : {int(main_order_details.qty)}")
+
+
             if int(input_qty) == int(main_order_details.qty):
                 messages.add_message(request, messages.INFO, 'No Qty Changed Detected!')
                 return redirect('return_order',  order_id=order_id)
@@ -721,16 +717,11 @@ class ReturnOrder(TemplateView):
             if int(input_qty) < int(main_order_details.qty):
                 diff_qty =  int(main_order_details.qty) - int(input_qty)
                 # Increse Product stock for diff qty
-                print("Increse Product stock for diff qty")
-                print(f"diff_qty: {diff_qty}")
                 slec_product = Product.objects.get(sku=main_order_details.sku)
-                print(f"slec_product: {slec_product}")
-                print(f"slec_product.stock_qty: {slec_product.stock_qty}")
-                slec_product.stock_qty += diff_qty
-                print(f"after slec_product.stock_qty: {slec_product.stock_qty}")
-                slec_product.save()
+                # slec_product.stock_qty += diff_qty
+                # slec_product.save()
+                slec_product.increse_stock(diff_qty)
 
-                # decrement order qty
 
                 main_order_details.qty = int(input_qty)
                 main_order_details.save()
@@ -759,17 +750,20 @@ class ReturnOrder(TemplateView):
                 order.return_note = request.POST.get('rtn_note')
                 messages.add_message(request, messages.SUCCESS, 'Return note added')
                 order.save()
-            for item in order.orderdetails_set.all():
+
+            order_details = order.orderdetails_set.all()
+            for item in order_details:
+                print(item)
                 if item.status == "Shipping":
                     item.status = "Return"
                     item.save()
                     selec_product = Product.objects.get(sku=item.sku)
-                    selec_product.decrese_stock(qty=item.qty)
+                    selec_product.increse_stock(qty=item.qty)
                     messages.add_message(request, messages.SUCCESS, f'{item.sku} Returned')
                 else:
                     messages.add_message(request, messages.ERROR, f'{item.sku} is not Returned Because its in  {item.status}')
-                    return redirect('return_order',  order_id=order_id)
-                return redirect('search_for_confirm', res='rtn')
+            return redirect('return_order',  order_id=order_id)
+            # return redirect('search_for_confirm', res='rtn')
 
 class ExchangeOrder(TemplateView):
     template_name = 'orders/exchange_order.html'
@@ -795,14 +789,8 @@ class ExchangeOrder(TemplateView):
         order_details_id = request.POST.get('order_details_id')
         order_id = request.POST.get('order_id')
         main_order_details = OrderDetails.objects.get(pk=order_details_id)
-        print(main_order_details)
-        
         get_name_qty = f"qty{order_id}"
-        print(get_name_qty)
         input_qty = request.POST.get(get_name_qty)
-        print(f"input qty: {input_qty}")
-        print(main_order_details)
-        print(f"{int(input_qty)} : {int(main_order_details.qty)}")
         if int(input_qty) == int(main_order_details.qty):
             messages.add_message(request, messages.INFO, 'No Qty Changed Detected!')
             return redirect('return_order',  order_id=order_id)
@@ -810,16 +798,13 @@ class ExchangeOrder(TemplateView):
         if int(input_qty) < int(main_order_details.qty):
             diff_qty =  int(main_order_details.qty) - int(input_qty)
             # Increse Product stock for diff qty
-            print("Increse Product stock for diff qty")
-            print(f"diff_qty: {diff_qty}")
+            # print("Increse Product stock for diff qty")
+            # print(f"diff_qty: {diff_qty}")
             slec_product = Product.objects.get(sku=main_order_details.sku)
-            print(f"slec_product: {slec_product}")
-            print(f"slec_product.stock_qty: {slec_product.stock_qty}")
-            slec_product.stock_qty += diff_qty
-            print(f"after slec_product.stock_qty: {slec_product.stock_qty}")
+            # slec_product.stock_qty += diff_qty
+            slec_product.increse_stock(diff_qty)
+            # print(f"after slec_product.stock_qty: {slec_product.stock_qty}")
             slec_product.save()
-
-            # decrement order qty
 
             main_order_details.qty = int(input_qty)
             main_order_details.save()
@@ -972,3 +957,142 @@ class ExchangeItems(FormMixin, TemplateView):
         else:
             messages.add_message(request, messages.SUCCESS, 'Order Exchange Failed!!')
             return redirect('test_message')
+
+
+
+class ROrderListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders_list.html'
+    login_url = '/employees/login/'
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        # status_name = self.kwargs['st'] 
+        
+        # context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+  
+        KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+
+    def get_queryset(self):
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(company = company_name).distinct()
+        new_order_count = new_order.count()
+        print(f"new_order_count: {new_order_count}")
+        new_order = new_order[int(new_order_count*.90):]
+        return new_order
+
+        
+
+    def post(self, request, *args, **kwargs):
+        company = Employee.objects.get(user = request.user)
+
+        if 'bulk' in request.POST:
+            print(request.POST)
+            orders = request.POST.getlist('selected-order')
+            for order in orders:
+                my_order = NewOrder.objects.get(pk=order)
+                bulk_update_list = []
+                for order in my_order.orderdetails_set.all():
+                    order.status = "Shipping"
+                    # order.save()
+                    bulk_update_list.append(order)
+                OrderDetails.objects.bulk_update(bulk_update_list, ['status'])
+            
+            
+            messages.add_message(request, messages.SUCCESS, f'{len(orders)} Orders sent to shipping')
+            return redirect('test_message')
+
+        elif 'invoice' in request.POST:
+            multi_order_list = []
+            order_list = []
+            orders = request.POST.getlist('selected-order')
+
+
+        # Sorting Order for prnting sku wise
+            for order in orders:
+                my_order = NewOrder.objects.get(pk=order)
+                bulk_update_list = []
+                count = 0
+                for order in my_order.orderdetails_set.all():
+                    order.status = "Printed"
+                    bulk_update_list.append(order)
+
+                    if count == 0:
+                        print(f"0")
+                        order_list.append(my_order)
+                    elif count == 1:
+                        print(f"1")
+                        multi_order_list.append(my_order)
+                        order_list.remove(my_order)
+                    count += 1
+            
+                OrderDetails.objects.bulk_update(bulk_update_list, ['status'])
+            list_dict = {}
+            for item in order_list:
+                for it in item.orderdetails_set.all():
+                    if list_dict.get(it.sku.sku):
+                        list_dict[it.sku.sku].append(item)
+                    else:
+                        list_dict[it.sku.sku] = [item]
+            
+            updated_list = list(list_dict.values())
+            sorted_list = []
+
+            for l in updated_list:
+                sorted_list.extend(l)
+
+
+            multi_order_list.extend(sorted_list)
+
+            context = {
+                'order_list': multi_order_list,
+                'company': company,
+            }
+            return render(request, 'orders/invoice.html', context)
+            
+        elif 'stock' in request.POST:
+            order_list = []
+            orders = request.POST.getlist('selected-order')
+            for order in orders:
+                my_order = NewOrder.objects.get(pk=order)
+                print(my_order.id)
+                order_list.append(my_order)
+            
+            sku_dict = {}
+
+            for order in order_list:
+                # skus = order.items.all()
+                skus = order.orderdetails_set.all()
+                order_id = order
+                for sku in skus:
+
+                    if sku.sku in sku_dict:
+                        sku_dict[sku.sku].append(order_id)
+
+                    else:
+                        sku_dict[sku.sku] = [order_id]
+            
+            company = Employee.objects.get(user=request.user).assigned_company
+            
+            context = {
+                'order_list': sku_dict,
+                'company': company,
+            }
+            # print(request.user)
+            return render(request, 'orders/stock_checklist.html', context)
+
+        

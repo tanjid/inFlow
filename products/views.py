@@ -9,7 +9,7 @@ from django.views.generic.edit import FormMixin
 from employees.models import Employee
 from django.contrib import messages
 from .forms import AdjustStockForm
-from django.db.models import Count, F, Value
+from django.db.models import Q
 # Create your views here.
 class CurrentStockListView(ListView):
     model = Product
@@ -88,7 +88,7 @@ class LowStockView(TemplateView):
         context = super().get_context_data(**kwargs)
         context = KTLayout.init(context)
         context['object_list'] = LowStock.objects.filter(active=True)
-        context['object_list_stock'] = StockIn.objects.filter(active=True)
+        context['object_list_stock'] = StockIn.objects.filter(active = True)
         return context
 
 
@@ -100,6 +100,9 @@ def click_website(request, low_stock_id):
     if low_object.website and low_object.mkt:
         low_object.active = False
         low_object.save()
+        sku = Product.objects.get(sku=low_object.sku)
+        sku.current_stock_status = False
+        sku.save()
 
     return redirect('low_stock')
 
@@ -111,6 +114,9 @@ def click_mkt(request, low_stock_id):
     if low_object.website and low_object.mkt:
         low_object.active = False
         low_object.save()
+        sku = Product.objects.get(sku=low_object.sku)
+        sku.current_stock_status = False
+        sku.save()
 
     return redirect('low_stock')
 
@@ -123,6 +129,9 @@ def stock_click_website(request, stock_id):
     if stock_object.website and stock_object.mkt:
         stock_object.active = False
         stock_object.save()
+        sku = Product.objects.get(sku=stock_object.sku)
+        sku.current_stock_status = True
+        sku.save()
 
     return redirect('low_stock')
 
@@ -130,12 +139,15 @@ def stock_click_website(request, stock_id):
 
 def stock_click_mkt(request, stock_id):
     
-    low_object = StockIn.objects.get(pk=stock_id)
-    low_object.mkt = True
-    low_object.save()
+    stock_object = StockIn.objects.get(pk=stock_id)
+    stock_object.mkt = True
+    stock_object.save()
 
-    if low_object.website and low_object.mkt:
-        low_object.active = False
-        low_object.save()
+    if stock_object.website and stock_object.mkt:
+        stock_object.active = False
+        stock_object.save()
+        sku = Product.objects.get(sku=stock_object.sku)
+        sku.current_stock_status = True
+        sku.save()
 
     return redirect('low_stock')

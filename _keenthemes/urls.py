@@ -27,6 +27,7 @@ urlpatterns = [
     path('mkt/', include('market_place_prder.urls')),
     path('reseller/', include('reseller.urls')),
     path('inventory/', include('products.urls')),
+    path('order_list/', include('orderlist.urls')),
 
     # Dashboard urls
     path('search/', include('dashboards.urls')),
