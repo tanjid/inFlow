@@ -850,17 +850,6 @@ def exchange_item(request, order_id):
     # update order status
     main_order_details.status = "Exchange"
     main_order_details.save()
-    
-    # def post(self, request, *args, **kwargs):
-    #     form = self.get_form()
-
-    #     return redirect('new_order')
-
-    # orders = NewOrder.objects.get(id=order_id)
-
-    # for order in orders.orderdetails_set.all():
-    #     order.status = "Complete"
-    #     order.save()
     return redirect('test_message')
 
 class ExchangeItems(FormMixin, TemplateView):
@@ -909,19 +898,6 @@ class ExchangeItems(FormMixin, TemplateView):
         current_employee = Employee.objects.get(user=request.user)
         if form.is_valid():
             del_method = request.POST.get("delivery_method")
-            # Deleteing old items
-            # order_id = self.kwargs['order_id']
-            # order_details = OrderDetails.objects.get(pk=order_id)
-            # order = order_details.main_order
-
-            # for item in [order_details]:
-
-            #     # Increment Stock
-            #     # product = Product.objects.get(sku=item.sku)
-            #     # product.stock_qty += item.qty
-            #     # product.save()
-            #     item.delete()
-
             new_order = NewOrder.objects.create(
             mobille_number = form.cleaned_data['number'],
             name = form.cleaned_data['name'],
@@ -955,12 +931,6 @@ class ExchangeItems(FormMixin, TemplateView):
                     product_prices = product_prices[i],
                     item_totals = item_totals[i],
                 )
-
-
-
-                # Deducting qty to stock
-                # selected_sku.stock_qty = int(selected_sku.stock_qty - int(qtys[i]))
-                # selected_sku.save()
 
             messages.add_message(request, messages.SUCCESS, 'Order Exchange Successful!!')
             return redirect('test_message')
