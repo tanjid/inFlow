@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import TestMessage, OrderListView, NewOrderView, OrderHome, CompleteListView, ReturnListView, CancelListView, OrderDm, EditOrder
-from .views import confirm_order, SingleConfirmView, ExchangeOrder, ReturnOrder, return_single, confirm_single, cancel_order, ExchangeItems, load_order_data, load_mobile_data
+from orders.views import TestMessage, OrderListView, NewOrderView, OrderHome, CompleteListView, ReturnListView, CancelListView, OrderDm, EditOrder
+from orders.views import confirm_order, SingleConfirmView, ExchangeOrder, ReturnOrder, return_single, confirm_single, cancel_order, ExchangeItems, load_order_data, load_mobile_data
 
 urlpatterns = [
     # ...
