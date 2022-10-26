@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from .views import TestMessage, OrderListView, NewOrderView, OrderHome, CompleteListView, ReturnListView, CancelListView, OrderDm, EditOrder, confirm_order, SingleConfirmView, ExchangeOrder, ReturnOrder, return_single, confirm_single, cancel_order, ExchangeItems
 from . import views
 
 
