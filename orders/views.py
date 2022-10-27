@@ -5,7 +5,7 @@ from .models import *
 from _keenthemes.libs.theme import KTTheme
 from django.urls import reverse
 
-from .forms import NewDeliveryMethodForm, NewOrderForm
+from .forms import NewOrderForm
 from django.contrib import messages
 from django.http import JsonResponse
 from products.models import Product
@@ -14,7 +14,6 @@ from django.views.generic.edit import FormMixin
 import random
 from .models import NewOrder, OrderDetails
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages import get_messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView
 # Create your views here.

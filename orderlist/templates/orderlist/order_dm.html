@@ -12,9 +12,11 @@
 <div class="row">
 	{% for dm in dm_list %}
 	{% if status_name == "Complete" %}
-	<a class="col-md-3 text-center pt-5" href="{% url 'complete_list' dm.id %}">
+	<a class="col-md-3 text-center pt-5" href="{% url 'list_complete_list' dm.id %}">
 		{% elif status_name == "Return" %}
-	<a class="col-md-3 text-center pt-5" href="{% url 'return_list' dm.id %}">
+	<a class="col-md-3 text-center pt-5" href="{% url 'list_return_list' dm.id %}">
+		{% elif status_name == "Cancel" %}
+	<a class="col-md-3 text-center pt-5" href="{% url 'list_cancel_list' dm.id %}">
 		{% else %}
 		<a class="col-md-3 text-center pt-5" href="{% url 'orderlist_dt_list'  dm.id status_name %}">
 			{% endif %}

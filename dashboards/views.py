@@ -9,6 +9,7 @@ from pprint import pprint
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import QuickSearchForm
 from orders.models import NewOrder
+from django.contrib import messages
 from django.shortcuts import render, redirect
 """
 This file is a view controller for multiple pages as a module.
@@ -105,6 +106,52 @@ class QuickSearchView(TemplateView):
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         form = QuickSearchForm(request.POST)
+
+        if 'ad_note' in request.POST:
+
+            note = request.POST.get('new_note')
+            order_id = request.POST.get('order_id')
+            main_order = NewOrder.objects.get(pk=order_id)
+            main_order.note = note
+            main_order.save()
+            messages.add_message(request, messages.SUCCESS, f'Note added to {main_order.invoice_number}')
+            context['orders'] = [main_order]
+            search_contetn_m = request.POST.get('search_contetn_m')
+            search_contetn_o = request.POST.get('search_contetn_o')
+            if search_contetn_m:
+                context['orders'] = NewOrder.objects.filter(mobille_number__icontains = search_contetn_m)
+                print(f"search_contetn_m: {search_contetn_m}")
+            elif search_contetn_o:
+                print(f"search_contetn_o: {search_contetn_o}")
+                context['orders'] = NewOrder.objects.filter(invoice_number = search_contetn_o)
+
+
+            # context['orders'] = request.POST.get('orders')
+            
+            return self.render_to_response(context)
+
+        if 'return_note' in request.POST:
+
+            note = request.POST.get('new_return_note')
+            order_id = request.POST.get('order_id')
+            main_order = NewOrder.objects.get(pk=order_id)
+            main_order.return_note = note
+            main_order.save()
+            messages.add_message(request, messages.SUCCESS, f'Rtn Note added to {main_order.invoice_number}')
+            context['orders'] = [main_order]
+            search_contetn_m = request.POST.get('search_contetn_m')
+            search_contetn_o = request.POST.get('search_contetn_o')
+            if search_contetn_m:
+                context['orders'] = NewOrder.objects.filter(mobille_number__icontains = search_contetn_m)
+                # print(f"search_contetn_m: {search_contetn_m}")
+            elif search_contetn_o:
+                # print(f"search_contetn_o: {search_contetn_o}")
+                context['orders'] = NewOrder.objects.filter(invoice_number = search_contetn_o)
+
+
+            # context['orders'] = request.POST.get('orders')
+            
+            return self.render_to_response(context)
         if form.is_valid():
             mobile_number = form.cleaned_data['mobile_number']
             invoive_number = form.cleaned_data['invoive_number']
@@ -112,9 +159,12 @@ class QuickSearchView(TemplateView):
             if mobile_number:
                 orders = NewOrder.objects.filter(mobille_number__icontains = mobile_number)
                 search_contetn = mobile_number
+                context['search_contetn_m'] = mobile_number
+
             elif invoive_number:
                 orders = NewOrder.objects.filter(invoice_number = invoive_number)
-                search_contetn = orders
+                search_contetn = invoive_number
+                context['search_contetn_o'] = invoive_number
             if orders:
                 context['orders'] = orders
             else:

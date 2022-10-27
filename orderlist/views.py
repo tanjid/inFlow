@@ -196,4 +196,112 @@ class OrderListView(LoginRequiredMixin, ListView):
             # print(request.user)
             return render(request, 'orders/stock_checklist.html', context)
 
-  
+class CompleteListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders.html'
+    login_url = '/employees/login/'
+    paginate_by = 10
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = "Complete"
+        dm = self.kwargs['dm']       
+        
+        context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # if status_name == "Printed":
+        # #     print(status_name)
+        #     KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+
+    def get_queryset(self):
+        status_name = "Complete"
+        dm = self.kwargs['dm']
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name, is_active=True).distinct()
+        return new_order
+
+class ReturnListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders.html'
+    login_url = '/employees/login/'
+    paginate_by = 10
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = "Return"
+        dm = self.kwargs['dm']       
+        
+        context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # if status_name == "Printed":
+        # #     print(status_name)
+        #     KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+
+    def get_queryset(self):
+        status_name = "Return"
+        dm = self.kwargs['dm']
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name, is_active=True).distinct()
+        return new_order
+        
+class CancelListView(LoginRequiredMixin, ListView):
+    template_name = 'orders/orders.html'
+    login_url = '/employees/login/'
+    paginate_by = 10
+    context_object_name = 'new_order'
+
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
+        status_name = "Cancel"
+        dm = self.kwargs['dm']       
+        
+        context['status_name'] = status_name
+        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # if status_name == "Printed":
+        # #     print(status_name)
+        #     KTTheme.addVendor('m_datatables')
+
+
+
+        return context
+
+    def get_queryset(self):
+        status_name = "Cancel"
+        dm = self.kwargs['dm']
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
+        new_order = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name, is_active=True).distinct()
+        return new_order

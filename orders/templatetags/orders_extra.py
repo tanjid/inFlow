@@ -61,6 +61,7 @@ def get_actions(orders):
     cancel_order = f'<div class="menu-item px-3"><a href="/orders/cancel_order/{orders.id}"class="menu-link px-3" id="exchange-button">Cancel</a></div>'
     confirm_sigle_order = f'<div class="menu-item px-3"><a href="/orders/confirm_sigle_order/{orders.id}"class="menu-link px-3" id="exchange-button">Par Confirm</a></div>'
 
+
     if "Shipping" in status_list:
         code = mark_safe(f'{main}{confirm}{return_order}{confirm_sigle_order}</div>')
     elif "Initial" in status_list:
