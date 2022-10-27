@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'storages',
 ]
-
+LOGIN_URL = '/employees/login/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    '_keenthemes.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = '_keenthemes.urls'
