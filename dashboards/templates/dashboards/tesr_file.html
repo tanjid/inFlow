@@ -5,4 +5,64 @@
 
 {% block content %}
 <h1>test</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<div class="row">
+
+    <div class="col-lg-8">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+<script>
+    {% comment %} const labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+    ]; {% endcomment %}
+
+    const labels = [
+    {% for obj in data1 %}
+    '{{obj}}',
+    {% endfor %}
+    ]
+
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: 'RetailBD',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [20, 20, 20, 25, 222, 20],
+        },{
+        
+            label: 'Mahir',
+            backgroundColor: 'rgb(76, 74, 135)',
+            borderColor: 'rgb(76, 74, 135)',
+            data: [20, 20, 20, 25, 152, 20],
+        },{
+        
+            label: 'EyecareBD',
+            backgroundColor: 'rgb(76, 74, 135)',
+            borderColor: 'rgb(76, 74, 135)',
+            data: [20, 20, 20, 25, 100, 20],
+        }
+        ]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options: {}
+    };
+</script>
+
+<script>
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+</script>
 {% endblock %}

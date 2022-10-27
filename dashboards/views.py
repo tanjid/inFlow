@@ -11,6 +11,7 @@ from .forms import QuickSearchForm
 from orders.models import NewOrder
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from datetime import datetime, timedelta
 """
 This file is a view controller for multiple pages as a module.
 Here you can override the page view layout.
@@ -20,7 +21,7 @@ Refer to dashboards/urls.py file for more pages.
 class DashboardsView(LoginRequiredMixin, TemplateView):
     # Default template file
     # Refer to dashboards/urls.py file for more pages and template files
-    template_name = 'pages/dashboards/index.html'
+    template_name = 'dashboards/tesr_file.html'
     login_url = '/employees/login/'
 
     # Predefined function
@@ -28,23 +29,18 @@ class DashboardsView(LoginRequiredMixin, TemplateView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
 
-        """
-        # Example to get page name. Refer to dashboards/urls.py file.
-        url_name = resolve(self.request.path_info).url_name
-
-        if url_name == 'dashboard-2':
-            # Example to override settings at the runtime
-            settings.KT_THEME_DIRECTION = 'rtl'
-        else:
-            settings.KT_THEME_DIRECTION = 'ltr'
-        """
-
         # A function to init the global layout. It is defined in _keenthemes/__init__.py file
         context = KTLayout.init(context)
-
-        # Include vendors and javascript files for dashboard widgets
-        KTTheme.addVendors(['amcharts', 'amcharts-maps', 'amcharts-stock'])
-
+        today = datetime.strftime(datetime.now(), '%a')
+        today1 = datetime.strftime(datetime.now() - timedelta(1) , '%a')
+        today2 = datetime.strftime(datetime.now() - timedelta(2) , '%a')
+        today3 = datetime.strftime(datetime.now() - timedelta(3) , '%a')
+        today4 = datetime.strftime(datetime.now() - timedelta(4) , '%a')
+        today5 = datetime.strftime(datetime.now() - timedelta(5) , '%a')
+        today6 = datetime.strftime(datetime.now() - timedelta(6) , '%a')
+        print(today)
+        context['data1'] = [today6, today5, today4, today3, today2, today1, today]
+        print(context['data1'])
         return context
 
 class TestFileView(LoginRequiredMixin, TemplateView):

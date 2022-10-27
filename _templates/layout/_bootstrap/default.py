@@ -25,15 +25,15 @@ class KTBootstrapDefault:
 
     def initAssets(context):
         # Include global vendors
-        KTTheme.addVendors(['datatables', 'fullcalendar'])
+        # KTTheme.addVendors(['datatables', 'fullcalendar'])
 
         # Include global javascript files
-        KTTheme.addJavascriptFile('js/widgets.bundle.js')
-        KTTheme.addJavascriptFile('js/custom/apps/chat/chat.js')
-        KTTheme.addJavascriptFile('js/custom/utilities/modals/upgrade-plan.js')
-        KTTheme.addJavascriptFile('js/custom/utilities/modals/create-app.js')
-        KTTheme.addJavascriptFile('js/custom/utilities/modals/users-search.js')
-        KTTheme.addJavascriptFile('js/custom/utilities/modals/new-target.js')
+        # KTTheme.addJavascriptFile('js/widgets.bundle.js')
+        # KTTheme.addJavascriptFile('js/custom/apps/chat/chat.js')
+        # KTTheme.addJavascriptFile('js/custom/utilities/modals/upgrade-plan.js')
+        # KTTheme.addJavascriptFile('js/custom/utilities/modals/create-app.js')
+        # KTTheme.addJavascriptFile('js/custom/utilities/modals/users-search.js')
+        # KTTheme.addJavascriptFile('js/custom/utilities/modals/new-target.js')
 
         return context
 
