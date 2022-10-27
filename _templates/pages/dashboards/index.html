@@ -13,7 +13,7 @@ context.update({
 {% block content %}
 
 {{request.path}}
-{% if messages %}
+{% comment %} {% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
@@ -119,6 +119,6 @@ context.update({
     let orderMenu = document.getElementById("dashboard-menu");
     orderMenu.classList.add("show");
 
-</script> -->
+</script> --> {% endcomment %}
 
 {% endblock content %}

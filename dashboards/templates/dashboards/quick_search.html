@@ -9,7 +9,63 @@
 
 {% load orders_extra %}
 {% block content %}
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font: 16px Arial;  
+    }
+    
+    /*the container must be positioned relative:*/
+    .autocomplete {
+      position: relative;
+      display: inline-block;
+    }
+    
+    input {
+      border: 1px solid transparent;
+      background-color: #f1f1f1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    
+    input[type=text] {
+      background-color: #f1f1f1;
+      width: 100%;
+    }
+    
+    input[type=submit] {
+      background-color: DodgerBlue;
+      color: #fff;
+      cursor: pointer;
+    }
+    
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-bottom: none;
+      border-top: none;
+      z-index: 99;
+      /*position the autocomplete items to be the same width as the container:*/
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+    
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      border-bottom: 1px solid #d4d4d4; 
+    }
+    
 
+    /*when navigating through the items using the arrow keys:*/
+    .autocomplete-active {
+      background-color: DodgerBlue !important;  
+    }
+    </style>
 
 {% if objective == 'con' %}
 <h1>Search for Confirm</h1>
@@ -155,7 +211,7 @@
                                 <div class="modal-content">
 
                                     <div class="modal-body">
-                                        <form action="" method="post">
+                                        <form action="" method="post" autocomplete="off">
                                             {% csrf_token %}
                                             <div class="rounded border d-flex flex-column p-10">
                                                 <input type="hidden" value="{{order.id}}" name="order_id">
@@ -165,8 +221,10 @@
                                                     name="search_contetn_o">
                                                 <label for="" class="form-label">Add Rtn Note to
                                                     {{order.invoice_number}}</label>
-                                                <textarea class="form-control" data-kt-autosize="true"
-                                                    name="new_return_note">{% if order.return_note %}{{order.return_note}}{% endif %}</textarea>
+                                                    <div class="autocomplete">
+                                                <textarea class="form-control aut_sug" data-kt-autosize="true"
+                                                    name="new_return_note" id="myInput{{order.id}}">{% if order.return_note %}{{order.return_note}}{% endif %}</textarea>
+                                                </div>
                                             </div>
 
 
@@ -207,6 +265,7 @@
                 <td class="">
 
                     {% if objective == 'con' %}
+
                     <a href="{% url 'confirm_order' order.id  %}">Confirm</a>
                     {% elif objective == 'rtn' %}
                     <a href="{% url 'return_order' order.id  %}" target="_blank">Return</a>
@@ -241,4 +300,6 @@
 </div>
 
 {% endif %}
+
+
 {% endblock content %}
