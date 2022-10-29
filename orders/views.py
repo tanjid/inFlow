@@ -494,7 +494,7 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
                 active = True
             else:
                 active = False
-            print(f"value: {value}, active: {active}")
+            # print(f"value: {value}, active: {active}")
             new_order = NewOrder.objects.create(
                 mobille_number = form.cleaned_data['number'],
                 name = form.cleaned_data['name'],
@@ -511,6 +511,11 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
                 company = current_employee.assigned_company,
                 is_active = active
             )
+            new_order.decide_review_status()
+
+            if new_order.in_review:
+                messages.add_message(request, messages.INFO, 'You order in Review Please Notify admin for approval')
+
 
             # for mysku, myqty in zip(skus, qtys, product_prices, item_totals):
             #     selected_sku = Product.objects.get(sku=mysku)

@@ -1,9 +1,8 @@
-from email.policy import default
 from django.db import models
 from products.models import Product
 from employees.models import Employee
 from sites.models import Company
-
+from django.contrib import messages
 # Create your models here.
 class DeliveryMethod(models.Model):
     name = models.CharField(max_length=20, unique = True)
@@ -31,6 +30,7 @@ class NewOrder(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.RESTRICT,null=True, blank=True,)
     company = models.ForeignKey(Company, on_delete=models.RESTRICT,null=True, blank=True,)
     is_active = models.BooleanField(default=False)
+    in_review = models.BooleanField(default=False)
     # items = models.ManyToManyField(OrderDetails,blank=True,)
 
     class Meta:
@@ -38,6 +38,14 @@ class NewOrder(models.Model):
 
     def __str__(self):
         return str(self.invoice_number)
+
+    def decide_review_status(self):
+        if self.advance > 0:
+            self.in_review = True
+            self.save()
+        if self.discount > self.total_price * .05:
+            self.in_review = True
+            self.save()
 
 
 

@@ -6,13 +6,57 @@
 {% block content %}
 <h1>test</h1>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
-<div class="row">
 
-    <div class="col-lg-8">
+
+
+<div class="card table-responsive p-5 col-lg-8 m-2">
+    <button class="btn btn-danger me-5 mb-5">
+       Order in Review <span class="badge badge-circle badge-primary ms-2">{{low_stock}}</span>
+   </button>
+    
+    <table class="table text-center">
+       <thead>
+          <tr class="fw-bold fs-6 text-gray-800">
+             <th>#</th>
+             <th>Invoice</th>
+             <th>Discount</th>
+             <th>Advance</th>
+             <th>By</th>
+             <th>Date</th>
+
+             <th>Actions</th>
+          </tr>
+       </thead>
+       <tbody>
+
+          {% for p in order_in_review %}
+          <tr>
+             <td><a href="" class="btn">{{forloop.counter}}</a></td>
+             <td><div class="mt-4">{{p.invoice_number}}</div></td>
+             <td><div class="mt-4">{{p.discount}}</div></td>
+             <td><div class="mt-4">{{p.advance}}</div></td>
+             <td><div class="mt-4">{{p.employee}}</div></td>
+             <td><div class="mt-4">{{p.created_at}}</div></td>
+
+
+             <td><a href="{% url 'approve_order' p.id %}" class="btn btn-primary"><i
+                      class="bi bi-toggle2-off fs-4 me-2"></i> Check</a></td>
+             <td><a href=""></a></td>
+          </tr>
+          {% endfor %}
+       </tbody>
+    </table>
+ </div>
+
+ <div class="row mt-5">
+
+    <div class="col-lg-6">
         <canvas id="myChart"></canvas>
     </div>
-</div>
 
+
+
+</div>
 <script>
     {% comment %} const labels = [
         'January',

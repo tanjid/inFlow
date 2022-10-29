@@ -38,10 +38,22 @@ class DashboardsView(LoginRequiredMixin, TemplateView):
         today4 = datetime.strftime(datetime.now() - timedelta(4) , '%a')
         today5 = datetime.strftime(datetime.now() - timedelta(5) , '%a')
         today6 = datetime.strftime(datetime.now() - timedelta(6) , '%a')
-        print(today)
+
         context['data1'] = [today6, today5, today4, today3, today2, today1, today]
-        print(context['data1'])
+        
+        # Order in Review
+        context['order_in_review'] = NewOrder.objects.filter(in_review= True)
+        
+        
         return context
+
+def approve_order(request, order_id):
+    order = NewOrder.objects.get(pk=order_id)
+    order.in_review = False
+    order.save()
+    messages.add_message(request, messages.SUCCESS, f'Order {order.invoice_number} is now approved')
+
+    return redirect('index')
 
 class TestFileView(LoginRequiredMixin, TemplateView):
     # Default template file
