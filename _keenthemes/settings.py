@@ -19,7 +19,6 @@ from django.core.management.utils import get_random_secret_key
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -60,7 +59,14 @@ INSTALLED_APPS = [
     'orderlist',
     'widget_tweaks',
     'storages',
+    'django_q',
 ]
+
+Q_CLUSTER = {
+    'retry': 5,
+    "name": "shop",
+    "orm": "default",  # Use Django's ORM + database for broker
+}
 LOGIN_URL = '/employees/login/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -175,7 +181,6 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-US'
 
 TIME_ZONE = 'Asia/Dacca'
-
 USE_I18N = True
 
 USE_TZ = True

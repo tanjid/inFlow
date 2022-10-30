@@ -6,6 +6,21 @@ import random
 
 # Create your models here.
 
+class EmplpyeePoints(models.Model):
+    name = models.CharField(max_length=50, default="admin")
+    total = models.IntegerField(default=0)
+    new_order = models.IntegerField(default=0)
+    complete_order = models.IntegerField(default=0)
+    return_order = models.IntegerField(default=0)
+    ad_note = models.IntegerField(default=0)
+    rtn_note = models.IntegerField(default=0)
+    search = models.IntegerField(default=0)
+    misc = models.IntegerField(default=0)
+    def save(self, *args, **kwargs):
+        self.total = self.new_order + self.complete_order + self.return_order + self.ad_note + self.rtn_note + self.search + self.misc
+        super(EmplpyeePoints, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.name
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=50)
@@ -25,6 +40,7 @@ class Employee(models.Model):
     current_salary = models.IntegerField(null=True, blank=True)
     current_advance = models.IntegerField(null=True, blank=True)
     causal_leave = models.IntegerField(null=True, blank=True)
+    points = models.ForeignKey(EmplpyeePoints, on_delete=models.RESTRICT, null=True, blank=True)
 
     
 
@@ -62,4 +78,6 @@ class EmployeePermission(models.Model):
 
     def __str__(self):
      return str(self.user)
+
+
 
