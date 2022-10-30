@@ -1,19 +1,19 @@
 
-
 # Create your models here.
-from email.policy import default
+
 from django.db import models
 from employees.models import Employee
 
+
 # Create your models here.
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=20, unique = True)
+    name = models.CharField(max_length=20, unique = True,db_index=True)
 
     def __str__(self):
         return str(self.name)
 
 class ProductBrand(models.Model):
-    name = models.CharField(max_length=20, unique = True)
+    name = models.CharField(max_length=20, unique = True, db_index=True)
 
     def __str__(self):
         return str(self.name)
@@ -23,7 +23,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=20, unique = True,db_index=True)
     category = models.ForeignKey(ProductCategory, on_delete=models.DO_NOTHING, null=True, blank=True)
     brand = models.ForeignKey(ProductBrand, on_delete=models.DO_NOTHING, null=True, blank=True)
-    warranty = models.CharField(max_length=20)
+    warranty = models.CharField(max_length=20, null=True, blank=True)
     warranty_policy = models.TextField(null=True, blank=True)
     cost_price = models.IntegerField()
     sell_price = models.IntegerField()
@@ -34,6 +34,7 @@ class Product(models.Model):
 
     def __str__(self):
         return str(self.sku)
+
 
     def decrese_stock(self, qty):
         self.stock_qty -= qty

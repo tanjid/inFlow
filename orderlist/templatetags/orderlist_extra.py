@@ -38,14 +38,14 @@ def calculate_t_qty(value):
 def st_order_count(value):
     # order_count = NewOrder.objects.filter(items__status=value).distinct().count()
     order_count = OrderDetails.objects.filter(main_order__is_active=True, status = value).distinct('main_order').count()
-    return order_count
+    return ""
 
 
 @register.simple_tag
 def order_dm_count( st, dm, user):
     company_name= Employee.objects.get(user=user).assigned_company
     order_count = OrderDetails.objects.filter(main_order__delivery_method=dm, status=st, main_order__company=company_name, main_order__is_active=True).distinct('main_order').count()
-    return order_count
+    return ""
     
 @register.simple_tag
 def get_actions(orders):

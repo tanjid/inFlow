@@ -7,6 +7,7 @@ from _keenthemes.libs.theme import KTTheme
 from django.contrib.auth.mixins import LoginRequiredMixin
 from orders.models import NewOrder, OrderDetails
 from django.contrib import messages
+
 # Create your views here.
 class Home(ListView):
     template_name = 'orderlist/home.html'
@@ -21,6 +22,8 @@ class Home(ListView):
         
         company_name = Employee.objects.get(user=self.request.user).assigned_company
         new_order = NewOrder.objects.filter(company = company_name, is_active=True).distinct()
+        latest = NewOrder.objects.filter(company = company_name).distinct()[:5]
+        new_order = latest + new_order
         return new_order
 
 
@@ -60,13 +63,14 @@ class OrderHome(TemplateView):
 
 
 class OrderListView(LoginRequiredMixin, ListView):
-    template_name = 'orders/orders.html'
+    template_name = 'orderlist/orders.html'
     login_url = '/employees/login/'
     context_object_name = 'new_order'
 
-
+    
 
     def get_context_data(self, **kwargs):
+        company_name = Employee.objects.get(user=self.request.user).assigned_company
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
 
@@ -76,7 +80,7 @@ class OrderListView(LoginRequiredMixin, ListView):
         # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
         status_name = self.kwargs['st']
         dm = self.kwargs['dm']       
-        
+        context['latest'] = NewOrder.objects.filter(delivery_method=dm, orderdetails__status = status_name, company = company_name).distinct().order_by('-created_at')[:5]
         context['status_name'] = status_name
         KTTheme.addJavascriptFile('js/custom/order_list.js')
         if status_name == "Printed":

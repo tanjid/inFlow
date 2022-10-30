@@ -10,6 +10,7 @@ from employees.models import Employee
 from django.contrib import messages
 from .forms import AdjustStockForm
 from django.db.models import Q
+import csv
 # Create your views here.
 class CurrentStockListView(ListView):
     model = Product
@@ -83,6 +84,55 @@ class AdjustStockView(FormMixin, TemplateView):
             return redirect('adjust_stock')
 
 class LowStockView(TemplateView):
+    # with open('products/brand.csv', 'r') as csvfile:
+    #     read_csv = csv.DictReader(csvfile)
+
+    #     for row in read_csv:
+    #         print(row['name'])
+
+    #         if ProductBrand.objects.filter(name=row['name']).exists():
+    #             pass
+                
+    #         else:
+    #             ProductBrand.objects.create(
+    #                 name=row['name']
+    #             )
+    # with open('products/category.csv', 'r') as csvfile:
+    #     read_csv = csv.DictReader(csvfile)
+
+    #     for row in read_csv:
+    #         print(row['name'])
+
+    #         if ProductCategory.objects.filter(name=row['name']).exists():
+    #             pass
+                
+    #         else:
+    #             ProductCategory.objects.create(
+    #                 name=row['name']
+    #             )
+    # with open('products/product.csv', 'r') as csvfile:
+    #     read_csv = csv.DictReader(csvfile)
+
+    #     for row in read_csv:
+    #         print(f"{row['name']} ")
+
+    #         if Product.objects.filter(sku=row['sku']).exists():
+    #             pass
+                
+    #         else:
+    #             Product.objects.create(
+    #                 name=row['name'],
+    #                 sku=row['sku'],
+    #                 warranty=row['warranty'],
+    #                 warranty_policy=row['warranty_policy'],
+    #                 cost_price=int(row['price'].replace(',','')),
+    #                 sell_price=int(row['sell_price'].replace(',','')),
+    #                 alert_qty=2,
+    #                 stock_qty=10,
+    #                 product_image=row['product_image'],
+    #             )
+
+
     template_name = 'products/low_stock_notification.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -151,3 +201,6 @@ def stock_click_mkt(request, stock_id):
         sku.save()
 
     return redirect('low_stock')
+
+
+
