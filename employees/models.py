@@ -21,6 +21,22 @@ class EmplpyeePoints(models.Model):
         super(EmplpyeePoints, self).save(*args, **kwargs)
     def __str__(self):
         return self.name
+
+class EmplpyeePointsHour(models.Model):
+    name = models.CharField(max_length=50, default="admin")
+    total = models.IntegerField(default=0)
+    new_order = models.IntegerField(default=0)
+    complete_order = models.IntegerField(default=0)
+    return_order = models.IntegerField(default=0)
+    ad_note = models.IntegerField(default=0)
+    rtn_note = models.IntegerField(default=0)
+    search = models.IntegerField(default=0)
+    misc = models.IntegerField(default=0)
+    def save(self, *args, **kwargs):
+        self.total = self.new_order + self.complete_order + self.return_order + self.ad_note + self.rtn_note + self.search + self.misc
+        super(EmplpyeePointsHour, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.name
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=50)
