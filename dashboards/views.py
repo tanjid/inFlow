@@ -44,16 +44,17 @@ class DashboardsView(LoginRequiredMixin, TemplateView):
         # Order in Review
         now = datetime.now()
         current_hour = int(now.strftime('%H'))
-        print(f"current_hour{current_hour}")
+        current_day = int(now.strftime('%d'))
         context['order_in_review'] = NewOrder.objects.filter(in_review= True)
         total_point_list = []
         em_list = Employee.objects.all()
         label_list = []
+        em_points = EmplpyeePoints.objects.filter(created__day=current_day)
         for em in em_list:
             label_list.append(em.name)
-            pass
-            points = EmplpyeePoints.objects.filter(employee = Employee.objects.get(pk=em.id), created__hour=int(current_hour), created= datetime.today())
-            points = points.aggregate(total = Sum('total'))
+            # pass
+            # points = EmplpyeePoints.objects.filter(employee = Employee.objects.get(pk=em.id), created__hour=int(current_hour), created= datetime.today())
+            # points = points.aggregate(total = Sum('total'))
             hour_list = []
             points_list = []
             
@@ -61,7 +62,7 @@ class DashboardsView(LoginRequiredMixin, TemplateView):
             for i in range(9,-1, -1):
                 hour = current_hour-i
                 hour_list.append(hour)
-                points = EmplpyeePoints.objects.filter(employee = Employee.objects.get(pk=em.id), created__hour=int(hour))
+                points = em_points.filter(employee = Employee.objects.get(pk=em.id), created__hour=int(hour))
                 points = points.aggregate(total = Sum('total'))
 
                 if points['total']:
