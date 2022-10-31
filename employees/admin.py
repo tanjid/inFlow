@@ -5,4 +5,3 @@ from .models import *
 admin.site.register(Employee)
 admin.site.register(EmployeePermission)
 admin.site.register(EmplpyeePoints)
-admin.site.register(EmplpyeePointsHour)

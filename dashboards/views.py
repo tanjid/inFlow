@@ -1,8 +1,5 @@
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormMixin
-from django.http import HttpResponse
-from django.conf import settings
-from django.urls import resolve
 from _keenthemes.__init__ import KTLayout
 from _keenthemes.libs.theme import KTTheme
 from pprint import pprint
@@ -12,6 +9,8 @@ from orders.models import NewOrder
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from datetime import datetime, timedelta
+from employees.models import Employee, EmplpyeePoints
+from django.db.models import Avg, Count, Min, Sum
 import csv
 """
 This file is a view controller for multiple pages as a module.
@@ -43,8 +42,48 @@ class DashboardsView(LoginRequiredMixin, TemplateView):
         context['data1'] = [today6, today5, today4, today3, today2, today1, today]
         
         # Order in Review
+        now = datetime.now()
+        current_hour = int(now.strftime('%H'))
+        print(f"current_hour{current_hour}")
         context['order_in_review'] = NewOrder.objects.filter(in_review= True)
-        
+        total_point_list = []
+        em_list = Employee.objects.all()
+        label_list = []
+        for em in em_list:
+            label_list.append(em.name)
+            pass
+            points = EmplpyeePoints.objects.filter(employee = Employee.objects.get(pk=em.id), created__hour=int(current_hour), created= datetime.today())
+            points = points.aggregate(total = Sum('total'))
+            hour_list = []
+            points_list = []
+            
+            # context["points"] = points
+            for i in range(9,-1, -1):
+                hour = current_hour-i
+                hour_list.append(hour)
+                points = EmplpyeePoints.objects.filter(employee = Employee.objects.get(pk=em.id), created__hour=int(hour))
+                points = points.aggregate(total = Sum('total'))
+
+                if points['total']:
+
+                    points_list.append(points['total'])
+                else:
+
+                    points_list.append(0)
+                # points_list.append(points['total'])
+
+            total_point_list.append(points_list)
+        context['hour_list'] = hour_list
+        context['points_list'] = points_list
+        context['total_point_list'] = total_point_list
+
+        dict1 = {
+            'label': 'Tanjid',
+            'backgroundColor': 'rgb(255, 99, 132)',
+            'borderColor': 'rgb(255, 99, 132)',
+            'data': points_list,
+        }
+        context['label_list'] = label_list
         
         return context
 
@@ -115,7 +154,7 @@ class QuickSearchView(TemplateView):
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         form = QuickSearchForm(request.POST)
-
+        current_employee = Employee.objects.get(user=request.user)
         if 'ad_note' in request.POST:
 
             note = request.POST.get('new_note')
@@ -123,6 +162,15 @@ class QuickSearchView(TemplateView):
             main_order = NewOrder.objects.get(pk=order_id)
             main_order.note = note
             main_order.save()
+
+            # Add Ponts to Employee
+            EmplpyeePoints.objects.create(
+                employee=current_employee,
+                ad_note = 1
+            )
+
+
+
             messages.add_message(request, messages.SUCCESS, f'Note added to {main_order.invoice_number}')
             context['orders'] = [main_order]
             search_contetn_m = request.POST.get('search_contetn_m')
@@ -146,6 +194,18 @@ class QuickSearchView(TemplateView):
             main_order = NewOrder.objects.get(pk=order_id)
             main_order.return_note = note
             main_order.save()
+
+            # Add Ponts to Employee
+            
+            # points = current_employee.points
+            # points.rtn_note += 5
+            # points.save()
+
+            # Add Ponts to Employee
+            EmplpyeePoints.objects.create(
+                employee=current_employee,
+                rtn_note = 1
+            )
             messages.add_message(request, messages.SUCCESS, f'Rtn Note added to {main_order.invoice_number}')
             context['orders'] = [main_order]
             search_contetn_m = request.POST.get('search_contetn_m')

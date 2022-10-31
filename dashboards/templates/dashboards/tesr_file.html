@@ -1,9 +1,13 @@
 {% extends layout %}
 
-
+{% load orders_extra %}
 
 
 {% block content %}
+
+{{points}}
+{{points_list}}
+{{total_point_list}}
 <h1>test</h1>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
@@ -54,6 +58,10 @@
         <canvas id="myChart"></canvas>
     </div>
 
+    <div class="col-lg-6">
+        <canvas id="myChart2"></canvas>
+    </div>
+
 
 
 </div>
@@ -96,17 +104,53 @@
         ]
     };
 
+    const labels2 = {{hour_list}}
+    
+    {% comment %} [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+    ];  {% endcomment %}
+    const data2 = {
+        labels: labels2,
+        datasets: [
+        
+        {% for label in label_list %}
+        {
+            label: '{% label_formatter label_list forloop.counter %}',
+            // backgroundColor: 'rgb(255, 99, 132)',
+            backgroundColor: '{% cycle "lightgreen" "purple" "darkgreen" "lightblue" "darkblue" "yellow"%}',
+            borderColor: '{% cycle "lightgreen" "purple" "darkgreen" "lightblue" "darkblue" "yellow" %}',
+            //data: {{total_point_list.0}},
+            data: {% data_formatter total_point_list forloop.counter %},
+        },
+        {% endfor %}
+        ]
+    };
+
     const config = {
         type: 'line',
         data: data,
         options: {}
     };
-</script>
 
-<script>
+    const config2 = {
+        type: 'line',
+        data: data2,
+        options: {}
+    };
+
     const myChart = new Chart(
         document.getElementById('myChart'),
         config
+    );
+
+    const myChart2 = new Chart(
+        document.getElementById('myChart2'),
+        config2
     );
 </script>
 {% endblock %}

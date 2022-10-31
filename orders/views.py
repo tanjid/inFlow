@@ -9,7 +9,7 @@ from .forms import NewOrderForm
 from django.contrib import messages
 from django.http import JsonResponse
 from products.models import Product
-from employees.models import Employee
+from employees.models import Employee, EmplpyeePoints
 from django.views.generic.edit import FormMixin
 import random
 from .models import NewOrder, OrderDetails
@@ -545,6 +545,13 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
                 # selected_sku.save()
 
             messages.add_message(request, messages.SUCCESS, 'Order Created Successfully')
+
+            # Add Ponts to Employee
+            EmplpyeePoints.objects.create(
+                employee=current_employee,
+                new_order = 1
+            )
+
             return redirect('new_order')
         else:
             messages.add_message(request, messages.ERROR, 'There was a problem try again')  
@@ -627,13 +634,19 @@ def load_mobile_data(request, mobile_number):
 
 def confirm_order(request, order_id):
     orders = NewOrder.objects.get(id=order_id)
-
     for order in orders.orderdetails_set.all():
 
         if order.status == "Shipping":
             order.status = "Complete"
             order.save()
             messages.add_message(request, messages.SUCCESS, f'{order.sku} of {orders.invoice_number} Confirm Successful')
+
+            # Add Ponts to Employee
+            current_employee = Employee.objects.get(user=request.user)
+            EmplpyeePoints.objects.create(
+                employee=current_employee,
+                complete_order = 1
+            )
         else:
             messages.add_message(request, messages.ERROR, f'{order.sku} of {orders.invoice_number} is not in Cant be confirmed because its in {order.status}')
 
@@ -649,6 +662,13 @@ def return_single(request, order_id):
     main_order_details.status = "Return"
     main_order_details.save()
     # return redirect('test_message')
+    # Add Ponts to Employee
+    current_employee = Employee.objects.get(user=request.user)
+    EmplpyeePoints.objects.create(
+        employee=current_employee,
+        return_order = 1
+    )
+    
     messages.add_message(request, messages.SUCCESS, f'{main_order_details.sku} Returned Successfully!')
     return redirect('return_order',  order_id=main_order_details.main_order.id)
 
@@ -657,7 +677,15 @@ def confirm_single(request, order_id):
     # update order status
     main_order_details.status = "Complete"
     main_order_details.save()
-    return redirect('test_message')
+
+    # Add Ponts to Employee
+    current_employee = Employee.objects.get(user=request.user)
+    EmplpyeePoints.objects.create(
+        employee=current_employee,
+        complete_order = 1
+    )
+    messages.add_message(request, messages.SUCCESS, f'{main_order_details.sku} Confirmed Successfully!')
+    return redirect('confirm_sigle_order',  order_id=main_order_details.main_order.id)
 
 
 def cancel_order(request, order_id):
@@ -671,6 +699,8 @@ def cancel_order(request, order_id):
         # update order status
         item.status = "Cancel"
         item.save()
+
+
     messages.add_message(request, messages.SUCCESS, 'Order Cancel Successful')
     return redirect('test_message')
 
@@ -773,6 +803,13 @@ class ReturnOrder(TemplateView):
                     selec_product = Product.objects.get(sku=item.sku)
                     selec_product.increse_stock(qty=item.qty)
                     messages.add_message(request, messages.SUCCESS, f'{item.sku} Returned')
+
+                    # Add Ponts to Employee
+                    current_employee = Employee.objects.get(user=request.user)
+                    EmplpyeePoints.objects.create(
+                        employee=current_employee,
+                        return_order = 1
+                    )
                 else:
                     messages.add_message(request, messages.ERROR, f'{item.sku} is not Returned Because its in  {item.status}')
             return redirect('return_order',  order_id=order_id)

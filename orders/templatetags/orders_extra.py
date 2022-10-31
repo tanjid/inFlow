@@ -76,3 +76,13 @@ def get_actions(orders):
 
 
 
+@register.simple_tag
+def label_formatter(label_list, count):
+    name = label_list[int(count)-1]
+    first_name = name.split(' ').pop(0)
+    return first_name
+
+@register.simple_tag
+def data_formatter(total_point_list, count):
+    name = total_point_list[int(count)-1]
+    return name

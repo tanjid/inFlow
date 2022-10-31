@@ -48,7 +48,8 @@
 		<!--begin::Menu wrapper-->
 		<div class="cursor-pointer symbol symbol-35px symbol-md-40px" data-kt-menu-trigger="click"
 			data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
-			<img src="{{current_employee.image.url}}" alt="user" />
+			{% comment %} <img src="" alt="user" /> {% endcomment %}
+			<div class="symbol-label fs-2 fw-semibold text-success">A</div>
 		</div>
 
 		{% include 'partials/menus/_user-account-menu.html' %}
