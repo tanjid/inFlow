@@ -59,17 +59,8 @@ INSTALLED_APPS = [
     'orderlist',
     'widget_tweaks',
     'storages',
-    'django_q',
 ]
 
-Q_CLUSTER = {
-    'orm': 'default',  # should use django's ORM and database as a broker.
-    'workers': 4,
-    'timeout': 30,
-    'retry': 60,
-    'queue_limit': 50,
-    'bulk': 10,
-}
 LOGIN_URL = '/employees/login/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

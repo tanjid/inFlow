@@ -1,4 +1,2 @@
-
-
-def update_employes_point():
-    print("working em")
+def update_something():
+    print("this function runs every 10 seconds")
