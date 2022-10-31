@@ -63,9 +63,12 @@ INSTALLED_APPS = [
 ]
 
 Q_CLUSTER = {
-    'retry': 5,
-    "name": "shop",
-    "orm": "default",  # Use Django's ORM + database for broker
+    'orm': 'default',  # should use django's ORM and database as a broker.
+    'workers': 4,
+    'timeout': 30,
+    'retry': 60,
+    'queue_limit': 50,
+    'bulk': 10,
 }
 LOGIN_URL = '/employees/login/'
 MIDDLEWARE = [
