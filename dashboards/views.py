@@ -164,11 +164,8 @@ class QuickSearchView(TemplateView):
             main_order.note = note
             main_order.save()
 
-            # Add Ponts to Employee
-            EmplpyeePoints.objects.create(
-                employee=current_employee,
-                ad_note = 1
-            )
+            # Add Ponts to Employees
+            current_employee.add_points("ad_note")
 
 
 
@@ -197,16 +194,9 @@ class QuickSearchView(TemplateView):
             main_order.save()
 
             # Add Ponts to Employee
-            
-            # points = current_employee.points
-            # points.rtn_note += 5
-            # points.save()
+            current_employee.add_points("rtn_note")
 
-            # Add Ponts to Employee
-            EmplpyeePoints.objects.create(
-                employee=current_employee,
-                rtn_note = 1
-            )
+
             messages.add_message(request, messages.SUCCESS, f'Rtn Note added to {main_order.invoice_number}')
             context['orders'] = [main_order]
             search_contetn_m = request.POST.get('search_contetn_m')
@@ -239,5 +229,8 @@ class QuickSearchView(TemplateView):
                 context['orders'] = orders
             else:
                 context['no_orders'] = search_contetn
+
+            # Add Ponts to Employee
+            current_employee.add_points("search")
 
         return self.render_to_response(context)

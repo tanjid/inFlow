@@ -11,10 +11,6 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 	<!--end::Fonts-->
 	<!--begin::Page Vendor Stylesheets(used by this page)-->
-	<link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet"
-		type="text/css" />
-	<link href="{% static 'assets/plugins/custom/vis-timeline/vis-timeline.bundle.css' %}" rel="stylesheet"
-		type="text/css" />
 	<!--end::Page Vendor Stylesheets-->
 	<!--begin::Global Stylesheets Bundle(used by all pages)-->
 	<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
@@ -62,22 +58,15 @@
 							<div class="col-6 d-flex align-items-center">
 								<div class="row">
 									<div class="col-md-12">
-										<h6 class="mb-0">Stock-Check-List - {{company}}
-										</h6>
-										<h5 class="mb-0">SA Paribahan</h5>
+										<h6 class="mb-0">SCL- {{company}} - {{delivery_method}} - {{date_time}}- Total Invoice: {{order_inv_count}} Total Qty: {{sku_qty}}</h6>
+									</div> 
 									</div>
 								</div>
-							</div>
-							<div class="col-6 text-end noprint">
-								<a class="btn btn-outline-primary btn-sm mb-0" href="">GoBack</a>
 							</div>
 						</div>
 					</div>
 
 					<div class="row">
-						<div style="">
-							<p style="margin-left: 1%">Date :2022-10-04 05:49:48</p>
-						</div>
 						<div class="table-responsive" style="margin-top: -1%">
 							<table class="" style="align-items: center!important;margin-bottom: 0!important;width: 100%;
 									                                    color: #67748e;
@@ -85,7 +74,7 @@
 									                                    border-color: #e9ecef;" border="1">
 								<thead>
 									<tr>
-										<th style="text-align:center; width: 250px;">image</th>
+										<th style="text-align:center;">image</th>
 										<th style="text-align:center;">SKU</th>
 										<th style="text-align:center;">Quantity</th>
 										<th style="text-align:center;">Order Number</th>
@@ -101,7 +90,9 @@
 										<td style="text-align: center">
 
 
-                                        {{ value|calculate_qty }}
+                                        {% cal_item_qty value key %}
+										
+											{% comment %} {{ value|calculate_qty }} {% endcomment %}
 										</td>
 										<td style="text-align: center">
                                         {% for item in value %}
@@ -115,7 +106,7 @@
 
                                 {% endfor %}
 									<tr>
-										<td colspan="3" style="text-align:center;font-weight: 600; ">Total Qty : 13</td>
+										<td colspan="3" style="text-align:center;font-weight: 600; ">Total Qty : {{sku_qty}}</td>
 
 									</tr>
 								</tbody>

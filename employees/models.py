@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from sites.models import Company
 import random
-
+from datetime import datetime
 # Create your models here.
 
 
@@ -50,6 +50,85 @@ class Employee(models.Model):
 
         self.assigned_company.save()
         return inovice
+
+    def add_points(self, field):
+        now = datetime.now()
+        current_hour = int(now.strftime('%H'))
+        today = datetime.today().date()
+        employee = self
+        obj = EmplpyeePoints.objects.filter(employee=employee, created__date = today, created__hour = current_hour)
+        if obj.exists():
+            
+            em = obj[0]
+            if field == "new_order":
+                em.new_order += 1
+            elif field == "complete_order":
+                em.complete_order += 1
+            elif field == "return_order":
+                em.return_order += 1
+            elif field == "ad_note":
+                em.ad_note += 1
+            elif field == "rtn_note":
+                em.rtn_note += 1
+            elif field == "search":
+                em.search += 1
+            elif field == "misc":
+                em.misc += 1
+                
+            em.save()
+
+        else:
+            if field == "new_order":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    new_order = 1
+
+                )
+            elif field == "complete_order":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    complete_order = 1
+
+                )
+            elif field == "return_order":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    return_order = 1
+
+                )
+            elif field == "ad_note":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    ad_note = 1
+
+                )
+            elif field == "rtn_note":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    rtn_note = 1
+
+                )
+            elif field == "search":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    search = 1
+
+                )
+            elif field == "misc":
+                EmplpyeePoints.objects.create(
+                    employee=employee,
+                    misc = 1
+
+                )
+
+# class EmplyeeParentAcc(models.Model):
+#     name = models.CharField(max_length=30)
+#     employee = models.ForeignKey(Employee, on_delete = models.CASCADE, null=True, blank=True)
+#     is_parent = models.BooleanField(default=False)
+
+#     def __str__(self):
+#         return str(self.name)
+
 class EmplpyeePoints(models.Model):
     employee = models.ForeignKey(Employee, on_delete = models.CASCADE, null=True, blank=True)
     # name = models.CharField(max_length=50, default="admin")
@@ -65,8 +144,14 @@ class EmplpyeePoints(models.Model):
     def save(self, *args, **kwargs):
         self.total = (self.new_order * 10) + (self.complete_order *2) + (self.return_order *3)  + (self.ad_note * 6) + (self.rtn_note * 6) + self.search + self.misc
         super(EmplpyeePoints, self).save(*args, **kwargs)
+
+
+        # if field == "new_order":
+        #     self.new_order += 1
+        #     self.save()
+
     def __str__(self):
-        return str(self.employee)
+        return str(f"{self.employee} : {self.created.hour + 6}")
 
 class EmployeePermission(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, null=True, blank=True)

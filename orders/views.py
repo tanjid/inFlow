@@ -16,8 +16,11 @@ from .models import NewOrder, OrderDetails
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.edit import CreateView
-# Create your views here.
+from pytz import timezone
+from datetime import datetime
 
+# Create your views here.
+UTC = timezone('Asia/Kolkata')
 
 def test_message(request):
     messages.add_message(request, messages.INFO, 'Hellao world.')
@@ -312,7 +315,10 @@ class OrderListView(LoginRequiredMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         company = Employee.objects.get(user = request.user)
-
+        dm = self.kwargs['dm']
+        dm = DeliveryMethod.objects.get(pk=dm)
+        date_time = datetime.now(UTC)
+        
         if 'bulk' in request.POST:
             print(request.POST)
             orders = request.POST.getlist('selected-order')
@@ -382,17 +388,19 @@ class OrderListView(LoginRequiredMixin, ListView):
             orders = request.POST.getlist('selected-order')
             for order in orders:
                 my_order = NewOrder.objects.get(pk=order)
-                print(my_order.id)
+                # print(my_order.id)
                 order_list.append(my_order)
             
             sku_dict = {}
-
+            sku_qty = 0
             for order in order_list:
                 # skus = order.items.all()
+                
                 skus = order.orderdetails_set.all()
                 order_id = order
                 for sku in skus:
-
+                    sku_qty += sku.qty
+                    # print(sku_qty)
                     if sku.sku in sku_dict:
                         sku_dict[sku.sku].append(order_id)
 
@@ -400,10 +408,14 @@ class OrderListView(LoginRequiredMixin, ListView):
                         sku_dict[sku.sku] = [order_id]
             
             company = Employee.objects.get(user=request.user).assigned_company
-            
+            order_inv_count = len(order_list)
             context = {
                 'order_list': sku_dict,
                 'company': company,
+                'delivery_method': dm,
+                'date_time': date_time,
+                'sku_qty': sku_qty,
+                'order_inv_count': order_inv_count,
             }
             # print(request.user)
             return render(request, 'orders/stock_checklist.html', context)
@@ -547,10 +559,8 @@ class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateV
             messages.add_message(request, messages.SUCCESS, 'Order Created Successfully')
 
             # Add Ponts to Employee
-            EmplpyeePoints.objects.create(
-                employee=current_employee,
-                new_order = 1
-            )
+            current_employee.add_points("new_order")
+            
 
             return redirect('new_order')
         else:
@@ -643,10 +653,7 @@ def confirm_order(request, order_id):
 
             # Add Ponts to Employee
             current_employee = Employee.objects.get(user=request.user)
-            EmplpyeePoints.objects.create(
-                employee=current_employee,
-                complete_order = 1
-            )
+            current_employee.add_points("complete_order")
         else:
             messages.add_message(request, messages.ERROR, f'{order.sku} of {orders.invoice_number} is not in Cant be confirmed because its in {order.status}')
 
@@ -664,10 +671,7 @@ def return_single(request, order_id):
     # return redirect('test_message')
     # Add Ponts to Employee
     current_employee = Employee.objects.get(user=request.user)
-    EmplpyeePoints.objects.create(
-        employee=current_employee,
-        return_order = 1
-    )
+    current_employee.add_points("return_order")
     
     messages.add_message(request, messages.SUCCESS, f'{main_order_details.sku} Returned Successfully!')
     return redirect('return_order',  order_id=main_order_details.main_order.id)
@@ -680,10 +684,9 @@ def confirm_single(request, order_id):
 
     # Add Ponts to Employee
     current_employee = Employee.objects.get(user=request.user)
-    EmplpyeePoints.objects.create(
-        employee=current_employee,
-        complete_order = 1
-    )
+    current_employee.add_points("complete_order")
+
+
     messages.add_message(request, messages.SUCCESS, f'{main_order_details.sku} Confirmed Successfully!')
     return redirect('confirm_sigle_order',  order_id=main_order_details.main_order.id)
 
@@ -806,10 +809,7 @@ class ReturnOrder(TemplateView):
 
                     # Add Ponts to Employee
                     current_employee = Employee.objects.get(user=request.user)
-                    EmplpyeePoints.objects.create(
-                        employee=current_employee,
-                        return_order = 1
-                    )
+                    current_employee.add_points("return_order")
                 else:
                     messages.add_message(request, messages.ERROR, f'{item.sku} is not Returned Because its in  {item.status}')
             return redirect('return_order',  order_id=order_id)

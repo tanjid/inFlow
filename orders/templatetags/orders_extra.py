@@ -17,15 +17,44 @@ def get_proper_elided_page_range(p, number, on_each_side=1, on_ends=1):
 
 @register.filter(name='calculate_qty')
 def calculate_qty(value):
-    quantity = 0
+    print(value)
     for item in value:
+        print(value)
+        quantity = 0
+        print(f"quantity: {quantity}")
         for dt in item.orderdetails_set.all():
-            quantity += dt.qty
+            print(dt)
+            c_sku = dt.sku
+            if dt.sku == c_sku:
+                quantity = dt.qty
+            else:
+                quantity += dt.qty
+        print(f"quantity: {quantity}")
 
     return quantity
 
+@register.simple_tag
+def cal_item_qty(list, sku):
+
+    qty = 0
+    for i in list:
+        for d in i.orderdetails_set.all():
+            if d.sku == sku:
+                qty += d.qty
+
+    return qty
+
+
 @register.filter(name='calculate_t_qty')
 def calculate_t_qty(value):
+    quantity = 0
+    for dt in value.orderdetails_set.all():
+        quantity += dt.qty
+
+    return quantity
+
+@register.filter(name='calculate_all_qty')
+def calculate_all_qty(value):
     quantity = 0
     for dt in value.orderdetails_set.all():
         quantity += dt.qty
