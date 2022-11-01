@@ -295,7 +295,7 @@ class OrderListView(LoginRequiredMixin, ListView):
         delivery_method = DeliveryMethod.objects.get(pk=dm)
         context['status_name'] = status_name
         context['delivery_method'] = delivery_method
-        KTTheme.addJavascriptFile('js/custom/order_list.js')
+        # KTTheme.addJavascriptFile('js/custom/order_list.js')
         if status_name == "Printed" or status_name == "Initial":
             KTTheme.addVendor('m_datatables')
 
