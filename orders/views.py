@@ -292,11 +292,11 @@ class OrderListView(LoginRequiredMixin, ListView):
         # context['new_order'] = NewOrder.objects.filter(delivery_method=dm, items__status = status_name).distinct()
         status_name = self.kwargs['st']
         dm = self.kwargs['dm']       
-        
+        delivery_method = DeliveryMethod.objects.get(pk=dm)
         context['status_name'] = status_name
+        context['delivery_method'] = delivery_method
         KTTheme.addJavascriptFile('js/custom/order_list.js')
-        if status_name == "Printed":
-        #     print(status_name)
+        if status_name == "Printed" or status_name == "Initial":
             KTTheme.addVendor('m_datatables')
 
 
