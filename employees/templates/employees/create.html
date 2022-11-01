@@ -1,0 +1,137 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}
+{% translate "Create" %}
+{% endblock %}
+{% load widget_tweaks %}
+{% block content %}
+
+
+
+<div class="d-flex flex-column flex-root" id="kt_app_root">
+    <!--begin::Wrapper-->
+    <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+        <!--begin::Body-->
+        <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+            <!--begin::Form-->
+            <div class="justify-content-center">
+                <!--begin::Wrapper-->
+                <div class="col-lg-4 p-10 justify-content-center">
+                    <!--begin::Page-->
+
+
+                    <!--begin::Form-->
+                    <div class="card p-10 justify-content-center">
+
+                        <!--begin::Form-->
+                        <form action="" class="" method="post">
+                            {% csrf_token %}
+                            <h1 class="fw-bold text-dark mb-9">Add New Employee</h1>
+                            <!--begin::Input group-->
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <!--begin::Label-->
+                                <label class="fs-5 fw-semibold mb-2">User Name</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                {% render_field form.user_name|append_attr:"class:form-control form-control-solid" type="text" %}
+                                <!--end::Input-->
+                            </div>
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <!--begin::Label-->
+                                <label class="fs-5 fw-semibold mb-2">Name</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                {% render_field form.name|append_attr:"class:form-control form-control-solid" type="text" %}
+                                <!--end::Input-->
+                            </div>
+
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <!--begin::Label-->
+                                <label class="fs-5 fw-semibold mb-2">Password</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                {% render_field form.password|append_attr:"class:form-control form-control-solid" type="password" autocomplete="off" %}
+                                <!--end::Input-->
+                            </div>
+
+                            <div class="d-flex flex-column mb-5 fv-row">
+                                <!--begin::Label-->
+                                <label class="fs-5 fw-semibold mb-2">Name</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                {% render_field form.company|append_attr:"class:form-control form-control-solid" type="text" %}
+                                <!--end::Input-->
+                            </div>
+
+                            <!--end::Input group-->
+                            <!--begin::Submit-->
+                            <button type="submit" class="btn btn-primary" id="kt_contact_submit_button">
+                                <!--begin::Indicator label-->
+                                <span class="indicator-label">Add Employee</span>
+                                <!--end::Indicator label-->
+                                <!--begin::Indicator progress-->
+                                <span class="indicator-progress">Please wait...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                <!--end::Indicator progress-->
+                            </button>
+                            <!--end::Submit-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Form-->
+
+            <!--begin::Footer-->
+            <div class="d-flex flex-center flex-wrap px-5">
+                <!--begin::Links-->
+                <!--end::Links-->
+            </div>
+            <!--end::Footer-->
+        </div>
+        <!--end::Body-->
+
+        <!--begin::Aside-->
+        {% comment %} <div
+            class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2"
+            style="background-image: url(/assets/media/misc/auth-bg.png)">
+            <!--begin::Content-->
+            <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
+                <!--begin::Logo-->
+                <a href="/" class="mb-12">
+                    <img alt="Logo" src="/assets/media/logos/custom-1.png" class="h-60px h-lg-75px">
+                </a>
+                <!--end::Logo-->
+
+                <!--begin::Image-->
+                <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20"
+                    src="/assets/media/misc/auth-screens.png" alt="">
+                <!--end::Image-->
+
+                <!--begin::Title-->
+                <h1 class="d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7">
+                    Fast, Efficient and Productive
+                </h1>
+                <!--end::Title-->
+
+                <!--begin::Text-->
+                <div class="d-none d-lg-block text-white fs-base text-center">
+                    Welcome to Inventrory Pro
+                </div>
+                <!--end::Text-->
+            </div>
+            <!--end::Content-->
+        </div> {% endcomment %}
+        <!--end::Aside-->
+    </div>
+    <!--end::Wrapper-->
+</div>
+
+
+{% endblock content %}

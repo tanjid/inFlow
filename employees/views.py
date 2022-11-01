@@ -4,7 +4,7 @@ from django.views.generic.edit import CreateView
 from _keenthemes.__init__ import KTLayout
 from .models import *
 from _keenthemes.libs.theme import KTTheme
-from .forms import SignInForm
+from .forms import SignInForm, EmployeeCreationForm
 from django.views.generic.edit import FormMixin
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -13,6 +13,7 @@ from django.urls import reverse,reverse_lazy
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import EmployeeEditForm, EmployeePermissionEditForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -112,3 +113,54 @@ def logout_view(request):
     messages.success(request, "You are logged out.")
     logout(request)
     return redirect('login')
+
+class CreateEmployeeView(SuccessMessageMixin, FormMixin, TemplateView):
+    template_name = 'employees/create.html'
+    form_class = EmployeeCreationForm
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+        # status_list = ['Initial', 'Assigned', 'Pending', 'Complete', 'Return']
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            username = form.cleaned_data['user_name']
+            name = form.cleaned_data['name']
+            password = form.cleaned_data['password']
+            company = form.cleaned_data['company']
+
+            if User.objects.filter(username=username).exists():
+
+
+                messages.INFO(request, "username already exists. Try new one")
+                return redirect('create')
+
+
+            # Creating New user
+            new_user = User.objects.create_user(
+                username = username,
+                password=password
+            )
+
+            # Create New Employee
+            Employee.objects.create(
+                user = new_user,
+                name = name,
+                assigned_company = company
+            )
+
+            # Create Employee Permission
+            EmployeePermission.objects.create(
+                user = new_user
+            )
+            messages.success(request, "new employee created with defalut premissions")
+            return redirect('create')
+
+
+
+       

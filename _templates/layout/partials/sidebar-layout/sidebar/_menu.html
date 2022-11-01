@@ -218,6 +218,17 @@
 
 					<!--begin:Menu item-->
 					<div class="menu-item">
+						<a class="menu-link {% if request.path == '/employees/create' %}active{% endif %}" href="{% url 'create' %}">
+							<span class="menu-bullet">
+								<span class="bullet bullet-dot"></span>
+							</span>
+							<span class="menu-title">New Employee</span>
+						</a>
+					</div>
+					<!--end:Menu item-->
+
+					<!--begin:Menu item-->
+					<div class="menu-item">
 						<a class="menu-link {% if request.path == '/employees/' %}active{% endif %}" href="{% url 'employee_edit' request.user.id %}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>

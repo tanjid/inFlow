@@ -26,7 +26,7 @@ class NewOrder(models.Model):
     discount = models.IntegerField(null=True, blank=True,)
     delivery_charge = models.IntegerField(null=True, blank=True,)
     total_price = models.IntegerField(null=True, blank=True,)
-    invoice_number = models.CharField(max_length=15, null=True, blank=True, unique=True)
+    invoice_number = models.CharField(max_length=50, null=True, blank=True, unique=True)
     employee = models.ForeignKey(Employee, on_delete=models.RESTRICT,null=True, blank=True,)
     company = models.ForeignKey(Company, on_delete=models.RESTRICT,null=True, blank=True,)
     is_active = models.BooleanField(default=False)

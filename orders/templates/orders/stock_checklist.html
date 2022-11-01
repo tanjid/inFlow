@@ -24,7 +24,10 @@
 <style>
 {% load static %}
 {% load orders_extra %}
-
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+  }
 .kokook {
   page-break-before: always;
 }
@@ -68,24 +71,21 @@
 
 					<div class="row">
 						<div class="table-responsive" style="margin-top: -1%">
-							<table class="" style="align-items: center!important;margin-bottom: 0!important;width: 100%;
-									                                    color: #67748e;
-									                                    vertical-align: top;
-									                                    border-color: #e9ecef;" border="1">
+							<table class="" style="align-items: center!important;margin-bottom: 0!important;width: 100%; color: #67748e; vertical-align: top; border-color: #e9ecef; border: 1px solid black;" >
 								<thead>
 									<tr>
 										<th style="text-align:center;">image</th>
 										<th style="text-align:center;">SKU</th>
 										<th style="text-align:center;">Quantity</th>
-										<th style="text-align:center;">Order Number</th>
+										<th style="text-align:center; width: 70%;">Order Number</th>
 									</tr>
 								</thead>
 								<tbody>
 
                                 {% for key, value in order_list.items %}
 									<tr>
-                                        <td style="text-align: center"><img src="{{key.product_image.url}}" alt="p_image"
-                                    width="8%"></td>
+                                        <td style="text-align: center"><img src="{{key.product_image.url}}" alt=""
+                                    width="40px"></td>
 										<td style="text-align: center">{{key}}</td>
 										<td style="text-align: center">
 
@@ -95,20 +95,13 @@
 											{% comment %} {{ value|calculate_qty }} {% endcomment %}
 										</td>
 										<td style="text-align: center">
-                                        {% for item in value %}
-                                            {{item}},
-                                        {% endfor %}
-                                       
-
-
+                                        {% for item in value %}{{item}}, {% endfor %}
+                                            
+                                        
 										</td>
 									</tr>
 
                                 {% endfor %}
-									<tr>
-										<td colspan="3" style="text-align:center;font-weight: 600; ">Total Qty : {{sku_qty}}</td>
-
-									</tr>
 								</tbody>
 							</table>
 						</div>

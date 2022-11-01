@@ -11,7 +11,7 @@ from datetime import datetime
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='employes')
+    image = models.ImageField(upload_to='employes', null=True, blank=True)
     assigned_company = models.ForeignKey(Company, on_delete = models.CASCADE, null=True, blank=True)
     
     designation = models.CharField(max_length=50, null=True, blank=True)
@@ -38,8 +38,8 @@ class Employee(models.Model):
         invoive_slug = self.assigned_company.invoice_slug
         invoive_id = self.assigned_company.invoice_count
         self.assigned_company.invoice_count += 1
-        random_num1 =  random.randint(9, 99)
-        random_num2 =  random.randint(9, 99)
+        random_num1 =  random.randint(0, 9)
+        random_num2 =  random.randint(0, 9)
         inovice_int = f'{random_num1}{invoive_id}{random_num2}'
         numbers = [ str(x) for x in inovice_int ]
         random.shuffle(numbers)
