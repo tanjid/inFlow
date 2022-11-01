@@ -22,7 +22,7 @@ context.update({
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
             <span class="card-label fw-bold fs-3 mb-1">Order List</span>
-            <span class="text-muted mt-1 fw-semibold fs-7">Over 500 orders</span>
+            {% comment %} <span class="text-muted mt-1 fw-semibold fs-7">Over 500 orders</span> {% endcomment %}
         </h3>
 
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
@@ -88,7 +88,7 @@ context.update({
     <div class="card-body py-3">
         <form action="" method="post" target="_blank">
             {% csrf_token %}
-
+            <div class="mb-6">
             {% if status_name == "Printed" or status_name == "Initial" or status_name == "Shipping" %}
             <button class="btn btn-danger btn-sm" type="submit" name="invoice"
                 onclick="return confirm('Are you sure? It will send all the orders to printed')">Invoice Print</button>
@@ -99,6 +99,7 @@ context.update({
                 onclick="return confirm('Are you sure? It will send all the orders to shipping')" />
 
             {% endif %}
+        </div>
             <!--begin::Table container-->
             <div class="table-responsive">
                 <!--begin::Table-->
@@ -348,7 +349,7 @@ context.update({
 
             // Init datatable --- more info on datatables: https://datatables.net/manual/
             datatable = $(table).DataTable({
-                "info": false,
+                "info": true,
                 'order': [],
                 'pageLength': 50,
                 "lengthMenu": [10, 25, 50, 75, 100, 200]
