@@ -170,6 +170,27 @@ class EmployeePermission(models.Model):
     confirm_order = models.BooleanField(default=False)
     print_order = models.BooleanField(default=False)
 
+    search_confirm = models.BooleanField(default=False)
+    search_rtn = models.BooleanField(default=False)
+
+    dashboard = models.BooleanField(default=False)
+
+    order_list = models.BooleanField(default=False)
+
+    employes = models.BooleanField(default=False)
+
+    purchase = models.BooleanField(default=False)
+
+    reports = models.BooleanField(default=False)
+
+    inven = models.BooleanField(default=False)
+
+    reseller = models.BooleanField(default=False)
+
+    mkt = models.BooleanField(default=False)
+
+
+
     def __str__(self):
      return str(self.user)
 

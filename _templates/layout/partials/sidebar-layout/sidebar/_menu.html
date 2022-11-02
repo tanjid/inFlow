@@ -23,6 +23,7 @@
 				<!--begin:Menu sub-->
 				<div class="menu-sub menu-sub-accordion">
 					<!--begin:Menu item-->
+					{% if current_user.order_perm %}
 					<div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link{% if request.path == '/quick_search/' %} active{% endif %}" href="{% url 'quick_search' %}">
@@ -34,9 +35,11 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
+				{% endif %}
 
 
 					<!--begin:Menu item-->
+					{% if current_user.search_confirm %}
 					<div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link{% if request.path == '/search_for/con/' %} active{% endif %}" href="{% url 'search_for_confirm' 'con' %}">
@@ -47,8 +50,9 @@
 						</a>
 						<!--end:Menu link-->
 					</div>
+					{% endif %}
 					<!--end:Menu item-->
-
+					{% if current_user.search_rtn %}
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
@@ -61,12 +65,14 @@
 						<!--end:Menu link-->
 					</div>
 					<!--end:Menu item-->
+					{% endif %}
 
 
 				</div>
 				<!--end:Menu sub-->
 			</div>
 			<!--begin: Dashboard Menu item-->
+			{% if current_user.dashboard %}
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion{% if request.path == '/' %} show{% endif %}" id="dashboard-menu">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -103,6 +109,7 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
+			{% endif %}
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
 
@@ -120,6 +127,8 @@
 				<!--begin:Menu sub-->
 				<div class="menu-sub menu-sub-accordion">
 					<!--begin:Menu item-->
+
+					{% if current_user.order_list %}
 					<div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link {% if request.path == '/orders/order_home/' %}active{% endif %}" href="{% url 'order_home' %}">
@@ -130,9 +139,11 @@
 						</a>
 						<!--end:Menu link-->
 					</div>
+					{% endif %}
 					<!--end:Menu item-->
 
 					<!--begin:Menu item-->
+					{% if current_user.order_perm %}
 					<div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link {% if request.path == '/orders/new_order/' %}active{% endif %}" href="{% url 'new_order' %}">
@@ -143,8 +154,10 @@
 						</a>
 						<!--end:Menu link-->
 					</div>
+					{% endif %}
 					<!--end:Menu item-->
 					<!--begin:Menu item-->
+					{% if current_user.order_list %}
 					<div class="menu-item">
 						<!--begin:Menu link-->
 						<a class="menu-link {% if request.path == '/orders/' %}active{% endif %}" id="order-list" href="{% url 'order_home' %}">
@@ -155,18 +168,9 @@
 						</a>
 						<!--end:Menu link-->
 					</div>
+					{% endif %}
 					<!--end:Menu item-->
 					<!--begin:Menu item-->
-					<div class="menu-item">
-						<!--begin:Menu link-->
-						<a class="menu-link" href="{% url 'test_message' %}">
-							<span class="menu-bullet">
-								<span class="bullet bullet-dot"></span>
-							</span>
-							<span class="menu-title">test_message</span>
-						</a>
-						<!--end:Menu link-->
-					</div>
 					<!--end:Menu item-->
 
 
@@ -181,7 +185,7 @@
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
-							<span class="menu-title">oder_list_home</span>
+							<span class="menu-title">All Orders</span>
 						</a>
 						<!--end:Menu link-->
 					</div>
@@ -193,7 +197,7 @@
 			</div>
 			<!--end:Menu item-->
 			<!--begin:Menu item-->
-			{% if current_user.order_perm %}
+			{% if current_user.employes %}
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/employees/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -279,7 +283,7 @@
 
 
 			<!--end:Menu item-->
-			{% if request.user.is_superuser %}
+			{% if current_user.purchase %}
 			<!--begin:Menu Purchase item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion{% if '/purchase/' in request.path %} show{% endif %}">
 				<!--begin:Menu link-->
@@ -320,8 +324,8 @@
 			</div>
 			{% endif %}
 			<!--end:Menu item-->
-			<!--begin:Menu item-->
-			{% if request.user.is_superuser %}
+			<!--begin: Reports Menu item-->
+			{% if current_user.reports %}
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -362,6 +366,7 @@
 			{% endif %}
 			<!--end:Menu item-->
 			<!--begin: Inventory Menu item-->
+			{% if current_user.inven %}
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/inventory/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -421,8 +426,9 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
+			{% endif %}
 			<!--end:Menu item-->
-			{% if request.user.is_superuser %}
+			{% if current_user.reseller %}
 			<!--begin: Reseller Menu item-->
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/reseller/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
@@ -476,6 +482,7 @@
 			{% endif %}
 			<!--end:Menu item-->
 			<!--begin: Marketplace Menu item-->
+			{% if current_user.mkt %}
 			<div data-kt-menu-trigger="click" class="menu-item menu-accordion {% if '/mkt/' in request.path %}show{% endif %}">
 				<!--begin:Menu link-->
 				<span class="menu-link">
@@ -532,7 +539,7 @@
 				</div>
 				<!--end:Menu sub-->
 			</div>
-
+			{% endif %}
 		</div>
 		<!--end::Menu-->
 	</div>
