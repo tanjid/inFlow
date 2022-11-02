@@ -79,14 +79,39 @@ class DashboardsView(LoginRequiredMixin, TemplateView):
         context['points_list'] = points_list
         context['total_point_list'] = total_point_list
 
-        dict1 = {
-            'label': 'Tanjid',
-            'backgroundColor': 'rgb(255, 99, 132)',
-            'borderColor': 'rgb(255, 99, 132)',
-            'data': points_list,
-        }
         context['label_list'] = label_list
-        
+        today = datetime.now().date()
+        todays_orders = NewOrder.objects.filter(created_at__date=today)
+
+        sku_count = {}
+        em_count = {}
+        total_order_count = 0
+        total_sku_count = 0
+        for order in todays_orders:
+            total_order_count += 1
+            if order.employee in em_count:
+                em_count[order.employee] = em_count.get(order.employee) + 1
+            else:
+                em_count[order.employee] = 1
+            for i in order.orderdetails_set.all():
+                total_sku_count += i.qty
+                if i.sku in sku_count:
+                    sku_count[i.sku] = sku_count.get(i.sku) + i.qty
+                else:
+                    sku_count[i.sku] = i.qty
+
+        sku_count = sorted(sku_count.items(), key=lambda x: x[1], reverse=True) 
+        sku_count = dict(sku_count)
+        limit = 10
+        first_n = dict(zip(list(sku_count.keys())[:limit], list(sku_count.values())[:limit]))
+        context['todays_orders'] = first_n
+        em_count = sorted(em_count.items(), key=lambda x: x[1], reverse=True)
+        em_count = dict(em_count) 
+        em_count = dict(zip(list(em_count.keys())[:limit], list(em_count.values())[:limit]))
+        context['em_count'] = em_count
+        context['total_order_count'] = total_order_count
+        context['total_sku_count'] = total_sku_count
+
         return context
 
 def approve_order(request, order_id):

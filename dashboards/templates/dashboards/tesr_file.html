@@ -9,12 +9,215 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
 
+{{em_count}}
 
-<div class="card table-responsive p-5 col-lg-8 m-2">
-    <button class="btn btn-danger me-5 mb-5">
-       Order in Review <span class="badge badge-circle badge-primary ms-2">{{low_stock}}</span>
-   </button>
-    
+
+
+<div class="row g-5 g-xl-8">
+    <!--begin::Col-->
+    <div class="col-xl-6">
+        <!--begin::Table Widget 7-->
+        <div class="card card-xl-stretch mb-xl-8">
+            <!--begin::Header-->
+            <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold fs-3 mb-1">Latest Orders</span>
+                    <span class="text-muted mt-1 fw-semibold fs-7">{{total_sku_count}}</span>
+                </h3>
+                <div class="card-toolbar">
+                    <ul class="nav" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1" data-bs-toggle="tab" href="#kt_table_widget_8_tab_1" aria-selected="true" role="tab">Month</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1" data-bs-toggle="tab" href="#kt_table_widget_8_tab_2" aria-selected="false" tabindex="-1" role="tab">Week</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4" data-bs-toggle="tab" href="#kt_table_widget_8_tab_3" aria-selected="false" tabindex="-1" role="tab">Day</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body py-3">
+                <div class="tab-content">
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade show active" id="kt_table_widget_8_tab_1" role="tabpanel">
+                        <!--begin::Table container-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                            <table class="table table-striped align-middle gs-0 gy-3 text-center">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <tr>
+                                        <th class="p-0"> # </th>
+                                        <th class="p-0">P-N</th>
+                                        <th class="p-0">SKU</th>
+                                        <th class="p-0">Q</th>
+                                    </tr>
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody>
+                                    {% for key, value in todays_orders.items %}
+
+                                    <tr>
+                                        <td>
+                                            <span class="text fw-semibold d-block fs-7">{{forloop.counter}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text fw-semibold d-block fs-8">{{key.name}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text fw-semibold d-block fs-8">{{key.sku}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text fw-semibold d-block fs-8">{{value}}</span>
+                                        </td>
+
+                                    </tr>
+                  
+                                    {% endfor %}
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Tap pane-->
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade" id="kt_table_widget_7_tab_2" role="tabpanel">
+                        <!--begin::Table container-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Tap pane-->
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade" id="kt_table_widget_7_tab_3" role="tabpanel">
+                        <!--begin::Table container-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Tap pane-->
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Tables Widget 7-->
+    </div>
+    <!--end::Col-->
+    <!--begin::Col-->
+    <div class="col-xl-6">
+        <!--begin::Table Widget 7-->
+        <div class="card card-xl-stretch mb-xl-8">
+            <!--begin::Header-->
+            <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold fs-3 mb-1">L O</span>
+                    <span class="text-muted mt-1 fw-semibold fs-7">{{total_order_count}}</span>
+                </h3>
+                <div class="card-toolbar">
+                    <ul class="nav" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary active fw-bold px-4 me-1" data-bs-toggle="tab" href="#kt_table_widget_7_tab_1" aria-selected="true" role="tab">Month</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4 me-1" data-bs-toggle="tab" href="#kt_table_widget_7_tab_2" aria-selected="false" tabindex="-1" role="tab">Week</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link btn btn-sm btn-color-muted btn-active btn-active-light-primary fw-bold px-4" data-bs-toggle="tab" href="#kt_table_widget_7_tab_3" aria-selected="false" tabindex="-1" role="tab">Day</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body py-3">
+                <div class="tab-content">
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade show active" id="kt_table_widget_7_tab_1" role="tabpanel">
+                        <!--begin::Table container-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                            <table class="table table-striped align-middle gs-0 gy-3 text-center">
+                                <!--begin::Table head-->
+                                <thead>
+                                    <tr>
+                                        <th class="p-0"> # </th>
+                                        <th class="p-0">P-N</th>
+                                        <th class="p-0">SKU</th>
+                                        <th class="p-0">Q</th>
+                                    </tr>
+                                </thead>
+                                <!--end::Table head-->
+                                <!--begin::Table body-->
+                                <tbody>
+                                    {% for key, value in em_count.items %}
+
+                                    <tr>
+                                        <td>
+                                            <span class="text fw-semibold d-block fs-7">{{forloop.counter}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text fw-semibold d-block fs-8">{{key.name}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text fw-semibold d-block fs-8">{{key.sku}}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text fw-semibold d-block fs-8">{{value}}</span>
+                                        </td>
+
+                                    </tr>
+                  
+                                    {% endfor %}
+                                </tbody>
+                                <!--end::Table body-->
+                            </table>
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Tap pane-->
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade" id="kt_table_widget_7_tab_2" role="tabpanel">
+                        <!--begin::Table container-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Tap pane-->
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade" id="kt_table_widget_7_tab_3" role="tabpanel">
+                        <!--begin::Table container-->
+                        <div class="table-responsive">
+                            <!--begin::Table-->
+
+                        </div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Tap pane-->
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Tables Widget 7-->
+    </div>
+    <!--end::Col-->
+</div>
+
+<div class="row g-5 g-xl-8">
+    <div class="col-xl-6">  
+<div class="card card-xl-stretch mb-xl-8">
+    <div class="card-header border-0 pt-7">
+    <div><span class="card-label fw-bold fs-3 mt-10">Order in Review </span><span class="badge badge-square badge-danger mb-1">{{order_in_review|length}} </span></div>
+    </div>
     <table class="table text-center">
        <thead>
           <tr class="fw-bold fs-6 text-gray-800">
@@ -30,7 +233,7 @@
        </thead>
        <tbody>
 
-          {% for p in order_in_review %}
+          {% for p in order_in_review|slice:":10" %}
           <tr>
              <td><a href="" class="btn">{{forloop.counter}}</a></td>
              <td><div class="mt-4">{{p.invoice_number}}</div></td>
@@ -51,27 +254,31 @@
 
  <div class="row mt-5">
 
-    <div class="col-lg-6">
-        <canvas id="myChart"></canvas>
-    </div>
+    
 
-    <div class="col-lg-6">
-        <canvas id="myChart2"></canvas>
-    </div>
+
+
 
 
 
 </div>
-<script>
-    {% comment %} const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-    ]; {% endcomment %}
 
+</div>
+</div>
+<div class="row g-5 g-xl-8">
+<div class="col-lg-6">
+    <div class="card card-xl-stretch mb-xl-8">
+    <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+<div class="col-lg-6">
+    <div class="card card-xl-stretch mb-xl-8">
+    <canvas id="myChart2"></canvas>
+    </div>
+</div>
+</div>
+<script>
     const labels = [
     {% for obj in data1 %}
     '{{obj}}',
@@ -103,14 +310,6 @@
 
     const labels2 = {{hour_list}}
     
-    {% comment %} [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-    ];  {% endcomment %}
     const data2 = {
         labels: labels2,
         datasets: [
