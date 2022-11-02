@@ -163,6 +163,12 @@ class EmployeePermission(models.Model):
     Return = models.BooleanField(default=False)
     Exchange = models.BooleanField(default=False)
     Cancel = models.BooleanField(default=False)
+    edit_order = models.BooleanField(default=False)
+    cancel_order = models.BooleanField(default=False)
+    exchange_order = models.BooleanField(default=False)
+    return_order = models.BooleanField(default=False)
+    confirm_order = models.BooleanField(default=False)
+    print_order = models.BooleanField(default=False)
 
     def __str__(self):
      return str(self.user)

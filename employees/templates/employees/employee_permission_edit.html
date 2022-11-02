@@ -5,6 +5,11 @@
 {% block title %}{% translate "Order Home" %}{% endblock %}
 
 {% block content %}
+
+
+
+<div class="card p-10">
+    <h1 class="mb-10">{{em_permission}}</h1>
 <form method="post">
 
     {% csrf_token %}
@@ -17,4 +22,5 @@
     {% endfor %}
     <button type="submit" class="btn btn-primary">Update</button>
 </form>
+</div>
 {% endblock %}

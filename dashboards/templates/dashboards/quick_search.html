@@ -106,6 +106,15 @@
 <div class="card mb-5 mb-xl-8 p-5">
     <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3" id="kt_datatable_example">
         <!--begin::Table head-->
+        <form action="" method="post" target="_blank">
+            {% csrf_token %}
+            <div class="mb-6">
+                {% if current_user.print_order %}
+                <button class="btn btn-danger btn-sm" type="submit" name="invoice"
+                    onclick="return confirm('Are you sure? It will send all the orders to printed')">Invoice
+                    Print</button>
+                {% endif %}
+            </div>
         <thead>
             <tr class="fw-bold text-muted">
                 <th class="w-25px">
@@ -282,7 +291,7 @@
                             </svg>
                         </span>
                     </a>
-                    {% get_actions order %}
+                    {% get_actions order current_user %}
 
                     {% endif %}
                 </td>

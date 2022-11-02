@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from employees.models import Employee, EmplpyeePoints
 from django.db.models import Avg, Count, Min, Sum
 import csv
+from orders.models import OrderDetails
 """
 This file is a view controller for multiple pages as a module.
 Here you can override the page view layout.
@@ -212,6 +213,55 @@ class QuickSearchView(TemplateView):
             # context['orders'] = request.POST.get('orders')
             
             return self.render_to_response(context)
+
+        if 'invoice' in request.POST:
+            multi_order_list = []
+            order_list = []
+            orders = request.POST.getlist('selected-order')
+
+
+        # Sorting Order for prnting sku wise
+            for order in orders:
+                my_order = NewOrder.objects.get(pk=order)
+                bulk_update_list = []
+                count = 0
+                for order in my_order.orderdetails_set.all():
+                    order.status = "Printed"
+                    bulk_update_list.append(order)
+
+                    if count == 0:
+                        print(f"0")
+                        order_list.append(my_order)
+                    elif count == 1:
+                        print(f"1")
+                        multi_order_list.append(my_order)
+                        order_list.remove(my_order)
+                    count += 1
+            
+                OrderDetails.objects.bulk_update(bulk_update_list, ['status'])
+            list_dict = {}
+            for item in order_list:
+                for it in item.orderdetails_set.all():
+                    if list_dict.get(it.sku.sku):
+                        list_dict[it.sku.sku].append(item)
+                    else:
+                        list_dict[it.sku.sku] = [item]
+            
+            updated_list = list(list_dict.values())
+            sorted_list = []
+
+            for l in updated_list:
+                sorted_list.extend(l)
+
+
+            multi_order_list.extend(sorted_list)
+            company = Employee.objects.get(user = request.user)
+            context = {
+                'order_list': multi_order_list,
+                'company': company,
+            }
+            return render(request, 'orders/invoice.html', context)
+                        
         if form.is_valid():
             mobile_number = form.cleaned_data['mobile_number']
             invoive_number = form.cleaned_data['invoive_number']

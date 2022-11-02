@@ -88,18 +88,21 @@ context.update({
     <div class="card-body py-3">
         <form action="" method="post" target="_blank">
             {% csrf_token %}
+            {% if current_user.print_order %}
             <div class="mb-6">
-            {% if status_name == "Printed" or status_name == "Initial" or status_name == "Shipping" %}
-            <button class="btn btn-danger btn-sm" type="submit" name="invoice"
-                onclick="return confirm('Are you sure? It will send all the orders to printed')">Invoice Print</button>
-            <button class="btn btn-warning btn-sm text-black" type="submit" name="stock">Stock Print</button>
-            {% endif %}
-            {% if status_name == "Printed" %}
-            <input type="submit" name="bulk" value="Bulk Shiping" class="btn btn-info btn-sm"
-                onclick="return confirm('Are you sure? It will send all the orders to shipping')" />
+                {% if status_name == "Printed" or status_name == "Initial" or status_name == "Shipping" %}
+                <button class="btn btn-danger btn-sm" type="submit" name="invoice"
+                    onclick="return confirm('Are you sure? It will send all the orders to printed')">Invoice
+                    Print</button>
+                <button class="btn btn-warning btn-sm text-black" type="submit" name="stock">Stock Print</button>
+                {% endif %}
+                {% if status_name == "Printed" %}
+                <input type="submit" name="bulk" value="Bulk Shiping" class="btn btn-info btn-sm"
+                    onclick="return confirm('Are you sure? It will send all the orders to shipping')" />
 
+                {% endif %}
+            </div>
             {% endif %}
-        </div>
             <!--begin::Table container-->
             <div class="table-responsive">
                 <!--begin::Table-->
@@ -203,7 +206,9 @@ context.update({
                                         </svg>
                                     </span>
                                 </a>
-                                {% get_actions order %}
+                                {% comment %} {% if current_user.Edit %} {% endcomment %}
+                                {% get_actions order current_user %}
+                                {% comment %} {% endif %} {% endcomment %}
                             </td>
                         </tr>
                         {% endfor %}
@@ -275,7 +280,7 @@ context.update({
 </ul>
 
 {% endif %}
-
+{% if status_name == "Initial" or status_name == "Printed" or  status_name == "Shipping" %}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
 <script defer>
@@ -394,7 +399,7 @@ context.update({
                     // Get clicked export value
                     const exportValue = e.target.getAttribute('data-kt-export');
                     const target = document.querySelector('.dt-buttons .buttons-' +
-                    exportValue);
+                        exportValue);
 
                     // Trigger click event on hidden datatable export buttons
                     target.click();
@@ -429,4 +434,5 @@ context.update({
     // On document ready
     KTDatatablesExample.init();
 </script>
+{% endif %}
 {% endblock content %}

@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from _keenthemes.__init__ import KTLayout
@@ -9,7 +10,7 @@ from .forms import NewOrderForm
 from django.contrib import messages
 from django.http import JsonResponse
 from products.models import Product
-from employees.models import Employee, EmplpyeePoints
+from employees.models import Employee
 from django.views.generic.edit import FormMixin
 import random
 from .models import NewOrder, OrderDetails
@@ -52,7 +53,6 @@ class TestMessage(SuccessMessageMixin, CreateView):
 class EditOrder(FormMixin, TemplateView):
     template_name = 'orders/edit_order.html'
     form_class = NewOrderForm
-
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -457,12 +457,11 @@ class OrderHome(TemplateView):
 
         return context
 
-class NewOrderView(SuccessMessageMixin, LoginRequiredMixin, FormMixin, TemplateView):
+class NewOrderView(SuccessMessageMixin, FormMixin, TemplateView):
     form_class = NewOrderForm
     initial = {'key': 'value'}
     template_name = 'orders/new_order.html'
     success_message = " was updated successfully"
-    login_url = '/employees/login/'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, UpdateView
+from django.views.generic import TemplateView, UpdateView, ListView
 from django.views.generic.edit import CreateView
 from _keenthemes.__init__ import KTLayout
 from .models import *
@@ -29,12 +29,28 @@ class EmployeePermissionEdit(SuccessMessageMixin, UpdateView):
 
         # A function to init the global layout. It is defined in _keenthemes/__init__.py file
         context = KTLayout.init(context)
-
+        em_id = self.kwargs['pk']
+        em_permission = EmployeePermission.objects.get(pk=em_id)
+        context['em_permission'] = em_permission
         # KTTheme.addJavascriptFile('js/custom/test.js')
         return context
 
     def get_success_url(self):
-        return reverse('test_message')
+        return reverse('employee_permission_edit', kwargs={'pk': self.object.pk})
+class EmployeePermissionList(ListView):
+    template_name = 'employees/employees_permission_list.html'
+    model = EmployeePermission
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # A function to init the global layout. It is defined in _keenthemes/__init__.py file
+        context = KTLayout.init(context)
+
+        # KTTheme.addJavascriptFile('js/custom/test.js')
+        return context
+
     
 
 class EmployeeEdit(SuccessMessageMixin, UpdateView):
@@ -49,7 +65,6 @@ class EmployeeEdit(SuccessMessageMixin, UpdateView):
 
         # A function to init the global layout. It is defined in _keenthemes/__init__.py file
         context = KTLayout.init(context)
-
         # KTTheme.addJavascriptFile('js/custom/test.js')
         return context
 

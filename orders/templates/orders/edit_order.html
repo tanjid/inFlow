@@ -3,11 +3,13 @@
 {% load i18n %}
 
 {% block title %}
-	{% translate "New Order" %}
+	{% translate "Edit Order" %}
 {% endblock %}
 {% load widget_tweaks %}
 
 {% block content %}
+
+{% if current_user.edit_order %}
 <h1 class="mb-5">Order Edit   [{{order_invoice}}]</h1>
 <form action="" method="post">
 	{% csrf_token %}
@@ -171,4 +173,7 @@
 	</form>
 
 {{second_model}}
+{% else %}
+<h1>You Dont have Edit Permission</h1>
+{% endif %}
 {% endblock %}

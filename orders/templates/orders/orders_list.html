@@ -8,7 +8,7 @@ context.update({
 
 {% load i18n %}
 
-{% block title %}{% translate "Dashboard" %}{% endblock %}
+{% block title %}{% translate "Orders" %}{% endblock %}
 
 {% block content %}
 
@@ -21,7 +21,7 @@ context.update({
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
         <h3 class="card-title align-items-start flex-column">
-            <span class="card-label fw-bold fs-3 mb-1">Order List</span>
+            <span class="card-label fw-bold fs-3 mb-1">Order List1</span>
         </h3>
 
         <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
@@ -191,6 +191,7 @@ context.update({
                                         </svg>
                                     </span>
                                 </a>
+                                
                                 {% get_actions order %}
                             </td>
                         </tr>

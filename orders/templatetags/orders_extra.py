@@ -76,19 +76,37 @@ def order_dm_count( st, dm, user):
     return order_count
     
 @register.simple_tag
-def get_actions(orders):
+def get_actions(orders, current_user):
     # print(f"or_id{orders.id}")
     status_list = []
     for order in orders.orderdetails_set.all():
         status_list.append(order.status)
         # print(f"order-status: {order.status}")
     main = '<div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true" style="">'
-    confirm = f'<div class="menu-item px-3"><a href="/orders/confirm_order/{orders.id}" class="menu-link px-3"data-kt-users-table-filter="delete_row">Confirm</a></div>' 
-    edit = f'<div class="menu-item px-3" id=""><a href="/orders/edit_order/{orders.id}"class="menu-link px-3" id="edit-button" >Edit</a></div>'
-    exchange = f'<div class="menu-item px-3"><a href="/orders/exchange_order/{orders.id}"class="menu-link px-3" id="exchange-button">Exchange</a></div>'
-    return_order = f'<div class="menu-item px-3"><a href="/orders/return_order/{orders.id}"class="menu-link px-3" id="exchange-button">Return</a></div>'
-    cancel_order = f'<div class="menu-item px-3"><a href="/orders/cancel_order/{orders.id}"class="menu-link px-3" id="exchange-button">Cancel</a></div>'
-    confirm_sigle_order = f'<div class="menu-item px-3"><a href="/orders/confirm_sigle_order/{orders.id}"class="menu-link px-3" id="exchange-button">Par Confirm</a></div>'
+    if current_user.confirm_order:
+        confirm = f'<div class="menu-item px-3"><a href="/orders/confirm_order/{orders.id}" class="menu-link px-3"data-kt-users-table-filter="delete_row">Confirm</a></div>' 
+        confirm_sigle_order = f'<div class="menu-item px-3"><a href="/orders/confirm_sigle_order/{orders.id}"class="menu-link px-3" id="exchange-button">Par Confirm</a></div>'
+    else:
+        confirm = ''
+        confirm_sigle_order = ''
+    if current_user.edit_order:
+        edit = f'<div class="menu-item px-3" id=""><a href="/orders/edit_order/{orders.id}"class="menu-link px-3" id="edit-button" >Edit</a></div>'
+    else:
+        edit = ''
+    if current_user.exchange_order:
+        exchange = f'<div class="menu-item px-3"><a href="/orders/exchange_order/{orders.id}"class="menu-link px-3" id="exchange-button">Exchange</a></div>'
+    else:
+        exchange = ''
+    if current_user.return_order:
+        return_order = f'<div class="menu-item px-3"><a href="/orders/return_order/{orders.id}"class="menu-link px-3" id="exchange-button">Return</a></div>'
+    else:
+        return_order = ""
+    if current_user.cancel_order:
+        cancel_order = f'<div class="menu-item px-3"><a href="/orders/cancel_order/{orders.id}"class="menu-link px-3" id="exchange-button">Cancel</a></div>'
+    else:
+        cancel_order = ''
+    
+    
 
 
     if "Shipping" in status_list:

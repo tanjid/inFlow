@@ -1,0 +1,243 @@
+{% extends layout %}
+
+{% load i18n %}
+
+{% block title %}
+{% translate "Employee Permission List" %}
+{% endblock %}
+
+{% block content %}
+
+<div class="card mb-5 mb-xl-8">
+    <!--begin::Header-->
+    <!--begin::Header-->
+    <div class="card-header border-0 pt-5">
+        <h3 class="card-title align-items-start flex-column">
+            <span class="card-label fw-bold fs-3 mb-1">Employee List</span>
+            {% comment %} <span class="text-muted mt-1 fw-semibold fs-7">Over 500 orders</span> {% endcomment %}
+        </h3>
+
+        <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+            <!--begin::Search-->
+            <div class="d-flex align-items-center position-relative my-1">
+                <span class="bi bi-search position-absolute ms-4"></span>
+                <input type="text" data-kt-filter="search" class="form-control form-control-solid w-250px ps-14"
+                    placeholder="Search " />
+            </div>
+            <!--end::Search-->
+            <!--begin::Export dropdown-->
+            <button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click"
+                data-kt-menu-placement="bottom-end">
+                <span class="position-absolute ms-4"></span>
+                Export
+            </button>
+            <!--begin::Menu-->
+            <div id="kt_datatable_example_export_menu"
+                class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4"
+                data-kt-menu="true">
+                <!--begin::Menu item-->
+                <div class="menu-item px-3">
+                    <a href="#" class="menu-link px-3" data-kt-export="copy">
+                        Copy to clipboard
+                    </a>
+                </div>
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item px-3">
+                    <a href="#" class="menu-link px-3" data-kt-export="excel">
+                        Export as Excel
+                    </a>
+                </div>
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item px-3">
+                    <a href="#" class="menu-link px-3" data-kt-export="csv">
+                        Export as CSV
+                    </a>
+                </div>
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item px-3">
+                    <a href="#" class="menu-link px-3" data-kt-export="pdf">
+                        Export as PDF
+                    </a>
+                </div>
+                <!--end::Menu item-->
+            </div>
+            <!--end::Menu-->
+            <!--end::Export dropdown-->
+
+            <!--begin::Hide default export buttons-->
+            <div id="kt_datatable_example_buttons" class="d-none"></div>
+
+        </div>
+
+    </div>
+    <!--end::Header-->
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body py-3">
+        <!--begin::Table container-->
+        <div class="table-responsive">
+            <!--begin::Table-->
+            <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3"
+                    id="kt_datatable_example">
+                <!--begin::Table head-->
+                <thead>
+                    <tr class="fw-bold text-muted">
+                        <th class="w-25px">
+                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input" type="checkbox" value="1" data-kt-check="true"
+                                    data-kt-check-target=".widget-13-check">
+                            </div>
+                        </th>
+                        <th class="min-w-100px">#</th>
+                        <th class="min-w-100px">ID</th>
+                        <th class="min-w-120px">Username</th>
+                        <th class="min-w-120px">Action</th>
+                    </tr>
+                </thead>
+                <!--end::Table head-->
+                <!--begin::Table body-->
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td>
+                            <div class="form-check form-check-sm form-check-custom form-check-solid">
+                                <input class="form-check-input widget-13-check" type="checkbox" value="1">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="#" class="text-dark fw-bold text-hover-primary fs-6">{{forloop.counter}}</a>
+                        </td>
+                        <td>
+                            <a href="#" class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{item.id}}</a>
+                        </td>
+                        <td>
+
+                            <span href="#"
+                                class="text-dark fw-bold text-hover-primary d-block mb-1 fs-6">{{item.user.username}}</span>
+
+
+                        </td>
+                        <td>
+                            <a href="{% url 'employee_permission_edit' item.id %}"
+                                class="badge badge-light-success">Edit Permission</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+        </div>
+        <!--end::Table container-->
+    </div>
+    <!--begin::Body-->
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/assets/plugins/custom/datatables/datatables.bundle.js"></script>
+<script defer>
+    "use strict";
+    $('title').html("{{delivery_method}}");
+    // Class definition
+    var KTDatatablesExample = function () {
+        // Shared variables
+        var table;
+        var datatable;
+
+        // Private functions
+        var initDatatable = function () {
+            // Set date data order
+            const tableRows = table.querySelectorAll('tbody tr');
+
+            tableRows.forEach(row => {
+                const dateRow = row.querySelectorAll('td');
+                // const realDate = moment(dateRow[3].innerHTML, "DD MMM YYYY, LT").format(); // select date from 4th column in table
+                // dateRow[3].setAttribute('data-order', realDate);
+            });
+
+            // Init datatable --- more info on datatables: https://datatables.net/manual/
+            datatable = $(table).DataTable({
+                "info": true,
+                'order': [],
+                'pageLength': 50,
+                "lengthMenu": [10, 25, 50, 75, 100, 200]
+            });
+        }
+
+        // Hook export buttons
+        var exportButtons = () => {
+            const documentTitle = '{{delivery_method}}';
+            var buttons = new $.fn.dataTable.Buttons(table, {
+                buttons: [{
+                        extend: 'copyHtml5',
+                        columns: [1, 2, 3, 4, 5, 6, 7, 8, 9, 11]
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 10, 8, ]
+                        },
+                        title: null,
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: documentTitle
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: documentTitle
+                    }
+
+
+                ]
+            }).container().appendTo($('#kt_datatable_example_buttons'));
+
+            // Hook dropdown menu click event to datatable export buttons
+            const exportButtons = document.querySelectorAll(
+                '#kt_datatable_example_export_menu [data-kt-export]');
+            exportButtons.forEach(exportButton => {
+                exportButton.addEventListener('click', e => {
+                    e.preventDefault();
+
+                    // Get clicked export value
+                    const exportValue = e.target.getAttribute('data-kt-export');
+                    const target = document.querySelector('.dt-buttons .buttons-' +
+                        exportValue);
+
+                    // Trigger click event on hidden datatable export buttons
+                    target.click();
+                });
+            });
+        }
+
+        // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+        var handleSearchDatatable = () => {
+            const filterSearch = document.querySelector('[data-kt-filter="search"]');
+            filterSearch.addEventListener('keyup', function (e) {
+                datatable.search(e.target.value).draw();
+            });
+        }
+
+        // Public methods
+        return {
+            init: function () {
+                table = document.querySelector('#kt_datatable_example');
+
+                if (!table) {
+                    return;
+                }
+
+                initDatatable();
+                exportButtons();
+                handleSearchDatatable();
+            }
+        };
+    }();
+
+    // On document ready
+    KTDatatablesExample.init();
+</script>
+
+{% endblock content %}

@@ -11,7 +11,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('create/', CreateEmployeeView.as_view(), name='create'),
     path('employee_edit/<pk>', EmployeeEdit.as_view(), name='employee_edit'),
-    path('employee_permission_edit/<pk>', EmployeePermissionEdit.as_view(), name='employee_permission_edit'),
+    path('employee_permission_list/', EmployeePermissionList.as_view(), name='employee_permission_list'),
+    path('employee_permission_edit/<str:pk>', EmployeePermissionEdit.as_view(), name='employee_permission_edit'),
 
     # ...
 ]
