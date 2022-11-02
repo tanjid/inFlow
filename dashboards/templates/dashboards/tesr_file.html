@@ -4,7 +4,7 @@
 
 
 {% block content %}
-
+{% if current_user.dashboard %}
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
@@ -212,11 +212,11 @@
 
 <div class="row g-5 g-xl-8">
     <div class="col-xl-6">  
-<div class="card card-xl-stretch mb-xl-8">
+<div class="card card-xl-stretch mb-xl-8 table-responsive">
     <div class="card-header border-0 pt-7">
     <div><span class="card-label fw-bold fs-3 mt-10">Order in Review </span><span class="badge badge-square badge-danger mb-1">{{order_in_review|length}} </span></div>
     </div>
-    <table class="table text-center">
+    <table class="table text-center ">
        <thead>
           <tr class="fw-bold fs-6 text-gray-800">
              <th>#</th>
@@ -347,4 +347,7 @@
         config2
     );
 </script>
+{% else %}
+<p>Permission Denied</p>
+{% endif %}
 {% endblock %}
